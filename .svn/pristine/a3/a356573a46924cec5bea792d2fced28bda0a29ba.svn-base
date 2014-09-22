@@ -1,0 +1,80 @@
+package com.sapient.equitytradingapp.pm.dao;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.sapient.equitytradingapp.pm.pojo.Order;
+
+@Repository
+public class EditDao {
+
+	@Autowired
+	private Order order;
+	
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+
+	private EntityManager entityManager;
+	
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+	
+	public String checkOrderStatusInDB(long orderId)
+	{
+		
+		order=entityManager.find(Order.class, orderId);
+		return order.getStatus();		
+	}
+	
+	@Transactional
+	public Order authenticateFromDB(long orderId) 
+	{
+		  System.out.println("inside authenticate From DB"+orderId);
+				  
+		  order=entityManager.find(Order.class,orderId);
+		  Order newOrder = changeValues(order);
+		 
+		  entityManager.persist(newOrder);
+		  return order;
+	}
+
+	private Order changeValues(Order order2) 
+	{
+		order.setPortfolioName(order2.getPortfolioName());
+		order.setTotalQuantity(order2.getTotalQuantity());
+		order.setTrader(order2.getTrader());
+		order.setOrderType(order2.getOrderType());
+		order.setOrderQualifier(order2.getOrderQualifier());
+		order.setAccountType(order2.getAccountType());
+		order.setStopPrice(order2.getStopPrice());
+		order.setLimitPrice(order2.getLimitPrice());
+		
+		return order;
+		
+		/*entityManager.createNativeQuery("INSERT INTO orders (portfolio_name,total_qty,trader,order_type,order_qualifier,acc_type,stop_price,limit_price)) " +
+			    "       VALUES(?,?,?,?,?,?,?,?)")
+			      .setParameter(1, order2.getPortfolioName())
+			      .setParameter(2, order2.getTotalQuantity())
+			      .setParameter(3, order2.getTrader())
+			      .setParameter(4, order2.getOrderType())
+			      .setParameter(5, order2.getOrderQualifier())
+			      .setParameter(6, order2.getAccountType())
+			      .setParameter(7, order2.getStopPrice())
+			      .setParameter(8, order2.getLimitPrice())    
+			      .executeUpdate();*/
+		
+	}
+	
+	
+}

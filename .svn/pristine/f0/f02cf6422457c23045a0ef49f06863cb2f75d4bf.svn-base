@@ -1,0 +1,66 @@
+package com.sapient.equitytradingapp.et.service;
+
+import java.io.File;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.sapient.equitytradingapp.et.dao.BlockOrderDAO;
+import com.sapient.equitytradingapp.et.jms.ETSender;
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+import com.sapient.equitytradingapp.et.pojo.BlockOrderListWrapper;
+
+@Component
+public class SentForExecutionService {
+
+	@Autowired
+	private ETSender etSender;
+	@Autowired
+	private BlockOrderDAO blockOrderDao;
+	@Autowired
+	private BlockOrderListWrapper blockOrderWrapperList;
+
+	private List<BlockOrder> blockOrderList = new ArrayList<BlockOrder>();
+
+	public List<BlockOrder> getBlockOrderList() {
+		return blockOrderList;
+	}
+
+	public void setBlockOrderList(List<BlockOrder> blockOrderList) {
+		this.blockOrderList = blockOrderList;
+	}
+
+	public boolean sentForExecution(List<Integer> blockOrder) {
+
+		for (Integer id : blockOrder) {
+			BlockOrder order = blockOrderDao.getBlockOrderById(id);
+			blockOrderList.add(order);
+		}
+
+		blockOrderWrapperList.setBlockOrderList(blockOrderList);
+
+		StringWriter stringWriter = new StringWriter();
+		try {
+
+			JAXBContext jaxbContext = JAXBContext
+					.newInstance(BlockOrderListWrapper.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.marshal(blockOrderWrapperList, stringWriter);
+			System.out.println(stringWriter.toString());
+
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+		etSender.sendBlockOrder(stringWriter);
+		return true;
+	}
+
+}

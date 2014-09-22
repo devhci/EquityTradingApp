@@ -1,0 +1,14 @@
+package com.sapient.equitytradingapp.pm.service;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class ViewPositionService {
+
+	public void displayPositions(String username) {
+		
+		
+	}
+	
+
+}

@@ -1,0 +1,16 @@
+package com.sapient.equitytradingapp.et.jms;
+
+import org.springframework.stereotype.Component;
+
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+
+@Component
+public class SellReceiver {
+
+	public void receiveMessage(Object messageObject){
+		
+		BlockOrder order = (BlockOrder)messageObject;
+		
+	}
+	
+}

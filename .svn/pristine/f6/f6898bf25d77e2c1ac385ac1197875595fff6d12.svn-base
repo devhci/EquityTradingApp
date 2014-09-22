@@ -1,0 +1,76 @@
+package com.sapient.equitytradingapp.et.pojo;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.springframework.stereotype.Component;
+@Component
+@Entity
+@Table(name="execution")
+public class Execution {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+private int ID;
+	@Column(name="BLOCK_ORDER_ID", nullable=false)
+private int blockOrderId;
+	@Column(name="EXECUTION_QUANTITY", nullable=false)
+private int EXECUTION_QUANTITY;
+	@Column(name="TRADE_EXECUTION_ID")
+private int TRADE_EXECUTION_ID;
+	@Column(name="EXECUTION_PRICE", nullable=false)
+private double EXECUTION_PRICE;
+	@Column(name="STATUS", nullable=false)
+private String STATUS;
+	@Column(name="TRANSACTION_TIME")
+private Date TRANSACTION_TIME;
+public int getID() {
+	return ID;
+}
+public void setID(int iD) {
+	ID = iD;
+}
+public int getBlockOrderId() {
+	return blockOrderId;
+}
+public void setBlockOrderId(int blockOrderId) {
+	this.blockOrderId = blockOrderId;
+}
+public int getEXECUTION_QUANTITY() {
+	return EXECUTION_QUANTITY;
+}
+public void setEXECUTION_QUANTITY(int eXECUTION_QUANTITY) {
+	EXECUTION_QUANTITY = eXECUTION_QUANTITY;
+}
+public int getTRADE_EXECUTION_ID() {
+	return TRADE_EXECUTION_ID;
+}
+public void setTRADE_EXECUTION_ID(int tRADE_EXECUTION_ID) {
+	TRADE_EXECUTION_ID = tRADE_EXECUTION_ID;
+}
+public double getEXECUTION_PRICE() {
+	return EXECUTION_PRICE;
+}
+public void setEXECUTION_PRICE(double eXECUTION_PRICE) {
+	EXECUTION_PRICE = eXECUTION_PRICE;
+}
+public String getSTATUS() {
+	return STATUS;
+}
+public void setSTATUS(String sTATUS) {
+	STATUS = sTATUS;
+}
+public Date getTRANSACTION_TIME() {
+	return TRANSACTION_TIME;
+}
+public void setTRANSACTION_TIME(Date tRANSACTION_TIME) {
+	TRANSACTION_TIME = tRANSACTION_TIME;
+}
+
+
+}

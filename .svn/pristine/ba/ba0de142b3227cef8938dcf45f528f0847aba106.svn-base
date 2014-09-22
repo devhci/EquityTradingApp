@@ -1,0 +1,20 @@
+package com.sapient.equitytradingapp.et.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.sapient.equitytradingapp.et.dao.AllocationDAO;
+import com.sapient.equitytradingapp.et.pojo.Execution;
+
+public class AllocationBlockService {
+
+	@Autowired
+	AllocationDAO allocationDAO;
+	
+	public boolean allocateExecutionList(List<Execution> executionList) {
+		boolean result=allocationDAO.allocate(executionList);
+		return result;
+	}
+
+}

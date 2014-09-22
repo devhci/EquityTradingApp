@@ -1,0 +1,84 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib uri="/struts-tags" prefix="s"%>
+<html>
+<head>
+
+<style type="text/css">
+.secondelement {
+	position: absolute;
+	left: 250px;
+}
+
+.thirdelement {
+	position: absolute;
+	left: 450px;
+}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Order Creation</title>
+</head>
+<body class="body">
+	<center>
+		<!--  May be redundent when integrated with tiles -->
+		<h1>Create Order</h1>
+	</center>
+	<div style="margin-left: 50px;">
+		<s:form action="edit_change" validate="true">
+			<s:actionerror />
+			<br />
+			<br />
+			<!-- order status, side and symbol -->
+			<s:textfield name="order.orderId" class="secondelement"
+				label="Order ID" readonly="true"/>
+				
+			<s:textfield name="order.symbol" class="secondelement"
+				label="Symbol" readonly="true"/>
+			
+			<s:textfield name="order.side" class="secondelement"
+				label="Side" readonly="true"/>	
+				
+			<s:textfield name="order.status" class="secondelement"
+				label="Status" readonly="true"/>		
+					
+			<s:select
+				list="#{'Market Price':'Market Price', 'Profit Limit':'Profit Limit', 'Stop Limit':'Stop Limit'}"
+				name="order.orderType" label="Order Type"></s:select>
+
+			<s:select
+				list="#{'Day Order':'Day Order', 'Day Order':'Day Order', 'GTC':'GTC'}"
+				name="order.orderQualifier" label="Order Qualifier"></s:select>
+
+			<s:select list="trader" name="order.trader" label="Trader"
+				listKey="username" listValue="username"></s:select>
+
+		
+			<s:select list="#{'cash':'cash', 'margin':'margin'}"
+				name="order.accountType" label="Account Type"></s:select>
+
+			<s:select list="portfolio" name="order.portfolioName"
+				label="Portfolio" listKey="portfolioName" listValue="portfolioName"></s:select>
+			
+			<s:textfield name="order.totalQuantity" class="secondelement"
+				 label="Quantity" />
+
+			<s:textfield name="order.stopPrice" class="secondelement" 
+				label="Stop Price" />
+
+			<s:textfield name="order.limitPrice" class="secondelement"
+				label=" Limit Price" />
+
+			<s:textarea rows="5" cols="50" id="comments"
+				label=" Add your comments here ">
+
+			</s:textarea>
+			<s:submit></s:submit>
+ 
+		</s:form>
+
+	</div>
+
+
+</body>
+</html>

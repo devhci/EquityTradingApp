@@ -1,0 +1,58 @@
+package com.sapient.equitytradingapp.pm.actions;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.sapient.equitytradingapp.pm.constant.StringLiterals;
+import com.sapient.equitytradingapp.pm.pojo.ViewPosition;
+import com.sapient.equitytradingapp.pm.pojo.ViewSecurity;
+import com.sapient.equitytradingapp.pm.service.ViewPositionService;
+
+@ParentPackage(value = "tiles-default")
+@Action(value = "view-position-old", results = {
+		@Result(location = "layout-view", type = "tiles", name = "success"),
+		@Result(location = "login-view", type = "tiles", name = "input") ,
+		@Result(location = "Error.jsp", name = "exception")})
+public class ViewPositionOldAction {
+
+	private static Logger logger = Logger.getLogger(LoginAction.class);
+	List<ViewPosition> viewPositionList;
+	Map<String, Object> session = ActionContext.getContext().getSession();
+	public List<ViewPosition> getViewPositionList() {
+		return viewPositionList;
+	}
+
+	public void setViewPositionList(List<ViewPosition> viewPositionList) {
+		this.viewPositionList = viewPositionList;
+	}
+
+	@Autowired
+	ViewPositionService viewPositionService;
+
+	public String execute() {
+		try {
+			String username = (String) ActionContext.getContext().getSession()
+					.get("sessionUsername");
+			session.put("sessionMessage", null);
+			viewPositionList = viewPositionService.displayPositions(username);
+			for (ViewPosition v : viewPositionList) {
+				logger.info("\n" + v.getPortfolioName() + " "
+						+ v.getAccountName() + " -- ");
+				for (ViewSecurity s : v.getSecurityList()) {
+					System.out.print(s.getSymbol() + " ");
+				}
+			}
+			System.out.println();
+			return StringLiterals.SUCCESS;
+		} catch (Exception e) {
+			return StringLiterals.EXCEPTION;
+		}
+	}
+}

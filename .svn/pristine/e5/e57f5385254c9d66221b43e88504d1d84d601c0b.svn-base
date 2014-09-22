@@ -1,0 +1,83 @@
+package com.sapient.equitytradingapp.et.service;
+
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
+import com.sapient.equitytradingapp.et.dao.BlockOrderDAO;
+import com.sapient.equitytradingapp.et.jms.ETSender;
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+import com.sapient.equitytradingapp.et.pojo.BlockOrderListWrapper;
+import javax.jms.Destination;
+
+/**
+ * This class will marshal the list of Block Orders and send it to the JMS
+ * sender class to put the marshalled message on the JMS Queue
+ * 
+ * @author nnihal
+ * 
+ */
+
+@Component
+public class SentForExecutionService {
+
+	private static Logger logger = Logger.getLogger(SentForExecutionService.class);
+	@Autowired
+	private ETSender etSender;
+	@Autowired
+	private BlockOrderDAO blockOrderDao;
+	@Autowired
+	private BlockOrderListWrapper blockOrderWrapperList;
+
+	private List<BlockOrder> blockOrderList;
+
+	public List<BlockOrder> getBlockOrderList() {
+		return blockOrderList;
+	}
+
+	public void setBlockOrderList(List<BlockOrder> blockOrderList) {
+		this.blockOrderList = blockOrderList;
+	}
+
+	public boolean sentForExecution(List<Long> blockOrder) {
+		ApplicationContext appContext = new ClassPathXmlApplicationContext(
+				"applicationContext.xml");
+		Destination destination = (Destination) appContext
+				.getBean("buyDestination");
+		blockOrderList = new ArrayList<BlockOrder>();
+		for (Long id : blockOrder) {
+
+			BlockOrder order = blockOrderDao.getBlockOrderById(id);
+			blockOrderList.add(order);
+		}
+        for(BlockOrder blockOrder1: blockOrderList){
+        	blockOrder1.setStatus("sent for execution");
+        	blockOrderDao.updateBlockOrder(blockOrder1);
+        }
+		blockOrderWrapperList.setBlockOrderList(blockOrderList);
+
+		StringWriter stringWriter = new StringWriter();
+		try {
+
+			JAXBContext jaxbContext = JAXBContext
+					.newInstance(BlockOrderListWrapper.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.marshal(blockOrderWrapperList, stringWriter);
+			logger.info("BlockOrder List marshalled successfully");
+
+		} catch (JAXBException e) {
+			logger.error("Jaxb exception thrown here");
+		}
+		etSender.sendBlockOrder(destination, stringWriter);
+		return true;
+	}
+
+}

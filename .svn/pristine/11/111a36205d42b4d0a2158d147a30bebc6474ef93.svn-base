@@ -1,0 +1,16 @@
+<%@taglib uri="/struts-tags" prefix="s"%>
+
+<table width="90%" >
+	<tr>
+		<td style="float:left"><img src="CSS/images/pmlogo1.png" style="position:relative;"></td>
+		<td>
+			<img src="CSS/images/pmtext.png" style="position:relative;left:70px;top:-10px;width:80%">
+			<s:property value="%{#session.username}" />
+		</td>
+
+		<td width="15%"><h3 style="color:#9cad9e;" >Welcome  <s:property value="#session.sessionUsername"/> </h3></td>
+
+		<td width="6%"><h3  ><s:a action="view-position" cssClass="test">Home</s:a></h3></td>
+		<td width="6%"><h3 ><s:a action="Logout"   cssClass="test">Logout</s:a></h3></td>
+	</tr>
+</table>

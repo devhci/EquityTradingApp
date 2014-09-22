@@ -1,0 +1,80 @@
+package com.sapient.equitytradingapp.et.dao;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.when;
+
+import javax.persistence.EntityManager;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+import com.sapient.equitytradingapp.pm.pojo.Order;
+
+public class AmendOrderEtDAOShould {
+	
+	private AmendOrderEtDAO amendOrderEtDAO;
+	
+	@Mock
+	EntityManager mockManager;
+	
+	@Mock
+	Order order;
+	
+	@Mock
+	BlockOrder blockOrder;
+	
+	public AmendOrderEtDAOShould()
+	{
+		MockitoAnnotations.initMocks(this);
+	}
+	
+	@Before
+	public void init(){
+		amendOrderEtDAO=new AmendOrderEtDAO();
+	}
+	
+	@Test
+	public void getEntityManager(){
+		
+		
+		assertNull(amendOrderEtDAO.getEntityManager());
+		
+	}
+	
+	@Test
+	public void setEntityManager(){
+		
+		amendOrderEtDAO.setEntityManager(mockManager);
+		assertEquals(mockManager,amendOrderEtDAO.getEntityManager());
+	}
+	
+	
+	
+	@Test
+	public void shouldReturnBlockOrderWhenOrderIdIsSent(){
+		
+		order.setOrderId(15565);
+		order.setBlockOrderId(155);
+		
+		
+		amendOrderEtDAO.setEntityManager(mockManager);
+		
+		
+        when(mockManager.find(Order.class, 15565)).thenReturn(order);	
+        when(this.order.getBlockOrderId()).thenReturn((long) 155);
+        when(mockManager.find(BlockOrder.class,155)).thenReturn(blockOrder);
+        
+        amendOrderEtDAO.authenticateAmendFromDB(15565);
+		assertEquals(blockOrder, amendOrderEtDAO.authenticateAmendFromDB(15565));
+		
+		
+	}
+	
+
+	
+
+}

@@ -1,0 +1,45 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="login-page.css">
+</head>
+<body>
+<center><h1>Block Order Blotter</h1></center>
+	<form action="">
+		<table border="1" width="100%">
+			<th>
+			<td>BLOCK ORDER ID</td>
+			<td>SIDE</td>
+			<td>SYMBOL</td>
+			<td>LIMIT PRICE</td>
+			<td>STOP PRICE</td>
+			<td>TOTAL QUANTITY</td>
+			<td>EXECUTED QUANTITY</td>
+			<td>OPEN QUANTITY</td>
+			<td>STATUS</td>
+			</th>
+			<tr>
+				<td><input type="checkbox" name="blockOrderId" value="order" ></td>
+				<td><a href="ViewBlock">B112</a></td>
+				<td>Buy</td>
+				<td>GOOG</td>
+				<td>123.78</td>
+				<td>98.22</td>
+				<td>400</td>
+				<td>0</td>
+				<td>400</td>
+				<td>New</td>
+				
+			</tr>
+		</table>
+		<br>
+		<center><input id="button" type="submit" name="sendForExecution" value="Send For Execution">
+		<input id="button" type="submit" name="editBlockOrder" value="Edit">
+		<input id="button" type="submit" name="cancelBlockOrder" value="Cancel"></center>
+	</form>
+</body>
+</html>

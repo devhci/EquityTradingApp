@@ -1,0 +1,18 @@
+package com.sapient.equitytradingapp.pm.actions;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+
+@ParentPackage(value = "tiles-default")
+@Action(value="login", results={@Result(location = "view-position", type="tiles", name="success"),
+		@Result(location = "roleSelect-view", type="tiles", name="role-success"),
+		@Result(location = "login-view", type="tiles", name="input")})
+public class LoginAction {
+	
+public String execute(){
+		
+		return "success";
+	}
+
+}

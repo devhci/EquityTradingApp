@@ -1,0 +1,59 @@
+package com.sapient.equitytradingapp.pm.actions;
+
+import java.util.Map;
+
+import org.apache.struts2.convention.annotation.Action;
+
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+import com.sapient.equitytradingapp.pm.service.ForgotPasswordService;
+
+@ParentPackage(value = "tiles-default")
+@Action(value = "forgot-password", results = {
+		@Result(location = "changePassword-view", type = "tiles", name = "success"),
+		@Result(location = "login-view", type = "tiles", name = "failure") })
+public class ForgotPasswordAction  {
+	String username;
+	String securityAnswer;
+	@Autowired
+	ForgotPasswordService forgotpasswordservice;
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getSecurityAnswer() {
+		return securityAnswer;
+	}
+
+	public void setSecurityAnswer(String securityAnswer) {
+		this.securityAnswer = securityAnswer;
+	}
+
+	public ForgotPasswordService getForgotpasswordservice() {
+		return forgotpasswordservice;
+	}
+
+	public void setForgotpasswordservice(
+			ForgotPasswordService forgotpasswordservice) {
+		this.forgotpasswordservice = forgotpasswordservice;
+	}
+
+	public String execute() {
+		System.out.println(securityAnswer+"username"+username);
+		System.out.println("inside execute");
+		/*Map<String, Object> session = ActionContext.getContext().getSession();
+		session.put("sessionUsername",username); */
+		String result = forgotpasswordservice.authenticate(username,
+				securityAnswer);
+		return result;
+	}
+}

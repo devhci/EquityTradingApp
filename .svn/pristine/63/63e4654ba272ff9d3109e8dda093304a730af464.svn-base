@@ -1,0 +1,96 @@
+@CHARSET "ISO-8859-1";
+@CHARSET "ISO-8859-1";
+.CSSTableGenerator {
+	
+	margin:0px;padding:0px;
+	width:93%;
+	border:1px solid #000000;
+	-moz-border-radius-bottomleft:0px;
+	-webkit-border-bottom-left-radius:0px;
+	border-bottom-left-radius:0px;
+	-moz-border-radius-bottomright:0px;
+	-webkit-border-bottom-right-radius:0px;
+	border-bottom-right-radius:0px;
+	-moz-border-radius-topright:0px;
+	-webkit-border-top-right-radius:0px;
+	border-top-right-radius:0px;
+	-moz-border-radius-topleft:0px;
+	-webkit-border-top-left-radius:0px;
+	border-top-left-radius:0px;
+}
+.CSSTableGenerator table{
+	width:100%;
+	height:100%;
+	margin:0px;padding:0px;
+}
+.CSSTableGenerator tr:last-child td:last-child {
+	-moz-border-radius-bottomright:0px;
+	-webkit-border-bottom-right-radius:0px;
+	border-bottom-right-radius:0px;
+}
+.CSSTableGenerator table tr:first-child td:first-child {
+	-moz-border-radius-topleft:0px;
+	-webkit-border-top-left-radius:0px;
+	border-top-left-radius:0px;
+}
+.CSSTableGenerator table tr:first-child td:last-child {
+	-moz-border-radius-topright:0px;
+	-webkit-border-top-right-radius:0px;
+	border-top-right-radius:0px;
+}.CSSTableGenerator tr:last-child td:first-child{
+	-moz-border-radius-bottomleft:0px;
+	-webkit-border-bottom-left-radius:0px;
+	border-bottom-left-radius:0px;
+}.CSSTableGenerator tr:hover td{
+
+}
+.CSSTableGenerator tr:nth-child(odd){ background-color:#9cad9e; }
+.CSSTableGenerator tr:nth-child(even)    { background-color:#ffffff; }
+.CSSTableGenerator td{
+	vertical-align:middle;
+	border:1px solid #000000;
+	border-width:0px 1px 1px 0px;
+	text-align:center;
+	padding:10px;
+	font-size:13px;
+	font-family:Comic Sans MS;
+	font-weight:normal;
+	color:#000000;
+}
+.CSSTableGenerator tr:last-child td{
+	border-width:0px 1px 0px 0px;
+}
+.CSSTableGenerator tr td:last-child{
+	border-width:0px 0px 1px 0px;
+}
+.CSSTableGenerator tr:last-child td:last-child{
+	border-width:0px 0px 0px 0px;
+}
+.CSSTableGenerator tr:first-child td{
+	background:-o-linear-gradient(bottom, #002110 5%, #558755 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #002110), color-stop(1, #558755) );
+	background:-moz-linear-gradient( center top, #002110 5%, #558755 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#002110", endColorstr="#558755");	background: -o-linear-gradient(top,#002110,558755);
+	background-color:#002110;
+	border:0px solid #000000;
+	text-align:center;
+	border-width:0px 0px 1px 1px;
+	font-size:18px;
+	font-family:Times New Roman;
+	font-weight:bold;
+	color:#ffffff;
+}
+.CSSTableGenerator tr:first-child:hover td{
+	background:-o-linear-gradient(bottom, #002110 5%, #558755 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #002110), color-stop(1, #558755) );
+	background:-moz-linear-gradient( center top, #002110 5%, #558755 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#002110", endColorstr="#558755");	background: -o-linear-gradient(top,#002110,558755);
+	background-color:#002110;
+}
+.CSSTableGenerator tr:first-child td:first-child{
+	border-width:0px 0px 1px 0px;
+}
+.CSSTableGenerator tr:first-child td:last-child{
+	border-width:0px 0px 1px 1px;
+}
+#cusip{
+	width: 300px;
+}

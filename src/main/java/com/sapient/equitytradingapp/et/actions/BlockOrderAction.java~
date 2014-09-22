@@ -1,0 +1,63 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Actions;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+import com.sapient.equitytradingapp.et.service.BlockOrderService;
+import com.sapient.equitytradingapp.pm.constant.StringLiterals;
+
+/**
+ * this action class fetches the BlockOrder list and displays it on the
+ * BlockOrder Page
+ * 
+ * @author nnihal
+ * 
+ */
+
+@ParentPackage("tiles-default")
+@Actions({ @Action(value = "BlockOrderBlotter") })
+@Results({ @Result(name = "success", location = "blockOrder1", type = "tiles"),
+	@Result(location = "Error.jsp", name = "exception")})
+public class BlockOrderAction extends ActionSupport {
+
+	private static Logger logger = Logger.getLogger(BlockOrderAction.class);
+
+	private static final long serialVersionUID = 1L;
+
+	@Autowired
+	private BlockOrderService blockOrderService;
+	private List<BlockOrder> blockOrderList;
+
+	public List<BlockOrder> getBlockOrderList() {
+		return blockOrderList;
+	}
+
+	public void setBlockOrderList(List<BlockOrder> blockOrderList) {
+		this.blockOrderList = blockOrderList;
+	}
+
+	public String execute() {
+		try{
+		String userName = (String) ActionContext.getContext().getSession()
+				.get("sessionUsername");
+		blockOrderList = blockOrderService.getBlockOrders(userName);
+
+		logger.info("");
+
+		return StringLiterals.SUCCESS;
+		}catch(Exception e){return StringLiterals.EXCEPTION;}
+	}
+
+	public void setBlockOrderService(BlockOrderService blockOrderService) {
+		this.blockOrderService = blockOrderService;
+	}
+}

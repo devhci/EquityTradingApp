@@ -1,0 +1,130 @@
+package com.sapient.equitytradingapp.pm.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.sapient.equitytradingapp.pm.dao.CreateOrderPrefillSecurityDAO;
+import com.sapient.equitytradingapp.pm.dao.ViewAccountDAO;
+import com.sapient.equitytradingapp.pm.dao.ViewPortfolioDAO;
+import com.sapient.equitytradingapp.pm.dao.ViewPositionFromOrdersDAO;
+import com.sapient.equitytradingapp.pm.pojo.Account;
+import com.sapient.equitytradingapp.pm.pojo.Order;
+import com.sapient.equitytradingapp.pm.pojo.Portfolio;
+import com.sapient.equitytradingapp.pm.pojo.Security;
+import com.sapient.equitytradingapp.pm.pojo.ViewPosition;
+import com.sapient.equitytradingapp.pm.pojo.ViewSecurity;
+
+@Component
+public class ViewPositionFromOrdersService {
+
+	@Autowired
+	ViewPositionFromOrdersDAO viewPositionFromOrdersDAO;
+	@Autowired
+	private ViewPortfolioDAO viewPortfolioDAO;
+	@Autowired
+	private ViewAccountDAO viewAccountDAO;
+	@Autowired
+	private CreateOrderPrefillSecurityDAO createOrderPrefillSecurityDAO;
+
+	public static int match(List<ViewSecurity> list, String symbol) {
+		int i = 0;
+		while (i < list.size()) {
+			if (symbol.equals(list.get(i).getSymbol())) {
+				return i;
+			}
+			i++;
+		}
+		return -1;
+	}
+
+	public List<ViewPosition> removeOrderWithZeroQuantity(
+			List<ViewPosition> list) {
+		for (ViewPosition v : list) {
+			int i = 0;
+			while (i < v.getSecurityList().size()) {
+				ViewSecurity a = v.getSecurityList().get(i);
+				if (a.getQuantity() == 0) {
+					v.getSecurityList().remove(i);
+				}
+				i++;
+			}
+		}
+		return list;
+	}
+	
+	public List<ViewPosition> removePortfolioWithNoSecurity(List<ViewPosition> list){
+		int i=0;
+		while(i<list.size()) {
+			ViewPosition v =list.get(i);
+			if(v.getSecurityList().size()==0){
+				list.remove(i);
+			}
+		i++;
+		}
+		return list;
+	}
+
+	public List<ViewPosition> getPositionDetails(String username) {
+		List<Order> order = viewPositionFromOrdersDAO
+				.getPositionDetailsFromDatabase(username);
+
+		List<ViewPosition> viewPositionList = new ArrayList<ViewPosition>();
+		List<Portfolio> portfolioList = viewPortfolioDAO.getPortfolio(username);
+
+		for (Portfolio p : portfolioList) {
+			ViewPosition viewPosition = new ViewPosition();
+			List<Security> securities = createOrderPrefillSecurityDAO
+					.getSecurityList();
+			String accId = p.getAccountId();
+			Account account = viewAccountDAO.getAccount(accId);
+			viewPosition.setPortfolioName(p.getPortfolioName());
+			viewPosition.setAccountName(account.getAccountName());
+			List<ViewSecurity> securityList = new ArrayList<ViewSecurity>();
+			int i = 0, check = 0;
+			while (i < order.size()) {
+
+				Order temp = order.get(i);
+				if ((viewPosition.getPortfolioName()).equals(temp
+						.getPortfolioName())) {
+					check = ViewPositionFromOrdersService.match(securityList,
+							temp.getSymbol());
+					if (check == (-1)) {
+						ViewSecurity viewSecurity = new ViewSecurity();
+						viewSecurity.setSymbol(temp.getSymbol());
+						for (Security s : securities) {
+							if (s.getSymbol().equals(viewSecurity.getSymbol()))
+								viewSecurity.setSecurityName(s
+										.getSecurityName());
+						}
+						if ((temp.getSide()).equals("BUY")) {
+							viewSecurity.setQuantity(temp
+									.getAllocatedQuantity());
+						} else if ((temp.getSide()).equals("SELL")) {
+							viewSecurity.setQuantity(temp
+									.getAllocatedQuantity() * (-1));
+						}
+						securityList.add(viewSecurity);
+					} else {
+						long qty = securityList.get(check).getQuantity();
+						if ((temp.getSide()).equals("BUY")) {
+							securityList.get(check).setQuantity(
+									qty + temp.getAllocatedQuantity());
+						} else if ((temp.getSide()).equals("SELL")) {
+							securityList.get(check).setQuantity(
+									qty - temp.getAllocatedQuantity());
+						}
+					}
+
+				}
+				i++;
+			}
+			viewPosition.setSecurityList(securityList);
+			viewPositionList.add(viewPosition);
+		}
+		return viewPositionList;
+	}
+
+}

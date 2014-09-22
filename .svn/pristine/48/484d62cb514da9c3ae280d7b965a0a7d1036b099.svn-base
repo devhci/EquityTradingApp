@@ -1,0 +1,118 @@
+package com.sapient.equitytradingapp.et.tddweb;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+import com.opensymphony.xwork2.interceptor.annotations.Before;
+import com.sapient.equitytradingapp.et.pojo.Allocation;
+
+public class AllocationPOJOTestShould {
+	
+	private Allocation allocationPojo;
+	
+	
+	@Before
+	public void init()
+	{
+		allocationPojo=new Allocation();
+	}
+	
+		
+	@Test
+	public void getSide()
+	{
+		allocationPojo=new Allocation();
+		allocationPojo.setSide("BUY");
+		assertEquals("BUY",allocationPojo.getSide());
+		//assertEquals("Sell",allocationPojo.getSide());
+	}
+	
+	/*@Test
+	public void getSymbol()
+	{
+		allocationPojo=new Allocation();
+		allocationPojo.setSymbol("GOOG");
+		assertEquals("GOOG",allocationPojo.getSymbol());
+	}*/
+	
+	@Test
+	public void getTransactionPrice()
+	{
+		allocationPojo=new Allocation();
+		allocationPojo.setTransactionPrice(111.11);
+		assertEquals((Double)111.11,allocationPojo.getTransactionPrice());
+	}
+	
+	@Test
+	public void getTransactionFee()
+	{
+		allocationPojo=new Allocation();
+		allocationPojo.setTransactionFee(200.00);
+		assertEquals((Double)200.00,allocationPojo.getTransactionFee());
+	}
+	
+	@Test
+	public void getAllocatedQuantity()
+	{
+		allocationPojo.setAllocatedQuantity(100);
+		assertEquals((Integer)100,allocationPojo.getAllocatedQuantity());
+	}
+	
+	@Test
+	public void getOpenQuantity()
+	{
+		allocationPojo.setOpenQuantity(50);
+		assertEquals((Integer)50,allocationPojo.getOpenQuantity());
+	}
+	
+	@Test
+	public void getStatus()
+	{
+		allocationPojo.setStatus("ALLOCATED");
+		assertEquals("ALLOCATED",allocationPojo.getStatus());
+	}
+	
+	/*@Test
+	public void getAccountType()
+	{
+		allocationPojo.setAccountType("CASH");
+		assertEquals("CASH",allocationPojo.getAccountType());
+	}*/
+	
+	@Test
+	public void getPortfolio()
+	{
+		allocationPojo.setPortfolio("PM");
+		assertEquals("PM",allocationPojo.getPortfolio());
+	}
+	
+	@Test
+	public void getOrderId()
+	{
+		allocationPojo.setOrderId("O112");
+		assertEquals("O112",allocationPojo.getOrderId());
+	}
+	
+	@Test
+	public void getBlockOrderId()
+	{
+		allocationPojo.setBlockOrderId("B112");
+		assertEquals("B112",allocationPojo.getBlockOrderId());
+	}
+	
+	@Test
+	public void getExecutionId()
+	{
+		allocationPojo.setExecutionId("E112");
+		assertEquals("E112",allocationPojo.getExecutionId());
+	}
+	
+
+	@Test
+	public void getId()
+	{
+		allocationPojo.setId("1232");
+		assertEquals("1232",allocationPojo.getId());
+	}
+}

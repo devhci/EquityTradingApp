@@ -1,0 +1,66 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import java.util.List;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+import com.sapient.equitytradingapp.et.pojo.ProposedBlockOrder;
+import com.sapient.equitytradingapp.et.service.OrderService;
+import com.sapient.equitytradingapp.et.service.ProposedBlockService;
+import com.sapient.equitytradingapp.pm.constant.StringLiterals;
+import com.sapient.equitytradingapp.pm.pojo.Order;
+
+@ParentPackage("tiles-default")
+@Action(value = "orders")
+@Results({
+		@Result(name = "success", location = "welcomeLayout", type = "tiles"),
+		@Result(name = "exception", location = "Error.jsp") })
+public class OrdersAction extends ActionSupport {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@Autowired
+	private OrderService orderService;
+	@Autowired
+	private ProposedBlockService proposedBlockService;
+	private List<Order> orderList;
+	private List<ProposedBlockOrder> proposedList;
+
+	public List<ProposedBlockOrder> getProposedList() {
+		return proposedList;
+	}
+
+	public void setProposedList(List<ProposedBlockOrder> proposedList) {
+		this.proposedList = proposedList;
+	}
+
+	public List<Order> getOrderList() {
+		return orderList;
+	}
+
+	public void setOrderList(List<Order> orderList) {
+		this.orderList = orderList;
+	}
+
+	public String execute() {
+		try {
+			String userName = (String) ActionContext.getContext().getSession()
+					.get("sessionUsername");
+			orderList = orderService.getOrdersForTrader(userName);
+			proposedList = proposedBlockService.getProposedList(userName);
+			return "success";
+
+		} catch (Exception e) {
+			return StringLiterals.EXCEPTION;
+		}
+
+	}
+
+}

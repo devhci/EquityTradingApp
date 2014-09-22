@@ -1,0 +1,56 @@
+
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@taglib uri="/struts-tags" prefix="s"%>
+
+<center>
+	<h1>Holdings</h1>
+	<table width="40%" style="position: relative; left: -120px;">
+		<tr align="left">
+			<td><h2>
+					<s:a action="view-order-blotter" style="color: white;">Order Blotter</s:a>
+
+				</h2></td>
+		</tr>
+		<tr>
+			<s:form action="filter-portfolio" theme="simple">
+				<td><s:select
+						list="#{'Any':'Any', 'Portfolio Name':'Portfolio Name', 'Security Symbol':'Security Symbol', 'Account Name':'Account Name'}"
+						name="filterChoice" label="Filter Portfolios "></s:select></td>
+				<td><s:textfield name="filterValue" /></td>
+				<td><s:submit value="Filter"></s:submit> <!-- 	<s:select label="Filter " list="{'P1','P2','P3','P4'}"></s:select>-->
+				</td>
+			</s:form>
+		</tr>
+	</table>
+	<table border="1" width="80%"
+		style="color: white; position: relative; left: -100px;">
+		<tr bgcolor="grey">
+			<th width="20%">Portfolio</th>
+			<th width="20%">Account Name</th>
+			<th width="20%">Security Symbol</th>
+			<th width="20%">Security</th>
+			<th width="20%">Quantity</th>
+
+		</tr>
+
+		<s:iterator value="viewPositionList" var="holding">
+			<br />
+			<tr>
+				<td width="20%"><s:property value="portfolioName" /></td>
+				<td width="20%"><s:property value="accountName" /></td>
+				<td colspan="3" width="60%">
+					<table width="100%" border="1">
+						<s:iterator value="securityList" var="security">
+							<tr>
+								<td width="33%"><s:property value="symbol" /></td>
+								<td width="33%"><s:property value="securityName" /></td>
+								<td width="33%"><s:property value="quantity" /></td>
+							</tr>
+						</s:iterator>
+					</table>
+				</td>
+			</tr>
+		</s:iterator>
+
+	</table>
+</center>

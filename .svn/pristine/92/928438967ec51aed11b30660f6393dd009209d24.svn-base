@@ -1,0 +1,22 @@
+
+   <%@ taglib uri="/struts-tags" prefix="s" %>
+
+
+
+<script>
+function submit_edit(){
+	document.forms["edit_form"].submit();
+	return true;
+}
+
+</script>
+<div style="position: absolute; top:90px;left:350px;" >
+		  <h2 style="float:left"> <s:a action="view-position" color="white">Home</s:a></h2>
+		  </div>
+		  <div style="position: absolute; top:90px;left:550px;">
+		   <h2> <s:a action="view-order-blotter">Order Blotter</s:a></h2>
+		  
+		 </div>
+		 <div id=>
+<s:submit value="Send for Execution" action="send-for-execution"></s:submit> 
+		</div> 

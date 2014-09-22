@@ -1,0 +1,84 @@
+package com.sapient.equitytradingapp.et.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.sapient.equitytradingapp.et.dao.BlockOrderDAO;
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+import com.sapient.equitytradingapp.pm.constant.StringLiterals;
+import com.sapient.equitytradingapp.pm.dao.OrderDao;
+import com.sapient.equitytradingapp.pm.pojo.Order;
+
+@Component
+public class CreateBlockOrderService {
+	@Autowired
+	private OrderDao orderDao;
+	@Autowired
+	private BlockOrderDAO blockOrderDAO;
+
+	/** Method creates block of Orders whose ids are passed to it in List if they have same
+	 * side symbol,order Type and Qualifier
+	 * @param orderIdList - List of Long
+	 * @return boolean
+	 */
+	public boolean createBlocks(List<Long> orderIdList) {
+		List<Order> orderList = new ArrayList<Order>();
+		for (Long orderId : orderIdList) {
+			Order order = orderDao.getOrderById(orderId);
+			orderList.add(order);
+		}
+
+		String side = orderList.get(0).getSide();
+		String symbol = orderList.get(0).getSymbol();
+		String trader = orderList.get(0).getTrader();
+		String blockOrderType = orderList.get(0).getOrderType();
+		String qualifier = orderList.get(0).getOrderQualifier();
+		
+		Double limitPrice = orderList.get(0).getLimitPrice();
+		Double stopPrice = orderList.get(0).getStopPrice();
+		int quantity = 0;
+
+		BlockOrder blockOrder = new BlockOrder();
+		
+		for (Order order : orderList) {
+			if (order.getSide().equalsIgnoreCase(side) != true
+					|| order.getSymbol().equalsIgnoreCase(symbol) != true
+					|| order.getOrderQualifier().equalsIgnoreCase(qualifier) != true
+					|| order.getOrderType().equalsIgnoreCase(blockOrderType) != true)
+				return false;
+
+			quantity = quantity + order.getTotalQuantity();
+			
+			if (order.getSide().equalsIgnoreCase(StringLiterals.BUY)) {
+				if (order.getLimitPrice()!= null && order.getLimitPrice() < limitPrice)
+					limitPrice = order.getLimitPrice();
+				if (order.getStopPrice() != null && order.getStopPrice() > stopPrice)
+					stopPrice = order.getStopPrice();
+			} else {
+				if (order.getLimitPrice()!= null && order.getLimitPrice() > limitPrice)
+					limitPrice = order.getLimitPrice();
+				if (order.getStopPrice() != null && order.getStopPrice() < stopPrice)
+					stopPrice = order.getStopPrice();
+			}
+
+		}
+
+		blockOrder.setSide(side);
+		blockOrder.setSymbol(symbol);
+		blockOrder.setStatus(StringLiterals.NEW);
+		blockOrder.setLimitPrice(limitPrice);
+		blockOrder.setStopPrice(stopPrice);
+		blockOrder.setTotalQuantity(quantity);
+		blockOrder.setOpenQuantity(quantity);
+		blockOrder.setTrader(trader);
+		blockOrder.setQualifier(qualifier);
+		blockOrder.setBlockOrderType(blockOrderType);
+		blockOrderDAO.createNewBlockOrder(blockOrder, orderList);
+
+		return true;
+	}
+
+}

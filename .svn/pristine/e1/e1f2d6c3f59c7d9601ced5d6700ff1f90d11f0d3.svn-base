@@ -1,0 +1,68 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+import com.sapient.equitytradingapp.et.service.GetCorrespondingBlockOrderService;
+
+@ParentPackage("tiles-default")
+@Action(value = "AddToBlockOrder")
+@Results({
+		@Result(name = "success", location = "addOrderToBlock", type = "tiles"),
+		@Result(name = "input", location = "orders", type = "chain") })
+public class AddToBlockOrderAction extends ActionSupport {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@Autowired
+	private GetCorrespondingBlockOrderService service;
+	private List<Long> orderIdList = new ArrayList<Long>();
+	private List<BlockOrder> blockOrderList = new ArrayList<BlockOrder>();
+
+	public String execute() {
+		if (!service.checkSymbolAndSide(orderIdList))
+			return "input";
+		String userName = (String) ActionContext.getContext().getSession()
+				.get("sessionUsername");
+		blockOrderList = service.getCorrespondingBlocks(orderIdList, userName);
+		for (BlockOrder b : blockOrderList)
+			System.out.println("kumar" + b.getSide() + b.getSymbol());
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		session.put("orderIdList", orderIdList);
+		return "success";
+	}
+
+	public List<Long> getOrderIdList() {
+		return orderIdList;
+	}
+
+	public void setOrderIdList(List<Long> orderIdList) {
+		this.orderIdList = orderIdList;
+	}
+
+	public List<BlockOrder> getBlockOrderList() {
+		return blockOrderList;
+	}
+
+	public void setBlockOrderList(List<BlockOrder> blockOrderList) {
+		this.blockOrderList = blockOrderList;
+	}
+
+	@Override
+	public void validate() {
+		if (orderIdList.size() == 0)
+			addActionError(getText("listsizezero"));
+	}
+
+}

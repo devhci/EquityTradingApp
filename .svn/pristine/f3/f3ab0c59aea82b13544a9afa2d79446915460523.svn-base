@@ -1,0 +1,46 @@
+package com.sapient.equitytradingapp.pm.dao;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.sapient.equitytradingapp.pm.pojo.Order;
+
+@Component
+public class ViewOrderBlotterDAO {
+
+private EntityManager entityManager;
+	
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+	
+	@Transactional
+	public List<Order> getOrdersDetails(String manager) {
+		List<Order> order=new ArrayList<Order>();
+
+		TypedQuery<Order> q=entityManager.createQuery("select o from Order o where o.status!='cancelled'",Order.class);
+		List<Order> list=q.getResultList();
+		for(Iterator<Order> iter=list.iterator(); iter.hasNext();){
+			Order temp=iter.next();
+			System.out.println("\n  "+temp.getManager()+" "+temp.getOrderId());
+			if(manager.equals(temp.getManager())){
+				order.add(temp);
+			}
+		}
+		return order;
+		
+	}
+
+}

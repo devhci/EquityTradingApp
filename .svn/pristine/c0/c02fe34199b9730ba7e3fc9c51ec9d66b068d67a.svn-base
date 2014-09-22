@@ -1,0 +1,61 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@taglib uri="/struts-tags" prefix="s"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+	"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<%-- <title><tiles:insertAttribute name="title" /></title> --%>
+<link rel="stylesheet" type="text/css" href="css/login-page.css" />
+<link rel="stylesheet" type="text/css" href="css/login-page.css" />
+<link rel="stylesheet" type="text/css" href="css/navigation-bar.css" />
+</head>
+<body>
+	<center>
+		<h1>Order Blotter</h1>
+		<s:form theme="simple">
+
+			<table border="1" width="100%">
+				<tr bgcolor="grey">
+					<th>Select</th>
+					<th>Order Id</th>
+					<th>Order Status</th>
+					<th>Security Symbol</th>
+					<th>Portfolio Name</th>
+					<th>Account ID</th>
+					<th>Side</th>
+					<th>Order Type</th>
+					<th>Quantity</th>
+					<th>Stop Price</th>
+					<th>Limit Price</th>
+					<th>Order Qualifier</th>
+					<th>Account Type</th>
+					<th>Trader</th>
+				</tr>
+				
+					<s:iterator value="orderList">
+					<tr>
+					<td><s:checkbox name="order1" /></td>
+						<td><s:property value="orderId" /></td>
+						<td><s:property value="status" /></td>
+						<td><s:property value="symbol" /></td>
+						<td><s:property value="portfolioName" /></td>
+						<td><s:property value="accountId" /></td>
+						<td><s:property value="side" /></td>
+						<td><s:property value="orderType" /></td>
+						<td><s:property value="totalQuantity" /></td>
+						<td><s:property value="stopPrice" /></td>
+						<td><s:property value="limitPrice" /></td>
+						<td><s:property value="orderQualifier" /></td>
+						<td><s:property value="accountType" /></td>
+						<td><s:property value="trader" /></td>
+						</tr>
+					</s:iterator>
+				
+			</table>
+		</s:form>
+	</center>
+</body>
+</html>

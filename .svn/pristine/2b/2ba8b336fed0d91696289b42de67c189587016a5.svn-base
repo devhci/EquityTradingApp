@@ -1,0 +1,25 @@
+package com.sapient.equitytradingapp.pm.actions;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.sapient.equitytradingapp.pm.service.ViewPositionService;
+
+@ParentPackage(value = "tiles-default")
+@Action(value="view-position", results={@Result(location = "layout-view", type="tiles", name="success"),
+		@Result(location = "login-view", type="tiles", name="input")})
+public class ViewPositionAction {
+
+	@Autowired
+	ViewPositionService viewPositionService;
+	
+	public String execute(){
+		String username = (String) ActionContext.getContext().getSession().get("sessionUsername");
+		viewPositionService.displayPositions(username);
+		
+		return "success";
+	}
+}

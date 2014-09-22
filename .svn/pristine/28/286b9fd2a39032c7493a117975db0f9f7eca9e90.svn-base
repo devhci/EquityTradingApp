@@ -1,0 +1,54 @@
+package com.sapient.equitytradingapp.pm.actions;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Actions;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+
+import com.opensymphony.xwork2.ActionSupport;
+
+@ParentPackage(value = "tiles-default")
+@Actions({
+	@Action(value = "Edit", results = { @Result(location = "edit-view", type = "tiles") }),
+	@Action(value = "Amend", results = { @Result(location = "amend-view", type = "tiles")}),
+	@Action(value = "Home", results = { @Result(location = "orderBlotter-view", type = "tiles")}),
+	@Action(value = "input", results = { @Result(location = "orderBlotter-view", type = "tiles") })})
+public class GetOrderIdAction extends ActionSupport
+{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	long  orderCheckList ;
+	
+	public long getOrderCheckList() {
+		return orderCheckList;
+	}
+
+	public void setOrderCheckList(long orderCheckList) {
+		this.orderCheckList = orderCheckList;
+	}
+	
+	public String execute()
+	{
+			System.out.println("GET ORDER ID" + orderCheckList);
+			return "success";
+	}
+	
+	/*@Override
+	public void validate()
+	{
+		System.out.println("in validate method");
+		if(orderCheckList==0)
+			addActionError("You need to select atleast one checkbox");
+		else
+			if(orderCheckList.size()>1)
+				addActionError("You need to select only one checkbox");	
+		System.out.println(orderCheckList);
+	}*/
+
+
+}

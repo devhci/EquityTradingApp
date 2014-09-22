@@ -1,0 +1,63 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import java.util.List;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Actions;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+import com.sapient.equitytradingapp.et.service.BlockOrderService;
+import com.sapient.equitytradingapp.pm.pojo.Order;
+
+
+@ParentPackage("tiles-default")
+@Actions({  
+		@Action(value = "ViewBlockOrder") })
+@Results({
+		 
+		@Result(name = "success2", location = "blockOrder2", type = "tiles") })
+public class ViewBlockOrderAction {
+
+	@Autowired
+	private BlockOrderService blockOrderService;
+	private List<Order> orderList;
+	private long blockOrderId;
+	
+	private List<BlockOrder> blockOrderList;
+
+	public List<BlockOrder> getBlockOrderList() {
+		return blockOrderList;
+	}
+
+	public void setBlockIOrderList(List<BlockOrder> blockOrderList) {
+		this.blockOrderList = blockOrderList;
+	}
+	
+	public long getBlockOrderId() {
+		return blockOrderId;
+	}
+
+	public void setBlockOrderId(long blockOrderId) {
+		this.blockOrderId = blockOrderId;
+	}
+
+	public List<Order> getOrderList() {
+		return orderList;
+	}
+
+	public void setOrderList(List<Order> orderList) {
+		this.orderList = orderList;
+	}
+	
+	public String execute() {
+		String userName = (String)ActionContext.getContext().getSession().get("sessionUserName");
+		orderList = blockOrderService.getOrders(blockOrderId);
+		blockOrderList = blockOrderService.getBlockOrders(userName);
+		return "success2";
+	}
+}

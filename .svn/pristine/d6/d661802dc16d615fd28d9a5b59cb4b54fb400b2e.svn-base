@@ -1,0 +1,72 @@
+@CHARSET "ISO-8859-1";
+
+#main {
+	width: 80px; /* Spans the widsth of the page */
+	height: 50px;
+	margin: 0;
+	/* Ensures there is no space between sides of the screen and the menu */
+	z-index: 99;
+	/* Makes sure that your menu remains on top of other page elements */
+	background-color: #366b82;
+}
+
+.navbar td {
+	height: 50px;
+	width: 100px; /* Each menu item is 150px wide */
+	float: up; /* This lines up the menu items horizontally */
+	text-align: center; /* All text is placed in the center of the box */
+	list-style: none;
+	/* Removes the default styling (bullets) for the list */
+	font: normal bold 12px/1.2em Arial, Verdana, Helvetica;
+	padding: 0;
+	margin: 0;
+	background-color: #366b82;
+}
+
+.navbar a {
+	padding: 20px 0;
+	/* Adds a padding on the top and bottom so the text appears centered vertically */
+	border-left: 2px solid #54879d;
+	/* Creates a border in a slightly lighter shade of blue than the background.  Combined with the right border, this creates a nice effect. */
+	border-right: 2px solid #54879d;
+	/* Creates a border in a slightly darker shade of blue than the background.  Combined with the left border, this creates a nice effect. */
+	border-bottom: 2px solid #1f5065;
+	border-top: 2px solid #1f5065;
+	text-decoration: none; /* Removes the default hyperlink styling. */
+	color: white; /* Text color is white */
+	display: block;
+	width: 80px;
+}
+/* #orderlist
+	{
+	border:1px solid red;}
+	}	 */
+/* #orderlist tr:nth-child(odd){ background-color:#9cad9e; }
+#orderlist tr:nth-child(even)    { background-color:#ffffff; } */
+
+/* #orderlist {
+ border:1px solid green;
+ }  */
+#orderlist tr:nth-child(odd) {
+	background-color: #9cad9e
+}
+
+#orderlist tr:nth-child(even) {
+	background-color: #ffffff;
+}
+
+/*  #orderlist1 table tr:first-child td:first-child {
+   background:-o-linear-gradient(bottom, #002110 5%, #558755 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #002110), color-stop(1, #558755) );
+	background:-moz-linear-gradient( center top, #002110 5%, #558755 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#002110", endColorstr="#558755");	background: -o-linear-gradient(top,#002110,558755);
+	background-color:#002110;
+	border:0px solid #000000;
+	text-align:center;
+	border-width:0px 0px 1px 1px;
+	font-size:18px;
+	font-family:Times New Roman;
+	font-weight:bold;
+	color:#ffffff;
+	border:1px solid red;
+ 
+ } */

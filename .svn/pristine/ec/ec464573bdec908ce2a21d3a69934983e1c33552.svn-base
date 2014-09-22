@@ -1,0 +1,58 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.sapient.equitytradingapp.et.service.CancelBlockOrderService;
+import com.sapient.equitytradingapp.pm.constant.StringLiterals;
+
+/**
+ * 
+ * @author aku172 Remove Block Orders
+ */
+@ParentPackage("tiles-default")
+@Action(value = "CancelBlockOrder")
+@Results({
+		@Result(name = "success", location = "BlockOrderBlotter", type = "chain"),
+		@Result(name = "input", location = "BlockOrderBlotter", type = "chain"),
+		@Result(location = "Error.jsp", name = "exception") })
+public class CancelBlockOrderAction {
+
+	@Autowired
+	private CancelBlockOrderService cancelBlockOrderService;
+
+	private List<Long> blockOrderIdList;
+
+	public List<Long> getBlockOrderIdList() {
+		return blockOrderIdList;
+	}
+
+	public void setBlockOrderIdList(List<Long> blockOrderIdList) {
+		this.blockOrderIdList = blockOrderIdList;
+	}
+
+	public String execute() {
+		try {
+			if (blockOrderIdList == null || blockOrderIdList.size() == 0) {
+				HttpServletRequest request = ServletActionContext.getRequest();
+				request.setAttribute("message",
+						"please select atleast one order");
+				return StringLiterals.INPUT;
+			}
+			cancelBlockOrderService.cancelBlockOrder(blockOrderIdList);
+			return StringLiterals.SUCCESS;
+
+		} catch (Exception e) {
+			return StringLiterals.EXCEPTION;
+		}
+	}
+
+}

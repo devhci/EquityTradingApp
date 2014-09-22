@@ -1,0 +1,32 @@
+package com.sapient.equitytradingapp.pm.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.sapient.equitytradingapp.pm.dao.EditDao;
+import com.sapient.equitytradingapp.pm.pojo.Order;
+
+@Component
+public class EditService {
+
+	@Autowired
+	private EditDao editDao;
+	Order newOrder ;
+	
+	public boolean editOrder(Order order) {
+		System.out.println("inside edit service");
+		String status=editDao.checkOrderStatusInDB(order.getOrderId());
+		
+		if(status.equalsIgnoreCase("new"))
+			newOrder= editDao.authenticateFromDB(order.getOrderId());
+		else
+			System.out.println("Order cannot be edited");
+		
+		System.out.println("after coming back from DAO");
+		if(newOrder.equals(order))
+			return false;
+		return true;
+		
+	}
+
+}

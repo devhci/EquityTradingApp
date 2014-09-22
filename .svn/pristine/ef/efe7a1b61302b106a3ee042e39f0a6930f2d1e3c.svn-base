@@ -1,0 +1,18 @@
+package com.sapient.equitytradingapp.pm.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.sapient.equitytradingapp.pm.dao.ForgotPasswordAndChangePasswordDao;
+
+@Component
+public class ChangePasswordService {
+	@Autowired
+	ForgotPasswordAndChangePasswordDao changePasswordDao;
+	public String authenticate(String newPassword,String confirmPassword){
+		System.out.println("in change password service");
+		String result=changePasswordDao.changepassword(newPassword, confirmPassword);
+		return result;
+	}
+
+}

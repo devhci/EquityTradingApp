@@ -1,0 +1,6 @@
+package com.sapient.equitytradingapp.et.interfaces;
+
+public interface AmendInterface {
+	public boolean amendOrder(long orderId);
+
+}

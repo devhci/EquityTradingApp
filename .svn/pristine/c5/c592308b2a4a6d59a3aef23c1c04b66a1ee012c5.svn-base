@@ -1,0 +1,27 @@
+package com.sapient.equitytradingapp.et.dao;
+
+import javax.persistence.EntityManager;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.sapient.equitytradingapp.et.pojo.Execution;
+  
+public class MainTest {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		//ApplicationContext con=new ClassPathXmlApplicationContext("applicationContext.xml");
+	Execution execution=new Execution();
+	ExecutionDao executionDao=new ExecutionDao();
+     execution.setEXECUTION_PRICE(900);
+     execution.setSTATUS("execution");
+     execution.setEXECUTION_QUANTITY(20);
+     executionDao.createExecution(execution);
+
+	}
+
+}

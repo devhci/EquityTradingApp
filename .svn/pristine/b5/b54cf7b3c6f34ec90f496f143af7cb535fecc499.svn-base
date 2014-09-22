@@ -1,0 +1,41 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import java.util.List;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.sapient.equitytradingapp.et.pojo.Execution;
+import com.sapient.equitytradingapp.et.service.AllocationBlockService;
+
+@ParentPackage("tiles-default")
+@Action(value = "ExecutedBlock")
+@Results({ @Result(name = "success", location = "executionBlotter", type = "tiles") })
+public class AllocationBlockAction {
+	
+	@Autowired
+	private AllocationBlockService allocationBlockService;
+	
+	@Autowired
+	private List<Long> executionAllocateList;
+
+	public List<Long> getExecutionList() {
+		return executionAllocateList;
+	}
+
+	public void setExecutionList(List<Long> executionAllocateList) {
+		this.executionAllocateList = executionAllocateList;
+	}
+	
+	public String success()
+	{
+		boolean result=allocationBlockService.allocateExecutionList(executionAllocateList);
+		
+		return "success";
+		
+	}
+
+}

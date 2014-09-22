@@ -1,0 +1,50 @@
+package com.sapient.equitytradingapp.pm.actions;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Actions;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+
+//import Mock.dao.OrderBlotterDao;
+//import Mock.pojo.OrderBlotter;
+
+import com.opensymphony.xwork2.ActionSupport;
+
+@ParentPackage(value = "tiles-default")
+@Actions({
+	@Action(value="pass-through-login", results={@Result(location = "login-view", type="tiles", name="success") }),
+	@Action(value = "Logout", results = { @Result(location = "login-view", type="tiles") }),
+	/*@Action(value = "Home", results = { @Result(location = "layout-view", type = "tiles") }),*/
+	@Action(value = "pass-through-forgot-password", results = { @Result(location = "forgotPassword-view",  type="tiles") }),
+	@Action(value = "pass-through-change-password", results = { @Result(location = "changePassword-view", type = "tiles") }),
+	@Action(value = "OrderBlotter", results = { @Result(location = "orderBlotter-view", type = "tiles") }),
+	@Action(value = "pass-through-create", results = { @Result(location = "create-view", type = "tiles") })
+	/*@Action(value = "Edit", results = { @Result(location = "edit-view", type = "tiles") }),
+	@Action(value = "Amend", results = { @Result(location = "amend-view", type = "tiles")*/ })
+public class PassThroughAction extends ActionSupport {
+	
+	private static final long serialVersionUID = 1L;
+
+	//@Autowired
+	//OrderBlotterDao orderBlotterDao;
+	
+	public String execute() {
+	//	OrderBlotter ob=new OrderBlotter();
+		//ob.setAccountType("accountType");
+	/*	ob.setBuyOrSell("Sell");
+		ob.setComments("comments");
+		ob.setLimitPrice(98.25);
+		ob.setOrderQualifier("orderQualifier");
+		ob.setOrderType("orderType");
+		ob.setPortfolio("portfolio");
+		ob.setQuantity(45);
+		ob.setSecurity("sape");
+		ob.setStopPrice(56.26);
+		ob.setTrader("trader");*/
+		//orderBlotterDao.editOrder(ob,2);
+		//System.out.println("njdasnj\n\n");
+		System.out.println("in passthrough");
+		return "success";
+	}
+}

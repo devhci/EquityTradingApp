@@ -1,0 +1,52 @@
+<%@taglib uri="/struts-tags" prefix="s"%>
+
+	<center>
+		<font size="5" color="#339EE"><h5>Execution Blotter</h5></font>
+	</center>
+	<form name="form1" action="AllocationBlock">
+		<div class="scrollableContainer" style="margin-left: 1%; width: 677px;">
+			<div class="scrollingArea">
+				<table class="cruises scrollable ">
+					<thead>
+						<tr>						
+							<th><div class="execution-id">EXECUTION ID</div></th>
+							<th><div class="block-order-id">BLOCK ORDER ID</div></th>
+							<th><div class="executed-quantity">EXECUTED QUANTITY</div></th>
+							<th><div class="transaction-price">TRANSACTION PRICE</div></th>
+							<th><div class="status">STATUS</div></th>
+							<th><div class="transaction-time">TRANSACTION TIME</div></th>
+						</tr>
+					</thead>
+					<tbody>
+						<s:iterator value="executionList" status="alloc" var="obj">
+							<tr>
+								
+								<td><div class="execution-id">
+										<s:property value="executionID" />
+									</div></td>
+								<td><div class="block-order-id">
+										<s:property value="blockOrderId" />
+									</div></td>
+								<td><div class="executed-quantity">
+										<s:property value="executionQuantity" />
+									</div></td>
+								<td><div class="transaction-price">
+										<s:property value="executionPrice" />
+									</div></td>
+								<td><div class="status">
+										<s:property value="status" />
+									</div></td>
+								<td><div class="transaction-time">
+										<s:property value="transactionTime" />
+									</div></td>
+							</tr>
+						</s:iterator>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<br>
+		
+	</form>
+
+

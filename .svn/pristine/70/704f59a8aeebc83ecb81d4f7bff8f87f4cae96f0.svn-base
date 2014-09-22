@@ -1,0 +1,8 @@
+<%@taglib uri="/struts-tags" prefix="s"%>
+<center>
+	<h1>Role Select</h1>
+	<s:form>
+		<s:submit value="Portfolio Manager" action="view-position" />
+		<s:submit value="Execution Trader" action="orders" />
+	</s:form>
+</center>

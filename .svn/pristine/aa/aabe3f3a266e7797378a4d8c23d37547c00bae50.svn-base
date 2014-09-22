@@ -1,0 +1,89 @@
+@CHARSET "ISO-8859-1";
+
+#err_msg1{
+	color:red;
+}
+#err_msg2{
+	color:red;
+}
+
+
+.button {
+	width: 15px;
+	height:25px;
+	
+	font-size:11px;		
+	padding:5px 40px; 
+	color:#eee; 
+	font-family:arial, san-serif; 
+	font-weight: bold; 
+
+	border:solid 1px rgba(0,0,0,0.4); 
+	text-shadow: #000 1px 1px 2px; 
+	background:#003300; 
+	border-radius: 3px; 
+		-webkit-border-radius: 3px; 
+		-moz-border-radius: 3px;
+	box-shadow: 0px 1px 3px #000, inset 0px 0px 5px #fff; 
+		-o-box-shadow: 0px 1px 3px #000, inset 0px 0px 5px #fff; 
+		-webkit-box-shadow: 0px 1px 3px #000, inset 0px 0px 5px #fff; 
+		-moz-box-shadow: 0px 1px 3px #000, inset 0px 0px 5px #fff;
+	background-image: gradient(center bottom, #003300 29%, #003300 80%); 
+		background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.29, #003300), color-stop(0.80, #003300)); 
+		background-image: -moz-linear-gradient(center bottom, #003300 29%, #003300 80%);
+}
+
+.button:hover		{
+	color:#eee;
+	background:#006600;
+}
+
+.button:active		{
+	color:#eee; 
+	background:#003300;
+	box-shadow: 0px 1px 1px #000, inset 0px 0px 5px #fff; 
+		-o-box-shadow: 0px 1px 1px #000, inset 0px 0px 5px #fff; 
+		-webkit-box-shadow: 0px 1px 1px #000, inset 0px 0px 5px #fff; 
+		-moz-box-shadow: 0px 1px 1px #000, inset 0px 0px 5px #fff;
+	transform: scale(0.95, 0.95); 
+		-moz-transform: scale(0.95, 0.95); 
+		-o-transform: scale(0.95, 0.95); 
+		-webkit-transform: scale(0.95, 0.95);
+}
+.field1{
+	border: none;
+	margin-left: 520px;
+}
+.field2{
+	width:25%;
+	background-color: #5C8984;
+	opacity:1.0;
+	 border:2px solid white;
+    -moz-border-radius:8px;
+    -webkit-border-radius:8px;	
+    border-radius:8px;	
+	
+}
+.body{
+	margin-top:5%;
+	background-color: olive;
+/* 	background-image: url("../images/Background.jpg");
+ */	/* -webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover; */
+	
+}
+.submit-button{
+	margin-left: 20%;
+
+}
+#p-forgot-password{
+	margin-left: 70px;
+}
+#submit-button-enter-new-password{
+	margin-left: 85px;
+}
+#footer{
+	margin-bottom: 5px;
+}

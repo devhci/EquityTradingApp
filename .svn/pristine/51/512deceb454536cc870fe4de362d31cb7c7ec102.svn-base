@@ -1,0 +1,78 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+     <%@taglib uri="/struts-tags" prefix="s" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Executed Block Orders</title>
+<style type="text/css">
+	.table1
+	{
+		position:fixed;
+		
+	}
+	.td1
+	{
+	overflow: auto;
+	}
+</style>
+<script type="text/javascript">
+	function validateExecution()
+	{
+		count = 0;
+		str = '';
+		for (var x = 0; x < document.form1.elements["executionAllocateList"].length; x++) {
+			if (document.form1.elements["executionAllocateList"][x].checked == true) {
+				str += document.form1.elements["executionAllocateList"][x].value + ',';
+				count++;
+			}
+		}
+		if (count == 0) {
+			alert("You must choose at least 1 order to allocate");
+			return false;
+		}  else {		
+		var r=confirm("Do you want to allocate the selected executions?");
+		return r;}
+	}
+	
+	
+</script>
+</head>
+<body>
+<center><h1>Execution Blotter</h1></center>
+<form name="form1" action="AllocationBlock">
+<div style="height: 150px; overflow-y: auto;">
+	<table border="1" width="100%" style="height: 150px;">
+		<tr>
+			<th></th>
+			<th>EXECUTION ID</th>
+			<th>BLOCK ORDER ID</th>
+			<th>QUANTITY</th>
+			<th>TRANSACTION PRICE</th>
+			<th>STATUS</th>			
+			<th>TRANSACTION TIME</th>
+		</tr>
+			<s:iterator value="executionList">
+			<tr>
+			<s:set name="checkStatus" value="%{#obj.status}"></s:set>
+				<td><s:if test="%{#checkStatus=='Cancelled'}"><input type="checkbox" name="executionAllocateList" value='<s:property value="executionID"/>' disabled="disabled"></s:if>
+				<s:else><input type="checkbox" name="executionAllocateList" value='<s:property value="executionID"/>'></s:else> </td>
+					
+				<td><s:property value="executionID"/></td>
+				<td><s:property value="blockOrderId" /></td>
+				<td><s:property value="executionQuantity" /></td>
+				<td><s:property value="executionPrice" /></td>
+				<td><s:property value="status" /></td>				
+				<td><s:property value="transactionTime" /></td>
+			</tr>
+			</s:iterator>
+		</table></div>
+		<br>
+		<center><input class="button" id="button" type="submit" name="allocate" value="Allocate Execution" onclick="return validateExecution()"></center>
+</form>
+	
+
+</body>
+</html>

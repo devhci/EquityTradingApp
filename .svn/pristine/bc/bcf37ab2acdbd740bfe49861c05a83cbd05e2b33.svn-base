@@ -1,0 +1,45 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+import com.sapient.equitytradingapp.et.service.AddedOrdersToBlockService;
+
+@Action(value="AddedOrdersToBlock")
+@Results({@Result(name="input",location="orders",type="chain"),@Result(name="success",location="orders",type="chain")})
+public class AddedOrdersToBlockAction extends ActionSupport{
+
+	private static final long serialVersionUID = 1L;
+	private List<Long> blockOrderIdList = new ArrayList<Long>();
+	@Autowired
+	private AddedOrdersToBlockService service;
+	public String execute(){
+		List<Long> orderIdList = (List<Long>)ActionContext.getContext().getSession().get("orderIdList");
+		System.out.println("calling service method");
+		service.addOrdersToBlock(blockOrderIdList.get(0),orderIdList);
+		return "success";
+	}
+	@Override
+	public void validate() {
+		System.out.println("size is"+blockOrderIdList.size());
+		if(blockOrderIdList.size()>1)
+			addActionError(getText("more"));
+		if(blockOrderIdList.size()<1)
+			addActionError(getText("less"));
+	}
+	public List<Long> getBlockOrderIdList() {
+		return blockOrderIdList;
+	}
+	public void setBlockOrderIdList(List<Long> blockOrderIdList) {
+		this.blockOrderIdList = blockOrderIdList;
+	}
+
+}

@@ -1,0 +1,105 @@
+package com.sapient.equitytradingapp.et.pojo;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.springframework.stereotype.Component;
+
+@XmlRootElement
+@Entity
+@Component
+@Table(name = "block_order")
+// @NamedQuery(name="listALL", query="Select b from Block_Order b")
+public class BlockOrder {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="block_id")
+	int blockOrderId;
+	@XmlElement
+	@Column
+	String side;
+	@XmlElement
+	@Column
+	String symbol;
+	@XmlElement
+	@Column(name = "limit_price")
+	Double limitPrice;
+	@XmlElement
+	@Column(name = "stop_price")
+	Double stopPrice;
+	@XmlElement
+	@Column(name = "total_quantity")
+	int totalQuantity;
+	@XmlElement
+	@Column(name = "executed_quantity")
+	int executedQuantity;
+	@XmlElement
+	@Column(name = "open_quantity")
+	int openQuantity;
+	@XmlElement
+	@Column
+	String status;
+	public int getBlockOrderId() {
+		return blockOrderId;
+	}
+	public void setBlockOrderId(int blockOrderId) {
+		this.blockOrderId = blockOrderId;
+	}
+	public String getSide() {
+		return side;
+	}
+	public void setSide(String side) {
+		this.side = side;
+	}
+	public String getSymbol() {
+		return symbol;
+	}
+	public void setSymbol(String symbol) {
+		this.symbol = symbol;
+	}
+	public Double getLimitPrice() {
+		return limitPrice;
+	}
+	public void setLimitPrice(Double limitPrice) {
+		this.limitPrice = limitPrice;
+	}
+	public Double getStopPrice() {
+		return stopPrice;
+	}
+	public void setStopPrice(Double stopPrice) {
+		this.stopPrice = stopPrice;
+	}
+	public int getTotalQuantity() {
+		return totalQuantity;
+	}
+	public void setTotalQuantity(int totalQuantity) {
+		this.totalQuantity = totalQuantity;
+	}
+	public int getExecutedQuantity() {
+		return executedQuantity;
+	}
+	public void setExecutedQuantity(int executedQuantity) {
+		this.executedQuantity = executedQuantity;
+	}
+	public int getOpenQuantity() {
+		return openQuantity;
+	}
+	public void setOpenQuantity(int openQuantity) {
+		this.openQuantity = openQuantity;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+}

@@ -1,0 +1,53 @@
+package com.sapient.equitytradingapp.pm.actions;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Actions;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+
+//import Mock.dao.OrderBlotterDao;
+//import Mock.pojo.OrderBlotter;
+
+import com.opensymphony.xwork2.ActionSupport;
+
+@ParentPackage(value = "tiles-default")
+@Actions({
+	@Action(value="LoginView", results={@Result(location = "login", type="tiles", name="success") }),
+	@Action(value = "Logout", results = { @Result(location = "login", type="tiles") }),
+	@Action(value = "Home", results = { @Result(location = "layout", type = "tiles") }),
+	@Action(value = "ForgotPassword", results = { @Result(location = "forgotPassword", type = "tiles") }),
+	@Action(value = "ChangePassword", results = { @Result(location = "changePassword", type = "tiles") }),
+	@Action(value = "OrderBlotter", results = { @Result(location = "orderBlotter", type = "tiles") }),
+	@Action(value = "Create", results = { @Result(location = "create", type = "tiles") }),
+	@Action(value = "Edit", results = { @Result(location = "edit", type = "tiles") }),
+	@Action(value = "Amend", results = { @Result(location = "amend", type = "tiles") })
+})
+public class EveryAction extends ActionSupport {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Autowired
+	//OrderBlotterDao orderBlotterDao;
+	
+	public String execute() {
+	//	OrderBlotter ob=new OrderBlotter();
+		//ob.setAccountType("accountType");
+	/*	ob.setBuyOrSell("Sell");
+		ob.setComments("comments");
+		ob.setLimitPrice(98.25);
+		ob.setOrderQualifier("orderQualifier");
+		ob.setOrderType("orderType");
+		ob.setPortfolio("portfolio");
+		ob.setQuantity(45);
+		ob.setSecurity("sape");
+		ob.setStopPrice(56.26);
+		ob.setTrader("trader");*/
+		//orderBlotterDao.editOrder(ob,2);
+		System.out.println("njdasnj\n\n");
+		return "success";
+	}
+}

@@ -1,0 +1,23 @@
+package com.sapient.equitytradingapp.pm.actions;
+
+import java.util.Map;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.sapient.equitytradingapp.pm.constant.StringLiterals;
+
+@ParentPackage(value = "tiles-default")
+@Action(value = "Logout", results = { @Result(location = "login-view", type = "tiles") })
+public class LogoutAction {
+
+	public String execute() {
+
+		Map<String, Object> session = ActionContext.getContext()
+				.getSession();
+		session.remove("sessionUsername");
+		return StringLiterals.SUCCESS;
+	}
+}

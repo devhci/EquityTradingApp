@@ -1,0 +1,66 @@
+package com.sapient.equitytradingapp.et.pojo;
+
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+public class ExecutionShould {
+     Execution execution;
+	@Test
+	public void test() {
+		//fail("Not yet implemented");
+	}
+	@Before
+	public void init()
+	{
+		execution=new Execution();
+	}
+
+	
+
+	@Test
+	public void testSetExecutionId() {
+		execution.setExecutionID(101l);
+		assertEquals(101l, execution.getExecutionID());
+	}
+	@Test
+	public void testSetBlockOrderId() {
+		execution.setBlockOrderId(1001);
+		assertEquals(1001, execution.getBlockOrderId());
+	}
+	@Test
+	public void testSetExecutionQuantity() {
+		execution.setExecutionQuantity(100);
+		assertEquals(100, execution.getExecutionQuantity());
+	}
+	@Test
+	public void testSetTradeExecutionId() {
+		execution.setTradeExecutionId(102);
+		assertEquals(102,execution.getTradeExecutionId());
+	}
+	@Test
+	public void testSetExecutionPrice() {
+		execution.setExecutionPrice(119.0);
+		assertEquals(119.0, execution.getExecutionPrice());
+	}
+	@Test
+	public void testSetStatus() {
+		execution.setStatus("new");
+		assertEquals("new", execution.getStatus());
+	}
+	/*@Test
+	public void testSetTransactionTime() {
+		execution.setTransactionTime();
+		assertEquals(101l, execution.getTransactionTime());
+	}
+	*/
+
+
+
+
+	
+
+
+
+}

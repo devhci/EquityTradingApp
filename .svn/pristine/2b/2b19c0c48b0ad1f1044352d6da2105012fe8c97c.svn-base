@@ -1,0 +1,47 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import static org.junit.Assert.assertEquals;
+
+import static org.junit.Assert.assertNull;
+
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+
+
+public class BlockOrderActionShould {
+	
+	private BlockOrderAction blockOrderAction;
+	
+	@Before
+	public void init()
+	{
+		blockOrderAction=new BlockOrderAction();
+	}
+
+	@Test
+	public void getBlockIOrderList(){
+		
+		assertNull(blockOrderAction.getBlockOrderList());
+		
+	}
+	
+	@Test
+	public void setBlockIOrderList(){
+		
+		List<BlockOrder> blockIOrderList=null;
+		blockOrderAction.setBlockIOrderList(blockIOrderList);
+		assertNull(blockOrderAction.getBlockOrderList());
+				
+	}
+	
+	@Test
+	public void execute(){
+		
+		assertEquals("success",blockOrderAction.execute());
+	}
+
+}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+	<definition name="welcomeLayout" template="/WEB-INF/content/et/baseLayout.jsp">
+		<put-attribute name="title" value="Execution Trader Access" />
+		<put-attribute name="header" value="/WEB-INF/content/et/layout_pages/header.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/content/et/login/welcome.jsp" />
+		 <put-attribute name="body1" value="/WEB-INF/content/et/OrderBlotter.jsp" /> 
+ 		 <put-attribute name="body2" value="/WEB-INF/content/et/ProposedBlockBlotter.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/content/et/layout_pages/footer.jsp" />
+	</definition>
+	<definition name="blockOrder" extends="welcomeLayout">
+		<put-attribute name="body1" value="/WEB-INF/content/et/BlockOrderBlotter.jsp" />
+		 <put-attribute name="body2" value="/WEB-INF/content/et/demo.jsp" />
+		
+	</definition>
+	<definition name="viewBlock" extends="welcomeLayout">
+		<put-attribute name="body1" value="/WEB-INF/content/et/BlockOrderBlotter.jsp" />
+		<put-attribute name="body2" value="/WEB-INF/content/et/ViewBlock.jsp" />
+	</definition>
+	<definition name="orderBlotter" extends="welcomeLayout">
+		<put-attribute name="body1" value="/WEB-INF/content/et/BlockOrderBlotter.jsp" />
+		 <put-attribute name="body2" value="/WEB-INF/content/et/OrderBlotter.jsp" />
+	</definition>
+
+	
+</tiles-definitions>

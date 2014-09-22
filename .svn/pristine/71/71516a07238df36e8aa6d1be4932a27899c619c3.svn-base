@@ -1,0 +1,72 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+     <%@taglib uri="/struts-tags" prefix="s" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>View Allocation</title>
+<style type="text/css">
+	.table1
+	{
+		position:fixed;
+		
+	}
+	.td1
+	{
+	overflow: auto;
+	}
+</style>
+<script type="text/javascript">
+	function validateApprove()
+	{
+		var r=confirm("Do you want to approve selected allocations?");
+		return r;
+	}
+</script>
+</head>
+<body>
+<center><h1>Allocation Blotter</h1></center>
+<form action="ViewAllocation">
+<div style="height: 200px; overflow-y: auto;">
+	<table border="1" width="100%" >
+		<tr>
+			<th></th>
+			<th>ALLOCATION ID</th>
+			<th>SIDE</th>
+			<th>TRANSACTION PRICE</th>
+			<th>TRANSACTION FEE</th>			
+			<th>ALLOCATED QUANTITY</th>
+			<th>OPEN QUANTITY</th>
+			<th>STATUS</th>
+			<th>ORDER ID</th>
+			<th>EXECUTION ID</th>
+			<th>TRADER</th>
+		</tr>
+			<s:iterator value="allocationList" status="alloc" var="obj">
+			<tr>
+				<s:set name="checkStatus" value="%{#obj.status}"></s:set>
+				<td><s:if test="%{#checkStatus=='Approved'}"><input type="checkbox" name="viewAllocateList" value='<s:property value="allocationId"/>' disabled="disabled"></s:if>
+				<s:else><input type="checkbox" name="viewAllocateList" value='<s:property value="allocationId"/>'></s:else> </td>
+							
+				<td><s:property value="allocationId" /></td>
+				<td><s:property value="side" /></td>
+				<td><s:property value="transactionPrice" /></td>
+				<td><s:property value="transactionFee" /></td>
+				<td><s:property value="allocatedQuantity" /></td>
+				<td><s:property value="openQuantity" /></td>	
+				<td><s:property value="status" /></td>
+				<td><s:property value="orderId" /></td>
+				<td><s:property value="executionId" /></td>			
+				<td><s:property value="trader" /></td>
+			</tr>
+			</s:iterator>
+		</table></div>
+		<br>
+		<center><input class="button" id="button" type="submit" name="allocate" value="Approve Allocation" onclick="return validateApprove()"></center>
+</form>
+	
+
+</body>
+</html>

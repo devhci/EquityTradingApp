@@ -1,0 +1,39 @@
+package com.sapient.equitytradingapp.pm.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.sapient.equitytradingapp.et.interfaces.AmendInterface;
+import com.sapient.equitytradingapp.pm.dao.CancelOrderDao;
+
+/**
+ * To call cancel DAO to check status and send request to cancel order to DAO.
+ */
+
+@Component
+public class CancelOrderService {
+
+	@Autowired
+	CancelOrderDao cancelOrderDao;
+	@Autowired
+	AmendInterface amendOrdersEtService;
+
+	/**
+	 * Check status of order and send request to cancel order to DAO
+	 * 
+	 * @param orderId of type long
+	 * @return String - status whether order got cancelled or not.
+	 */
+	public String cancelOrder(long orderId) {
+		String status = cancelOrderDao.checkOrderStatusInDB(orderId);
+
+		if (status.equalsIgnoreCase("new"))
+			status = cancelOrderDao.changeOrderStatusToCancelled(orderId);
+		else if (status.equalsIgnoreCase("sent for execution")) {
+			if (amendOrdersEtService.amendOrder(orderId))
+				status = cancelOrderDao.changeOrderStatusToCancelled(orderId);
+		}
+		return status;
+	}
+
+}

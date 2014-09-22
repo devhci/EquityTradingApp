@@ -1,0 +1,48 @@
+<%-- <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> --%>
+<%@taglib uri="/struts-tags" prefix="s"%>
+<!-- <html>
+<head>
+<link rel="stylesheet" href="CSS/login-pageboro.css" type="text/css" media="screen">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Login</title>
+</head>
+<body class="body"> -->
+<!-- <center>
+		<img src="CSS/images/BMS_Logo.png">
+	</center> --> <center>
+<h1>Login</h1>
+
+<!-- <fieldset id="field1"><img src="CSS/images/login-icon.png" style="float: left;">
+			<h5 style="color: white;">&nbsp;&nbsp;Login<br/>&nbsp;&nbsp;Enter your credentials below</h5></fieldset> -->
+<fieldset id="field1"><img src="CSS/images/login-icon.png" style="float:left;">
+			<h5 style="color:white; position:relative;left:-330px; top:-15px;">Login<br/>Enter your credentials below</h5></fieldset>
+			<fieldset id="field2">
+			<center>
+	<table>
+		<s:form action="login" theme="simple" >
+		
+			<tr>
+				<td>Username:</td>
+				<td><s:textfield name="username" value="%{username}" /><br></td>
+			</tr>
+			<tr>
+				<td>Password:</td>
+				<td><s:password name="password" label="Password:" /></td>
+			</tr>
+			<tr>
+				<td colspan="2" align ="center"><s:submit cssClass="button" value="Login" action="Home"/></td>
+			</tr>
+			
+		</s:form>
+	<tr><td colspan="2" align ="center"><br/>
+	<s:a action="pass-through-forgot-password">Forgot Password</s:a>
+	</td></tr></table>
+	</fieldset>
+</center>
+<center>
+
+
+<!-- </body>
+</html> -->

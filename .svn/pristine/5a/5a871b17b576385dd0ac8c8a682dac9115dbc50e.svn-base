@@ -1,0 +1,5 @@
+package com.sapient.equitytradingapp.et.interfaces;
+
+public interface CancelOrderInterface {
+   public boolean cancelOrder(long orderId);
+}

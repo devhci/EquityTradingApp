@@ -1,0 +1,38 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import java.util.List;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+import com.sapient.equitytradingapp.et.service.OrderService;
+import com.sapient.equitytradingapp.pm.pojo.Order;
+
+@ParentPackage("tiles-default")
+@Action(value = "orders")
+@Results({ @Result(name = "success", location = "welcomeLayout", type = "tiles") })
+public class OrdersAction extends ActionSupport {
+	@Autowired
+	private OrderService orderService;
+	private List<Order> orderList;
+
+	public List<Order> getOrderList() {
+		return orderList;
+	}
+
+	public void setOrderList(List<Order> orderList) {
+		this.orderList = orderList;
+	}
+
+	public String execute() {
+		String userName = (String) ActionContext.getContext().getSession()
+				.get("sessionUsername");
+		orderList = orderService.getOrdersForTrader("mohit");
+		return "success";
+	}
+}

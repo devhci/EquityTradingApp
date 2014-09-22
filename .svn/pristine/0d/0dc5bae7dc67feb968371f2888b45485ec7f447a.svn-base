@@ -1,0 +1,35 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+import com.sapient.equitytradingapp.et.service.BlockOrderService;
+import com.sapient.equitytradingapp.pm.pojo.Order;
+
+public class BlockOrderAction {
+
+	@Autowired
+	private BlockOrderService blockOrderService;
+	private List<BlockOrder> blockOrderList;
+	
+	
+	public List<BlockOrder> getBlockIOrderList() {
+		return blockOrderList;
+	}
+
+
+	public void setBlockIOrderList(List<BlockOrder> blockIOrderList) {
+		this.blockOrderList = blockIOrderList;
+	}
+
+
+	public String execute() {
+		blockOrderList = blockOrderService.getBlockOrders();
+		for (BlockOrder b : blockOrderList)
+			System.out.println(b.getId() + b.getSymbol());
+		return "success";
+	}
+	
+}

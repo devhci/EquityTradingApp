@@ -1,0 +1,46 @@
+<%-- <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%> --%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@taglib uri="/struts-tags" prefix="s"%>
+<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+	"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+</head>
+<body> -->
+	<center>
+	<h1>Holdings</h1>
+		<table>
+			<tr><s:a action="OrderBlotter">Order Blotter</s:a>
+			<s:select label="Filter " list="{'P1','P2','P3','P4'}"></s:select>
+		</table>
+		<s:form>
+			<table border="1" width="100%">
+				<tr bgcolor="grey">
+					<td>Portfolio</td>
+					<td>Security</td>
+					<td>Quantity</td>
+					<td>Average Price</td>
+					<td>Amount</td>
+				</tr>
+				<tr>
+					<td>ABCPortfolio</td>
+					<td>MSFT</td>
+					<td>80</td>
+					<td>4.5</td>
+					<td>360</td>
+
+				</tr>
+				<tr>
+					<td>MNOPortfolio</td>
+					<td>INFY</td>
+					<td>-50</td>
+					<td>3.5</td>
+					<td>-175</td>
+				</tr>
+			</table>
+		</s:form>
+	</center>
+<!-- </body>
+</html> -->

@@ -1,0 +1,44 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import static org.junit.Assert.assertEquals;
+
+import static org.junit.Assert.assertNull;
+
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import com.sapient.equitytradingapp.et.pojo.Execution;
+
+public class ExecutionBlotterActionShould {
+	
+	private ExecutionBlotterAction executionBlotterAction;
+	@Before
+	public void init()
+	{
+		executionBlotterAction=new ExecutionBlotterAction();
+	}
+
+	@Test
+	public void getExecutionList(){
+		
+		assertNull(executionBlotterAction.getExecutionList());
+		
+	}
+	
+	@Test
+	public void setExecutionList(){
+		
+		List<Execution> executionList=null;
+		executionBlotterAction.setExecutionList(executionList);
+		assertNull(executionBlotterAction.getExecutionList());
+	}
+	
+	@Test
+	public void execute(){
+		
+		assertEquals("success",executionBlotterAction.execute());
+	}
+
+}

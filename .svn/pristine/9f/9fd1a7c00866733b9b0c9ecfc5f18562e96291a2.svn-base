@@ -1,0 +1,31 @@
+package com.sapient.equitytradingapp.et.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.sapient.equitytradingapp.et.dao.AllocationDAO;
+import com.sapient.equitytradingapp.et.pojo.Allocation;
+
+@Component
+public class ApproveAllocationService {
+	
+	@Autowired
+	private AllocationDAO allocationDAO;
+	
+	public void approveAllocation(List<Long> viewAllocateList)
+	{
+	List<Allocation> allocationList=new ArrayList<Allocation>();
+	for(Long id:viewAllocateList)
+	{
+		Allocation allocation=allocationDAO.retreiveAllocation(id);
+		allocationList.add(allocation);
+	}
+	
+	allocationDAO.approveAllocation(allocationList);
+	
+	}
+
+}

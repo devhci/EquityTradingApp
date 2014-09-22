@@ -1,0 +1,60 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+
+/**
+ * <b>Class to Pass Order Values for Adding or Removing Orders from a Block</b>
+ * 
+ * @author aku172
+ * 
+ */
+@Action(value = "CheckOrderButtonPressed")
+@Results({
+		@Result(name = "addMoreOrders", location = "OrderBlotter1", type = "chain"),
+		@Result(name = "removeOrders", location = "RemoveOrdersFromBlockOrder", type = "chain"),
+		@Result(name = "input", location = "orders", type = "chain"),
+		@Result(name = "input1", location = "ViewBlockOrder", type = "chain") })
+public class CheckOrderButtonPressedAction {
+	private String buttonName;
+	List<Long> orderIdList;
+
+	public String execute() {
+		// condition to pass value to respective action
+		if (buttonName.equals("Add More Orders"))
+			return "addMoreOrders";
+		else if (buttonName.equals("Remove Orders")) {
+			if (orderIdList == null) {
+				HttpServletRequest request = ServletActionContext.getRequest();
+				request.setAttribute("message1",
+						"You must choose at least 1 order to remove");
+				return "input1";
+			}
+			return "removeOrders";
+		} else
+			return "input";
+	}
+
+	public List<Long> getOrderIdList() {
+		return orderIdList;
+	}
+
+	public void setOrderIdList(List<Long> orderIdList) {
+		this.orderIdList = orderIdList;
+	}
+
+	public String getButtonName() {
+		return buttonName;
+	}
+
+	public void setButtonName(String buttonName) {
+		this.buttonName = buttonName;
+	}
+
+}

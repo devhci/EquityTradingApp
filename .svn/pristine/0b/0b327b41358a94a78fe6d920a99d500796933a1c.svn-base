@@ -1,0 +1,50 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import java.util.List;
+
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Actions;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+import com.sapient.equitytradingapp.et.service.BlockOrderService;
+
+
+@ParentPackage("tiles-default")
+@Actions({ @Action(value = "BlockOrderBlotter")})
+@Results({
+		@Result(name = "success1", location = "blockOrder1", type = "tiles") })
+public class BlockOrderAction extends ActionSupport {
+
+	/**
+	 * 
+	 */
+	private List<BlockOrder> proposedBlockList;
+	private static final long serialVersionUID = 1L;
+	@Autowired
+	private BlockOrderService blockOrderService;
+	private List<BlockOrder> blockOrderList;
+
+	public List<BlockOrder> getBlockOrderList() {
+		return blockOrderList;
+	}
+
+	public void setBlockIOrderList(List<BlockOrder> blockOrderList) {
+		this.blockOrderList = blockOrderList;
+	}
+
+	public String execute() {
+		blockOrderList = blockOrderService.getBlockOrders();
+		//proposedBlockList=blockOrderService.setProposedOrdersIntoBlock();
+		return "success1";
+	}
+    
+	public void setBlockOrderService(BlockOrderService blockOrderService){
+	this.blockOrderService=blockOrderService;
+}
+}

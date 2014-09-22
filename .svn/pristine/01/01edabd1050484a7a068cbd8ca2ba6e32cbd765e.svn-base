@@ -1,0 +1,33 @@
+package com.sapient.equitytradingapp.et.jms;
+
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.TextMessage;
+import javax.xml.bind.JAXBException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class JMSMessageListener implements MessageListener {
+	@Autowired
+	SellReceiver sellReceiver;
+
+	public void onMessage(Message message) {
+	       
+	        if (message instanceof TextMessage) {
+	              try {
+	                    String msgText=((TextMessage) message).getStringProperty("BrokerMessage");
+	                    sellReceiver.createExecution(msgText);
+	                   System.out.println("Message received:"+msgText);
+	              } catch (JMSException ex) {
+	                   
+	              } catch (JAXBException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        }
+	       
+	  }
+}

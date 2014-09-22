@@ -1,0 +1,48 @@
+package com.sapient.equitytradingapp.pm.actions;
+
+import org.apache.struts2.convention.annotation.Action;
+
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+
+import com.opensymphony.xwork2.ActionSupport;
+
+@ParentPackage(value = "tiles-default")
+@Action(value = "getOrderId")
+@Results({
+		@Result(name = "send", location = "SentForExecution", type = "chain"),
+		@Result(name = "edit", location = "Edit", type = "chain"),
+		@Result(name = "cancel", location = "Cancel", type = "chain"),
+		@Result(name = "amend", location = "Amend", type = "chain") })
+public class GetOrderIdAction extends ActionSupport {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private String option;
+	
+	public String getOption() {
+		return option;
+	}
+
+	public void setOption(String option) {
+		this.option = option;
+	}
+
+	public String execute() {
+		
+		if (option.equals("Cancel Order"))
+			return "cancel";
+		else
+			if(option.equals("Edit Order"))
+				return "edit";
+			else
+				if(option.equals("Amend Order"))
+					return "amend";
+	
+		return "success";
+
+	}
+}

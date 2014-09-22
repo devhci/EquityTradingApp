@@ -1,0 +1,64 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@taglib uri="/struts-tags" prefix="s"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="login-page.css">
+</head>
+<body>
+<%if((String)session.getAttribute=="true")
+	{%><script type="text/javascript">alert("Orders removed from Block Successfully !!!!");</script>
+	<%session.setAttribute("removeOrders","false");} %>
+	<center>
+		<h1>Block Contents</h1>
+	</center>
+	<center>
+		<form action="CheckOrderButtonPressed">
+			<table border="1" width="100%">
+				<tr>
+					<td>Select</td>
+					<td>ORDER ID</td>
+					<td>SIDE</td>
+					<td>SYMBOL</td>
+					<td>TOTAL QUANTITY</td>
+					<td>LIMIT PRICE</td>
+					<td>STOP PRICE</td>
+					<td>OPEN QUANTITY</td>
+					<td>ALLOCATED QUANTITY</td>
+					<td>STATUS</td>
+					<td>MANAGER</td>
+					<td>ACCOUNT TYPE</td>
+					<td>PORTFOLIO</td>
+					<td>BLOCK ORDER ID</td>
+				</tr>
+				<s:iterator value="orderList">
+					<tr>
+						<td><input type="checkbox" name="orderIdList"	value='<s:property value="orderId"/>'></td>
+						<td><s:property value="orderId" /></td>
+						<td><s:property value="side" /></td>
+						<td><s:property value="symbol" /></td>
+
+						<td><s:property value="totalQuantity" /></td>
+						<td><s:property value="limitQuantity" /></td>
+						<td><s:property value="stopPrice" /></td>
+						<td><s:property value="executedQuantity" /></td>
+						<td><s:property value="openQuantity" /></td>
+						<td><s:property value="status" /></td>
+						<td><s:property value="manager" /></td>
+						<td><s:property value="accountType" /></td>
+						<td><s:property value="portfolio" /></td>
+						<td><s:property value="blockOrderId" /></td>
+					</tr>
+				</s:iterator>
+			</table>
+			<br> <input id="button" type="submit" name="buttonName"
+				value="Add More Orders">&nbsp;&nbsp;&nbsp;&nbsp; <input
+				id="button" type="submit" name="buttonName" value="Remove Orders">
+
+		</form>
+	</center>
+</body>
+</html>

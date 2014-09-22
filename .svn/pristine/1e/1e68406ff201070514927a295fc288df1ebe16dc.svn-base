@@ -1,0 +1,201 @@
+package com.sapient.equitytradingapp.et.dao;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.sapient.equitytradingapp.et.pojo.Allocation;
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+import com.sapient.equitytradingapp.et.pojo.Execution;
+import com.sapient.equitytradingapp.pm.pojo.Order;
+
+
+
+@Repository
+public class AllocationDAO {
+	
+	@Autowired
+	private BlockOrder blockOrder;
+	
+	EntityManager entityManager;
+	
+	public EntityManager getEntityManager()
+	{
+		return entityManager;
+	}
+
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager)
+	{
+		this.entityManager=entityManager;
+	}
+	
+
+	@Transactional
+	public void createAllocation(Allocation allocation) {
+				
+        if(entityManager==null)
+        	System.out.println("entity manager is null");
+		entityManager.persist(allocation);
+		
+	}
+	
+	@Transactional
+	public List<Allocation> retreiveAllocationList(String userName) {
+			
+        if(entityManager==null)
+        	System.out.println("entity manager is null");
+		Query query=entityManager.createQuery("select a from Allocation a where trader=?");
+		query.setParameter(1, userName);
+		@SuppressWarnings("unchecked")
+		List<Allocation> allocationList=(List<Allocation>)query.getResultList();
+		return allocationList;
+		
+	}
+	
+	@Transactional
+	public Allocation retreiveAllocation(Long id) {
+			
+        if(entityManager==null)
+        	System.out.println("entity manager is null");
+		Allocation allocation=entityManager.find(Allocation.class, id);
+		return allocation;
+		
+	}
+	
+	@Transactional
+	public void updateAllocation(Allocation allocation) {
+			
+       
+		entityManager.merge(allocation);
+		
+		
+	}
+	
+	@Transactional
+	public void deleteExecution(Integer id) {
+			       
+		if(entityManager.find(Allocation.class, id)!=null)
+			entityManager.remove(entityManager.find(Allocation.class, id));		
+	}
+	
+	@Transactional
+	public void allocate(List<Execution> executionList) {
+		for(Execution e:executionList)
+		{
+			Query query=entityManager.createQuery("Select b from BlockOrder b where blockOrderId=?");
+			query.setParameter(1, e.getBlockOrderId());
+			blockOrder=(BlockOrder) query.getSingleResult();
+			
+			Integer quantity=blockOrder.getTotalQuantity();
+			String trader=blockOrder.getTrader();
+			if(e.getExecutionQuantity()<quantity)
+			{
+				Query query1=entityManager.createQuery("update BlockOrder set executedQuantity=?,openQuantity=totalQuantity-?, status=? where blockOrderId=? and trader=?");
+				query1.setParameter(1, e.getExecutionQuantity());
+				query1.setParameter(2, e.getExecutionQuantity());
+				query1.setParameter(3, "Partially Executed");
+				query1.setParameter(4, e.getBlockOrderId());				
+				query1.setParameter(5, trader);
+				query1.executeUpdate();				
+			}
+			else
+			{
+				Query query1=entityManager.createQuery("update BlockOrder set allocatedQuantity=?,openQuantity=0, status=? where blockOrderId=? and trader=?");
+				query1.setParameter(1, quantity);
+				query1.setParameter(2, e.getBlockOrderId());	
+				query1.setParameter(3, "Allocated");
+				query1.setParameter(4, trader);
+				query1.executeUpdate();				
+			}
+			Query query2=entityManager.createQuery("select orderId from Order where blockOrderId=? and trader=? order by date asc");
+			query2.setParameter(1, (long)e.getBlockOrderId());
+			query2.setParameter(2, trader);
+			
+			List<Object> list=query2.getResultList();
+			List<Long> orderIdList=new ArrayList<Long>();
+			for(Object result : list)		
+				orderIdList.add(Long.parseLong(result.toString()));	
+				
+				
+			//List<Order> list=query2.getResultList();
+			int quantity1=e.getExecutionQuantity();
+			List<Allocation> allocationList=new ArrayList<Allocation>();
+			for(Long o:orderIdList)
+			{
+				Query query5=entityManager.createQuery("select totalQuantity from Order where orderId=?");
+				query5.setParameter(1, o);
+				
+				int totalQuantity=Integer.parseInt(query5.getSingleResult().toString());
+				if(totalQuantity<=quantity1)
+				{
+					Query query4=entityManager.createQuery("update Order set allocatedQuantity=?, status=? where orderId=?");
+					query4.setParameter(1, totalQuantity);
+					query4.setParameter(2,"Completed");
+					query4.setParameter(3,o);
+					quantity1-=totalQuantity;
+					query4.executeUpdate();
+				}
+				else
+				{
+					Query query4=entityManager.createQuery("update Order set allocatedQuantity=?,status=? where orderId=?");
+					query4.setParameter(1,quantity1);
+					query4.setParameter(2, "Partially Executed");
+					query4.setParameter(3, o);
+					quantity1=0;
+					query4.executeUpdate();
+				}
+				//Filling Allocation Table
+				Query query7=entityManager.createQuery("select o from Order o where orderId=?");
+				query7.setParameter(1, o);
+				Order order=(Order)query7.getSingleResult();
+				
+				Allocation allocation=new Allocation();
+				allocation.setSide(order.getSide());
+				allocation.setAllocatedQuantity(order.getAllocatedQuantity());
+				allocation.setOpenQuantity(order.getTotalQuantity()-order.getAllocatedQuantity());
+				allocation.setOrderId(order.getOrderId());
+				allocation.setExecutionId(e.getExecutionID());
+				allocation.setStatus("Allocated");
+				allocation.setTransactionPrice(e.getExecutionPrice());
+				allocation.setTransactionFee(e.getExecutionPrice()*(double)(order.getTotalQuantity()-order.getAllocatedQuantity())*0.34);
+				allocation.setTrader(trader);
+				allocationList.add(allocation);
+				
+			}
+			System.out.println("going to merge allocation");
+			System.out.println("size is"+allocationList.size());
+			for(Allocation allocation:allocationList)
+				System.out.println(allocation.getOrderId()+allocation.getExecutionId()+allocation.getOpenQuantity());
+			for(Allocation allocation:allocationList)
+				entityManager.persist(allocation);
+			System.out.println("allocation persisted");
+			Query updatingExecution=entityManager.createQuery("update Execution set status=? where executionID=?" );
+			updatingExecution.setParameter(1, "Allocated");
+			updatingExecution.setParameter(2, e.getExecutionID());
+			updatingExecution.executeUpdate();
+			
+		}
+		
+	}
+	@Transactional
+	public void approveAllocation(List<Allocation> allocationList) {
+		for(Allocation a:allocationList)
+		{
+			Query query=entityManager.createQuery("update Allocation set status=? where allocationId=?");
+			query.setParameter(1, "Approved");
+			query.setParameter(2, a.getAllocationId());
+			query.executeUpdate();			
+		}
+		
+	}
+	
+
+}

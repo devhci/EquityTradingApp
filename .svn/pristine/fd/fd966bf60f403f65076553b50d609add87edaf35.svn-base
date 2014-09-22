@@ -1,0 +1,22 @@
+<%@taglib uri="/struts-tags" prefix="s"%>
+<h1>Forgot Password</h1>
+<s:form theme="simple">
+	<table>
+		<tr>
+			<td>Username:</td>
+			<td><s:textfield name="username" value="%{username}" /></td>
+		</tr>
+		<tr>
+			<td>Security Question:</td>
+			<td>What is your pet's name?</td>
+		</tr>
+		<tr>
+			<td>Security Answer:</td>
+			<td><s:textfield name="securityAnswer" /></td>
+		</tr>
+		<tr>
+			<td colspan="2" align="right"><s:submit value="OK"
+					action="pass-through-change-password" /> <s:submit value="Cancel" action="Login" /></td>
+		</tr>
+	</table>
+</s:form>

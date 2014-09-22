@@ -1,0 +1,47 @@
+package com.sapient.equitytradingapp.pm.actions;
+
+import java.util.List;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.sapient.equitytradingapp.pm.pojo.Security;
+import com.sapient.equitytradingapp.pm.pojo.ViewPosition;
+import com.sapient.equitytradingapp.pm.service.ViewPositionService;
+
+@ParentPackage(value = "tiles-default")
+@Action(value="view-position", results={@Result(location = "layout-view", type="tiles", name="success"),
+		@Result(location = "login-view", type="tiles", name="input")})
+public class ViewPositionAction {
+
+	List<ViewPosition> viewPositionList;
+	
+	public List<ViewPosition> getViewPositionList() {
+		return viewPositionList;
+	}
+
+	public void setViewPositionList(List<ViewPosition> viewPositionList) {
+		this.viewPositionList = viewPositionList;
+	}
+
+	@Autowired
+	ViewPositionService viewPositionService;
+	
+	public String execute(){
+		String username = (String) ActionContext.getContext().getSession().get("sessionUsername");
+		//String username="sweta";
+		viewPositionList=viewPositionService.displayPositions(username);
+		for(ViewPosition v: viewPositionList)
+		{
+			System.out.print("\n"+v.getPortfolioName()+" "+v.getAccountName()+" -- ");
+			for(Security s: v.getSecurityList()){
+				System.out.print(s.getSymbol()+" ");
+			}
+		}
+		System.out.println();
+		return "success";
+	}
+}

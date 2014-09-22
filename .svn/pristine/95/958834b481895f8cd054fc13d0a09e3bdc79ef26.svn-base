@@ -1,0 +1,52 @@
+package com.sapient.equitytradingapp.pm.pojo;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.springframework.stereotype.Component;
+
+@Component
+@Entity
+@Table(name="portfolio_security_relation")
+public class PortfolioSecurityRelation {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="ID")
+	private int id;
+	@Column(name="PORTFOLIO_NAME")
+	private String portfolioName;
+	@Column(name="SECURITY_SYMBOL")
+	private String securitySymbol;
+	@Column(name="QUANTITY")
+	private long quantity;
+	
+	public long getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(long quantity) {
+		this.quantity = quantity;
+	}
+	public String getPortfolioName() {
+		return portfolioName;
+	}
+	public void setPortfolioName(String portfolioName) {
+		this.portfolioName = portfolioName;
+	}
+	public String getSecuritySymbol() {
+		return securitySymbol;
+	}
+	public void setSecuritySymbol(String securitySymbol) {
+		this.securitySymbol = securitySymbol;
+	}
+	public int getId() {
+		return id;
+	}
+	
+	
+	
+}

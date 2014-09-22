@@ -1,0 +1,33 @@
+package com.sapient.equitytradingapp.et.dao;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+
+@Component
+public class EditBlockOrderDAO {
+	@Autowired
+	BlockOrder blockOrder;
+
+	private EntityManager entityManager;
+
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+
+	@Transactional
+	public BlockOrder retrieveBlockOrder(Integer blockOrderId) {
+		blockOrder = entityManager.find(BlockOrder.class, blockOrderId);
+		return blockOrder;
+	}
+}

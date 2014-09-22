@@ -1,0 +1,23 @@
+package com.sapient.equitytradingapp.et.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.sapient.equitytradingapp.pm.dao.OrderDao;
+import com.sapient.equitytradingapp.pm.pojo.Order;
+
+@Component
+public class OrderService {
+	@Autowired
+	private OrderDao orderDao;
+
+	public List<Order> getOrdersForTrader(String trader) {
+		return orderDao.getOrdersForTrader(trader);
+	}
+
+	public void setOrderDao(OrderDao orderDao) {
+		this.orderDao = orderDao;
+	}
+}

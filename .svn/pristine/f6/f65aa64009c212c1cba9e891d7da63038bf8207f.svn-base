@@ -1,0 +1,93 @@
+
+
+<%@taglib uri="/struts-tags" prefix="s"%>
+<<<<<<< .mine
+
+=======
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+	"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<%-- <title><tiles:insertAttribute name="title" /></title> --%>
+<link rel="stylesheet" type="text/css" href="css/login-page.css" />
+<link rel="stylesheet" type="text/css" href="css/login-page.css" />
+<link rel="stylesheet" type="text/css" href="css/navigation-bar.css" />
+</head>
+<body>
+>>>>>>> .r1457
+	<center>
+		<h1>Order Blotter</h1>
+		<s:form theme="simple" name="edit_form" >
+<<<<<<< .mine
+         <div id="orderlist">
+			<table width="100%" bgcolor="grey">
+		
+				<tr >
+					<th width="5%" >Select</th>
+					<th width="5%">Order Id</th>
+					<th width="12%">Order Status</th>
+					<th width="10%">Symbol</th>
+					<th width="15%">Portfolio Name</th>
+					<th width="5%">Account ID</th>
+					<th width="5%">Side</th>
+					<th width="10%">Order Type</th>
+					<th width="5%">Quantity</th>
+					<th width="5%">Stop Price</th>
+					<th width="5%">Limit Price</th>
+					<th width="10%">Order Qualifier</th>
+					<th width="5%">Account Type</th>
+					<th width="10%">Trader</th>
+=======
+      	<s:actionerror/>
+			<table border="1" width="100%"  style="color: white;">
+				<tr bgcolor="grey">
+					<th>Select</th>
+					<th>Order Id</th>
+					<th>Order Status</th>
+					<th>Security Symbol</th>
+					<th>Portfolio Name</th>
+					<th>Account ID</th>
+					<th>Side</th>
+					<th>Order Type</th>
+					<th>Quantity</th>
+					<th>Stop Price</th>
+					<th>Limit Price</th>
+					<th>Order Qualifier</th>
+					<th>Account Type</th>
+					<th>Trader</th>
+>>>>>>> .r1457
+				</tr>
+				</table>
+				</div>
+				<div id="orderlist">
+				<table style="color: black;">
+					<s:iterator value="orderList">
+					 <tr > 
+					<td width="5%"><s:checkbox name="orderCheckList" /></td>
+						<td width="5%"><s:property value="orderId" /></td>
+						<td width="12%"><s:property value="status" /></td>
+						<td width="10%"><s:property value="symbol" /></td>
+						<td width="15%"><s:property value="portfolioName" /></td>
+						<td width="5%"><s:property value="accountId" /></td>
+						<td width="5%"><s:property value="side" /></td>
+						<td width="10%"><s:property value="orderType" /></td>
+						<td width="5%"><s:property value="totalQuantity" /></td>
+						<td width="5%"><s:property value="stopPrice" /></td>
+						<td width="5%"><s:property value="limitPrice" /></td>
+						<td width="10%"><s:property value="orderQualifier" /></td>
+						<td width="5%"><s:property value="accountType" /></td>
+						<td width="10%"><s:property value="trader" /></td>
+						</tr>
+					</s:iterator>
+				
+			</table>
+<<<<<<< .mine
+			</div>
+=======
+			<br><br>
+			<%-- <s:hidden id="submit" value='<s:submit/>' ></s:hidden> --%>
+>>>>>>> .r1457
+		</s:form>
+	</center>

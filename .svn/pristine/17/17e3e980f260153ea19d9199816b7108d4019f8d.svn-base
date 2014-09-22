@@ -1,0 +1,26 @@
+package com.sapient.equitytradingapp.pm.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.sapient.equitytradingapp.pm.dao.ViewOrderBlotterDAO;
+import com.sapient.equitytradingapp.pm.pojo.Order;
+
+@Component
+public class ViewOrderBlotterService {
+
+	@Autowired
+	ViewOrderBlotterDAO viewOrderBlotterDAO;
+	public List<Order> getOrders(String manager) {
+	
+		List<Order> order=viewOrderBlotterDAO.getOrdersDetails(manager);
+		/*for(Order o : order){
+			System.out.println(o.getManager()+" "+o.getAccountId());
+		}*/
+		return order;
+		
+	}
+
+}

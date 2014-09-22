@@ -1,0 +1,14 @@
+package com.sapient.equitytradingapp.et.dao;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+public class BlockOrderDAOShould {
+
+	@Test
+	public void test() {
+		fail("Not yet implemented");
+	}
+
+}

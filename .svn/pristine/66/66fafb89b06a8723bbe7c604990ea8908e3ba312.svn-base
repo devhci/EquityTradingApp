@@ -1,0 +1,40 @@
+
+   <%@ taglib uri="/struts-tags" prefix="s" %>
+
+<link rel="stylesheet" href="CSS/navigation-bar.css">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+<table  style=" clear:both;position: absolute;left: 60px; top:200px;" id="main">
+		  <tr class="navbar">			 
+			 <td>			 
+			 <s:a action="view-position">Home</s:a>
+			 </td>
+		  </tr>
+		  <tr class="navbar">
+			 <td>
+			  <s:a action="Create">Create Order</s:a>
+			 </td>
+		  </tr> 
+		  <tr class="navbar">
+			 <td>			 
+			 <s:a action="Edit">Edit Order</s:a>			 
+			</td>
+		  </tr> 	
+		  <tr class="navbar">
+			 <td>
+			  <s:a action="Amend">Amend Order</s:a>
+			 </td>
+		  </tr> 	  
+		  <tr class="navbar">
+			 <td>
+			 <s:a action="Home">Send for Execution</s:a>
+			</td>	 
+		  </tr>		  
+		  <tr class="navbar"> 
+			 <td>
+			<s:a action="Home">Cancel Order</s:a>
+			 </td>
+		  </tr>
+</table>
+</body>
+</html>

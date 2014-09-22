@@ -1,0 +1,27 @@
+package com.sapient.equitytradingapp.et.dao;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+
+public class BlockOrderDAO {
+	EntityManager entityManager;
+
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+
+	public List<BlockOrder> getDetails() {
+
+		return null;
+	}
+
+}

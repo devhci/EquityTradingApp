@@ -1,0 +1,38 @@
+package com.sapient.equitytradingapp.pm.actions;
+
+import java.util.List;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.sapient.equitytradingapp.pm.service.SendForExecutionService;
+
+@ParentPackage(value = "tiles-default")
+@Action(value="send-for-execution", results={@Result(location = "passToOrderBlotterAction.jsp", type="tiles", name="success"),
+	})
+public class SendForExecutionAction {
+
+	List<Boolean> orderCheckList;
+	List<Long> orderId;
+	public List<Boolean> getOrderCheckList() {
+		return orderCheckList;
+	}
+
+	public void setOrderCheckList(List<Boolean> orderCheckList) {
+		this.orderCheckList = orderCheckList;
+	}
+	
+	@Autowired
+	SendForExecutionService sendForExecutionService;
+	
+	public String execute(){
+		/*for(Boolean o:orderCheckList){
+			System.out.println(o+" ");
+		}*/
+		sendForExecutionService.sendOrderForExecution(orderId);
+		return "success";
+	}
+	
+}

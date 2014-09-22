@@ -1,0 +1,148 @@
+package com.sapient.equitytradingapp.pm.pojo;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.springframework.stereotype.Component;
+
+@Component
+@Entity
+@Table
+public class OrderBlotter {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int orderId;
+	@Column
+	private String security;
+	@Column
+	private String buyOrSell;
+	@Column
+	private String orderType;
+	@Column
+	private String orderQualifier;
+	@Column
+	private String trader;
+	@Column
+	private String accountType;
+	@Column
+	private String portfolio;
+	@Column
+	private int quantity;
+	@Column
+	private double stopPrice;
+	@Column
+	private double limitPrice;
+	@Column
+	private String comments;
+	@Column
+	private String status;
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public int getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
+
+	public String getSecurity() {
+		return security;
+	}
+
+	public void setSecurity(String security) {
+		this.security = security;
+	}
+
+	public String getBuyOrSell() {
+		return buyOrSell;
+	}
+
+	public void setBuyOrSell(String buyOrSell) {
+		this.buyOrSell = buyOrSell;
+	}
+
+	public String getOrderType() {
+		return orderType;
+	}
+
+	public void setOrderType(String orderType) {
+		this.orderType = orderType;
+	}
+
+	public String getOrderQualifier() {
+		return orderQualifier;
+	}
+
+	public void setOrderQualifier(String orderQualifier) {
+		this.orderQualifier = orderQualifier;
+	}
+
+	public String getTrader() {
+		return trader;
+	}
+
+	public void setTrader(String trader) {
+		this.trader = trader;
+	}
+
+	public String getAccountType() {
+		return accountType;
+	}
+
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
+	}
+
+	public String getPortfolio() {
+		return portfolio;
+	}
+
+	public void setPortfolio(String portfolio) {
+		this.portfolio = portfolio;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public double getStopPrice() {
+		return stopPrice;
+	}
+
+	public void setStopPrice(double stopPrice) {
+		this.stopPrice = stopPrice;
+	}
+
+	public double getLimitPrice() {
+		return limitPrice;
+	}
+
+	public void setLimitPrice(double limitPrice) {
+		this.limitPrice = limitPrice;
+	}
+
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+
+}

@@ -1,0 +1,299 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1" %>
+<%@taglib uri="/struts-tags" prefix="s"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+
+<html>
+<head>
+<script>
+	function getCheckedBoxes(chkboxName) {
+		var checkboxes = document.getElementsByName(chkboxName);
+		var checkboxesChecked = [];
+		// loop over them all
+		for ( var i = 0; i < checkboxes.length; i++) {
+			// And stick the checked ones onto an array...                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          0000000.
+			
+				checkboxesChecked.push(checkboxes[i]);
+			}
+		
+		// Return the array if it is non-empty, or null
+		return checkboxesChecked.length > 0 ? checkboxesChecked : null;
+	
+	}
+	
+	function check() {
+	
+		var count1 = 0;
+		
+		var len= document.getElementsByName("blockOrderIdList").length;
+		
+		for (var x = 0; x <len; x++) {
+			
+			if (document.form1.elements["blockOrderIdList"][x].checked == true) {
+				
+				count1++;
+			}
+		}
+		if ((count1==0)) {
+			alert("You must choose at least 1 order to edit");
+			return false;
+		} else if (count1 > 1) {
+			alert("You cannot edit more than 1 order together");
+			return false;
+		} else {
+			return true;
+		}
+	}
+	function checkCancel() {
+		count = 0;
+		str = '';
+		var len= document.getElementsByName("blockOrderIdList").length;
+		for (var x = 0; x < len; x++) {
+			if ((document.form1.elements["blockOrderIdList"][x].checked)== true) {
+				str += document.form1.elements["blockOrderIdList"][x].value + ',';
+				count++;
+			}
+		}
+		if (count == 0) {
+			alert("You must choose at least 1 order to remove");
+			return false;
+		}  else {
+			return true;
+		
+	}
+	
+</script>
+<style type="text/css">
+h1 {
+	font-size: large;
+	color: white;
+}
+
+table {
+	font-size: small;
+	color: black;
+}
+
+* {
+	padding: 0;
+	margin: 0;
+}
+
+table.cruises {
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 10px;
+	cellspacing: 0px;
+	border-collapse: collapse;
+	width: 1000px;
+}
+
+table.cruises th {
+	background-color: #002110;
+	color: #ffffff;
+	font-size: 10px;
+	background: -o-linear-gradient(bottom, #002110 5%, #558755 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #002110
+		), color-stop(1, #558755) );
+	background: -moz-linear-gradient(center top, #002110 5%, #558755 100%);
+	background: -o-linear-gradient(top, #002110, 558755);
+}
+
+table.cruises th,table.cruises td {
+	border-right: 2px solid black;
+	border-bottom: 2px solid black;
+	padding: 3px;
+}
+
+table.cruises tr:nth-child(odd) {
+	background-color: #9cad9e;
+}
+
+table.cruises tr:nth-child(even) {
+	background-color: #ffffff;
+}
+
+div.scrollableContainer2 {
+	position: relative;
+	width: 1112px;
+	padding-top: 2.5em;
+	margin: 20px;
+	border: none;
+	background: none;
+}
+
+div.scrollingArea2 {
+	height: 150px;
+	overflow: auto;
+}
+
+table.scrollable thead tr {
+	left: 0;
+	top: 0;
+	position: absolute;
+}
+
+table.cruises .checkbox2 {
+	width: 12px;
+	text-align: center;
+}
+
+table.cruises .block-order-id2 {
+	width: 65px;
+	text-align: center;
+}
+
+table.cruises .side2 {
+	width: 60px;
+	text-align: center;
+}
+
+table.cruises .symbol2 {
+	width: 80px;
+	text-align: center;
+}
+
+
+
+table.cruises .limit-price2 {
+	width: 100px;
+	text-align: center;
+}
+
+table.cruises .stop-price2 {
+	width: 95px;
+	text-align: center;
+}
+table.cruises .total-quantity2 {
+	width: 100px;
+	text-align: center;
+}
+
+table.cruises .executed-quantity2{
+	width: 80px;
+	text-align: center;
+}
+table.cruises .open-quantity2{
+	width: 80px;
+	text-align: center;
+}
+
+table.cruises .status2 {
+	width: 110px;
+	text-align: center;
+}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Block Order Blotter</title>
+<!-- <link rel="stylesheet" type="text/css" href="login-page.css"> -->
+</head>
+<body>
+	<%
+		String msg = null;
+		msg = (String) request.getAttribute("message");
+		if ((msg) != null) {
+	%><script type="text/javascript">alert("<%=msg%>");
+		</script>
+	<%
+		}
+	%>
+	<center>
+		<h1>Block Order Blotter</h1>
+	</center>
+	<form name="form1" action="option">
+
+		<input style="display: none" type="text" name="count">
+		<div style="height: 200px; overflow-y: auto;">
+		<table border="1" width="100%">
+			<tr>
+				<td>Select</td>
+				<td>BLOCK ORDER ID</td>
+				<td>SIDE</td>
+				<td>SYMBOL</td>
+				<td>LIMIT PRICE</td>
+				<td>STOP PRICE</td>
+				<td>TOTAL QUANTITY</td>
+				<td>EXECUTED QUANTITY</td>
+				<td>OPEN QUANTITY</td>
+				<td>STATUS</td>
+			</tr>
+		
+			
+			
+
+		<!-- <input style="display: none" type="text" name="count"> -->
+		<div class="scrollableContainer">
+			<div class="scrollingArea">
+				<table class="cruises scrollable">
+					<thead>
+						<tr>
+							<th><div class="checkbox2"></div></th>
+							<th><div class="block-order-id2">BLOCK ORDER ID</div></th>
+							<th><div class="side2">SIDE</div></th>
+							<th><div class="symbol2">SYMBOL</div></th>
+							<th><div class="limit-price2">LIMIT PRICE</div></th>
+							<th><div class="stop-price2">STOP PRICE</div></th>
+							<th><div class="total-quantity2">TOTAL QUANTITY</div></th>
+							<th><div class="executed-quantity2">EXECUTED QUANTITY</div></th>
+							<th><div class="open-quantity2">OPEN QUANTITY</div></th>
+							<th><div class="status2">STATUS</div></th>
+						</tr>
+					</thead>
+					<tbody>
+						<s:iterator value="blockOrderList">
+							<tr>
+								<td><div class="checkbox2">
+									<input type="checkbox" name="blockOrderIdList"
+							value='<s:property value="blockOrderId"/>'>
+									</div></td>
+								<td><div class="block-order-id2">
+										<s:url id="orderURL" action="ViewBlockOrder">
+								<s:param name="blockOrderId" value="blockOrderId" />
+							</s:url> <s:a href="%{orderURL}">
+								<s:property value="blockOrderId" />
+							</s:a>
+									</div></td>
+								<td><div class="side2">
+										<s:property value="side" />
+									</div></td>
+								<td><div class="symbol2">
+										<s:property value="symbol" />
+									</div></td>								
+								<td><div class="limit-price2">
+										<s:property value="limitPrice" />
+									</div></td>
+								<td><div class="stop-price2">
+										<s:property value="stopPrice" />
+									</div></td>
+								<td><div class="total-quantity2">
+										<s:property value="totalQuantity" />
+									</div></td>
+								<td><div class="executed-quantity2">
+										<s:property value="executedQuantity" />
+									</div></td>
+								<td><div class="open-quantity2">
+										<s:property value="openQuantity" />
+									</div></td>
+								<td><div class="status2">
+										<s:property value="status" />
+									</div></td>
+								
+							</tr>
+						</s:iterator>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+		<br>
+		<center>
+			<input class="button" id="button" type="submit" name="option1"
+				value="Send For Execution" style="width: 130px"> <input
+				class="button" id="button" type="submit" name="option1" value="Edit"
+				onclick="return check()"> <input class="button" id="button"
+				type="submit" name="option1" value="Cancel"
+				onclick="return checkCancel()">
+		</center>
+	</form>
+</body>
+</html>

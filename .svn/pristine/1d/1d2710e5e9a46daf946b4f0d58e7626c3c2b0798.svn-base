@@ -1,0 +1,62 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Actions;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+import com.sapient.equitytradingapp.et.service.BlockOrderService;
+
+
+/**
+ * this action class fetches the BlockOrder list and displays it on the
+ * BlockOrder Page
+ * 
+ * @author nnihal
+ * 
+ */
+
+@ParentPackage("tiles-default")
+@Actions({ @Action(value = "BlockOrderBlotter") })
+@Results({ @Result(name = "success1", location = "blockOrder1", type = "tiles") })
+public class BlockOrderAction extends ActionSupport {
+
+
+	private static Logger logger = Logger.getLogger(BlockOrderAction.class);
+
+	private static final long serialVersionUID = 1L;
+	
+	@Autowired
+	private BlockOrderService blockOrderService;
+	private List<BlockOrder> blockOrderList;
+
+	public List<BlockOrder> getBlockOrderList() {
+		return blockOrderList;
+	}
+
+	public void setBlockOrderList(List<BlockOrder> blockOrderList) {
+		this.blockOrderList = blockOrderList;
+	}
+
+	public String execute() {
+		String userName = (String) ActionContext.getContext().getSession()
+				.get("sessionUsername");
+		blockOrderList = blockOrderService.getBlockOrders(userName);
+
+		// proposedBlockList=blockOrderService.setProposedOrdersIntoBlock();
+		logger.info("");
+		// proposedBlockList=blockOrderService.setProposedOrdersIntoBlock();
+		return "success1";
+	}
+
+	public void setBlockOrderService(BlockOrderService blockOrderService) {
+		this.blockOrderService = blockOrderService;
+	}
+}

@@ -1,0 +1,79 @@
+package com.sapient.equitytradingapp.et.dao;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.sapient.equitytradingapp.et.pojo.Execution;
+
+@Component
+@Repository
+public class ExecutionDAO {
+	
+	EntityManager entityManager;
+
+
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+
+	@Transactional
+	public void createExecution(Execution execution) {
+		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("mypersistentunit");
+		 entityManager = entityManagerFactory.createEntityManager();
+		
+        if(entityManager==null)
+        	System.out.println("entity manager is null");
+		entityManager.persist(execution);
+		
+	}
+	
+	@Transactional
+	public List<Execution> retreiveExecution(String trader) {
+			
+       List<Execution> executionList=new ArrayList<Execution>();
+		TypedQuery<Execution> query=entityManager.createQuery("from execution e where trader=?",Execution.class);
+		query.setParameter(1,trader);
+		return executionList;
+		
+	}
+	
+	@Transactional
+	public void updateExecution(Execution execution) {
+			
+       
+		entityManager.merge(execution);
+		
+		
+	}
+	
+	@Transactional
+	public void deleteExecution(Integer id) {
+			       
+		if(entityManager.find(Execution.class, id)!=null)
+			entityManager.remove(entityManager.find(Execution.class, id));
+		
+		
+		
+	}
+
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+
+	public Execution getExecutionById(Long executionId) {
+
+		return entityManager.find(Execution.class, executionId);
+	}
+}

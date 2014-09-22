@@ -1,0 +1,51 @@
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@taglib uri="/struts-tags" prefix="s"%>
+
+	<center>
+		<h1>Edit Block Order</h1>
+	</center>
+	<form action="editPersist" name="formEdit">
+		<input style="display: none" type="text" name="count">
+		<div class="scrollableContainer">
+			<div class="scrollingArea">
+				<table  class="cruises scrollable, draggable"  >
+
+					<thead>
+			<tr>
+				<th><div class="block-order-id">BLOCK ORDER ID</div></th>
+				<th><div class="side">SIDE</div></th>
+				<th><div class="symbol">SYMBOL</div></th>
+				<th><div class="limit-price">LIMIT PRICE</div></th>
+				<th><div class="stop-price">STOP PRICE</div></th>
+				<th><div class="total-quantity">TOTAL QUANTITY</div></th>
+				<th><div class="executed-quantity">EXECUTED QUANTITY</div></th>
+				<th><div class="open-quantity">OPEN QUANTITY</div></th>
+				<th><div class="status">STATUS</div></th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				
+				<td><div class="block-order-id"><s:property value="editBlock.blockOrderId" /></div></td>
+				<td><div class="side"><s:property  value="editBlock.side" /></div></td>
+				<td><div class="symbol"><s:property  value="editBlock.symbol" /></div></td>
+				<td><div class="limit-price"><input type="text" id="limitPrice" name="limitPrice" value='<s:property value="editBlock.limitPrice" />' onchange="return validatePrice()"></input></div></td>
+				<td><div class="stop-price"><input type="text" id="stopPrice" name="stopPrice" value='<s:property value="editBlock.stopPrice" />' onchange="return validatePrice()"></input></div></td>
+				<td><div class="total-quantity"><s:property  value="editBlock.totalQuantity" /></div></td>
+				<td><div class="executed-quantity"><s:property  value="editBlock.executedQuantity" /></div></td>
+				<td><div class="open-quantity"><s:property  value="editBlock.openQuantity" /></div></td>
+				<td><div class="status"><s:property  value="editBlock.status" /></div></td>
+			</tr>
+			</tbody>
+		</table>
+		</div>
+		</div>
+		<input type="hidden" name="blockOrderId" value='<s:property value="editBlock.blockOrderId"/>' >	
+		<input type="hidden" id="side" name="side" value='<s:property value="editBlock.side"/>' >	
+		<input type="hidden" name="stPrice" id="stPrice" value='<s:property value="editBlock.stopPrice"/>' >
+			<input type="hidden" name="ltPrice" id="ltPrice" value='<s:property value="editBlock.limitPrice"/>' >	
+	
+		<center>
+			<s:submit cssClass="button" id="button" type="submit" value="Save" onclick="return validateEdit()"/>
+		</center>
+	</form>

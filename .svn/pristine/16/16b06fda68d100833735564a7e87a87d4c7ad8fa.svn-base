@@ -1,0 +1,100 @@
+package com.sapient.equitytradingapp.et.pojo;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
+@Entity
+@Table(name="block_order")
+public class BlockOrder {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	int blockOrderId;
+	@XmlElement
+	@Column(name="side",nullable = true,unique = false)
+	String side;
+	@XmlElement
+	@Column(name="symbol",nullable = true,unique = false)
+	String symbol;
+	@XmlElement
+	@Column(name="limit_price",nullable = true,unique = false)
+	double limit_price;
+	@XmlElement
+	@Column(name="stop_price",nullable = true,unique = false)
+	double stop_price;
+	@XmlElement
+	@Column(name="total_quantity",nullable = true,unique = false)
+	int total_quantity;
+	@XmlElement
+	@Column(name="executed_quantity",nullable = true,unique = false)
+	int executed_quantity;
+	@XmlElement
+	@Column(name="open_quantity",nullable = true,unique = false)
+	int open_quantity;
+	@XmlElement
+	@Column(name="status",nullable = true,unique = false)
+	String status;
+	
+	
+	public int getId() {
+		return blockOrderId;
+	}
+	public void setId(int id) {
+		this.blockOrderId = id;
+	}
+	public String getSide() {
+		return side;
+	}
+	public void setSide(String side) {
+		this.side = side;
+	}
+	public String getSymbol() {
+		return symbol;
+	}
+	public void setSymbol(String symbol) {
+		this.symbol = symbol;
+	}
+	public double getLimit_price() {
+		return limit_price;
+	}
+	public void setLimit_price(double limit_price) {
+		this.limit_price = limit_price;
+	}
+	public double getStop_price() {
+		return stop_price;
+	}
+	public void setStop_price(double stop_price) {
+		this.stop_price = stop_price;
+	}
+	public int getTotal_quantity() {
+		return total_quantity;
+	}
+	public void setTotal_quantity(int total_quantity) {
+		this.total_quantity = total_quantity;
+	}
+	public int getExecuted_quantity() {
+		return executed_quantity;
+	}
+	public void setExecuted_quantity(int executed_quantity) {
+		this.executed_quantity = executed_quantity;
+	}
+	public int getOpen_quantity() {
+		return open_quantity;
+	}
+	public void setOpen_quantity(int open_quantity) {
+		this.open_quantity = open_quantity;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+}

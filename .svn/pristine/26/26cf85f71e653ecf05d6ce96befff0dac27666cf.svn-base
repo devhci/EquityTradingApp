@@ -1,0 +1,73 @@
+package com.sapient.equitytradingapp.pm.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.sapient.equitytradingapp.pm.pojo.ViewPosition;
+import com.sapient.equitytradingapp.pm.pojo.ViewSecurity;
+
+@Component
+public class FilterPortfolioService {
+
+	List<ViewPosition> viewPositionList;
+	
+	public List<ViewPosition> getViewPositionList() {
+		return viewPositionList;
+	}
+
+	public void setViewPositionList(List<ViewPosition> viewPositionList) {
+		this.viewPositionList = viewPositionList;
+	}
+
+	@Autowired
+	ViewPositionService viewPositionService;
+	
+	public List<ViewPosition> filterDisplay(String filterChoice, String filterValue) {
+		List<ViewPosition> filterViewPositionList=new ArrayList<ViewPosition>();
+		String username = (String) ActionContext.getContext().getSession().get("sessionUsername");
+		viewPositionList=viewPositionService.displayPositions(username);
+		if(filterChoice.equals("Portfolio Name")){
+			for(ViewPosition v:viewPositionList){
+				if((v.getPortfolioName()).equals(filterValue)){
+					filterViewPositionList.add(v);
+				}
+			}
+			
+		}else if(filterChoice.equals("Security Symbol")){
+			int flag=0;
+				for(ViewPosition v:viewPositionList){
+					ViewPosition newViewPosition=new ViewPosition();
+					newViewPosition.setAccountName(v.getAccountName());
+					newViewPosition.setPortfolioName(v.getPortfolioName());
+					List<ViewSecurity> sList=v.getSecurityList();
+					List<ViewSecurity> newViewSecurityList=new ArrayList<ViewSecurity>();
+					flag=0;
+					for(ViewSecurity s:sList){
+						if((s.getSymbol()).equals(filterValue)){
+							newViewSecurityList.add(s);
+							flag=1;
+						}
+					}
+					if(flag==1){
+						newViewPosition.setSecurityList(newViewSecurityList);
+						filterViewPositionList.add(newViewPosition);
+					}
+					
+				}				
+		}else if(filterChoice.equals("Account Name")){
+			for(ViewPosition v:viewPositionList){
+				if((v.getAccountName()).equals(filterValue)){
+					filterViewPositionList.add(v);
+				}
+			}
+		}
+		
+		return filterViewPositionList;
+		
+	}
+
+}

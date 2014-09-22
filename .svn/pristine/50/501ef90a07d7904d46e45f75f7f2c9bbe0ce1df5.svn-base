@@ -1,0 +1,86 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+import com.sapient.equitytradingapp.et.service.GetCorrespondingBlockOrderService;
+import com.sapient.equitytradingapp.pm.constant.StringLiterals;
+
+/**
+ * 
+ * @author mkum60
+ * 
+ */
+@ParentPackage("tiles-default")
+@Action(value = "AddToBlockOrder")
+@Results({
+		@Result(name = "success", location = "addOrderToBlock", type = "tiles"),
+		@Result(name = "input", location = "orders", type = "chain"),
+		@Result(location = "Error.jsp", name = "exception")})
+public class AddToBlockOrderAction extends ActionSupport {
+
+	private static final long serialVersionUID = 1L;
+	@Autowired
+	private GetCorrespondingBlockOrderService service;
+	private List<Long> orderIdList = new ArrayList<Long>();
+	private List<BlockOrder> blockOrderList = new ArrayList<BlockOrder>();
+
+	public String execute() {
+		try{
+		if (orderIdList == null||orderIdList.size() == 0) {
+			HttpServletRequest request = ServletActionContext.getRequest();
+			request.setAttribute("message", "Please select atleat one order");
+			return "input";
+		}
+		
+		if (!service.checkSymbolAndSide(orderIdList)) {
+			HttpServletRequest request = ServletActionContext.getRequest();
+			request.setAttribute("message",
+					"Please select orders with same side and symbol");
+			return "input";
+		}
+		String userName = (String) ActionContext.getContext().getSession()
+				.get("sessionUsername");
+		blockOrderList = service.getCorrespondingBlocks(orderIdList, userName);
+		if (blockOrderList.size() == 0) {
+			HttpServletRequest request = ServletActionContext.getRequest();
+			request.setAttribute("message",
+					"Not block Order with this side and symbol found");
+			return "input";
+		}
+		
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		session.put("orderIdList", orderIdList);
+		return "success";
+	}catch(Exception e){return StringLiterals.EXCEPTION;}
+	}
+	public List<Long> getOrderIdList() {
+		return orderIdList;
+	}
+
+	public void setOrderIdList(List<Long> orderIdList) {
+		this.orderIdList = orderIdList;
+	}
+
+	public List<BlockOrder> getBlockOrderList() {
+		return blockOrderList;
+	}
+
+	public void setBlockOrderList(List<BlockOrder> blockOrderList) {
+		this.blockOrderList = blockOrderList;
+	}
+
+}

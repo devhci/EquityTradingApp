@@ -1,0 +1,19 @@
+package com.sapient.equitytradingapp.pm.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.sapient.equitytradingapp.pm.dao.SendForExecutionDAO;
+@Component
+public class SendForExecutionService {
+
+	@Autowired
+	SendForExecutionDAO sendForExecutionDAO;
+	public void sendOrderForExecution(List<Long> orderId) {
+		sendForExecutionDAO.sendOrdersForExecutionDB(orderId);
+		
+	}
+
+}

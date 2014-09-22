@@ -1,0 +1,226 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@taglib uri="/struts-tags" prefix="s"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Order Blotter</title>
+<style type="text/css">
+h1 {
+	font-size: large;
+	color: white;
+}
+
+table {
+	font-size: small;
+	color: black;
+}
+* {
+	padding: 0;
+	margin: 0;
+}
+
+table.cruises {
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 10px;
+	cellspacing: 0px;
+	border-collapse: collapse;
+	width: 1000px;
+}
+
+table.cruises th {
+	background-color: #002110;
+	color: #ffffff;
+	font-size: 10px;
+	background: -o-linear-gradient(bottom, #002110 5%, #558755 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #002110
+		), color-stop(1, #558755) );
+	background: -moz-linear-gradient(center top, #002110 5%, #558755 100%);
+	background: -o-linear-gradient(top, #002110, 558755);
+}
+
+table.cruises th,table.cruises td {
+	border-right: 2px solid black;
+	border-bottom: 2px solid black;
+	padding: 3px;
+}
+
+table.cruises tr:nth-child(odd) {
+	background-color: #9cad9e;
+	line-height: 16px;
+}
+
+table.cruises tr:nth-child(even) {
+	background-color: #ffffff;
+	line-height: 16px;
+}
+div.scrollableContainer {
+	position: relative;
+	width: 1212px;
+	padding-top: 2.5em;
+	margin: 20px;
+	border: none;
+	background: none;
+}
+
+div.scrollingArea {
+	height: 150px;
+	overflow: auto;
+}
+
+table.scrollable thead tr {
+	left: 0;
+	top: 0;
+	position: absolute;
+}
+
+table.cruises .checkbox {
+	width: 12px;
+	text-align: center;
+}
+
+table.cruises .order-id {
+	width: 65px;
+	text-align: center;
+}
+
+table.cruises .side {
+	width: 60px;
+	text-align: center;
+}
+
+table.cruises .symbol {
+	width: 80px;
+	text-align: center;
+}
+
+table.cruises .total-quantity {
+	width: 100px;
+	text-align: center;
+}
+table.cruises .limit-price {
+	width: 100px;
+	text-align: center;
+}
+table.cruises .stop-price {
+	width: 95px;
+	text-align: center;
+}
+table.cruises .allocated-quantity {
+	width: 100px;
+	text-align: center;
+}
+table.cruises .status {
+	width: 80px;
+	text-align: center;
+}
+table.cruises .manager {
+	width: 90px;
+	text-align: center;
+}
+table.cruises .account-type {
+	width: 100px;
+	text-align: center;
+}
+table.cruises .portfolio {
+	width: 100px;
+	text-align: center;
+}
+table.cruises .block-order-id {
+	width: 110px;
+	text-align: center;
+}
+
+</style>
+</head>
+<body id="body">
+<center><% String msg=null; 
+  msg =(String)request.getAttribute("message");
+  if((msg)!=null){%><script type="text/javascript">alert("<%=msg%>");</script><%} %> </center>
+  
+	<center>
+		<h1>Order Blotter</h1>
+	</center>
+	<form action="CheckButtonPressed">
+		<div class="scrollableContainer">
+			<div class="scrollingArea">
+				<table class="cruises scrollable">
+					<thead>
+						<tr>
+							<th><div class="checkbox"></div></th>
+							<th><div class="order-id">ORDER ID</div></th>
+							<th><div class="side">SIDE</div></th>
+							<th><div class="symbol">SYMBOL</div></th>
+							<th><div class="total-quantity">TOTAL QUANTITY</div></th>
+							<th><div class="limit-price">LIMIT PRICE</div></th>
+							<th><div class="stop-price">STOP PRICE</div></th>
+							<th><div class="allocated-quantity">ALLOCATED QUANTITY</div></th>
+							<th><div class="status">STATUS</div></th>
+							<th><div class="manager">MANAGER</div></th>
+							<th><div class="account-type">ACCOUNT TYPE</div></th>
+							<th><div class="portfolio">PORTFOLIO</div></th>
+							<th><div class="block-order-id">BLOCK ORDER ID</div></th>
+						</tr>
+					</thead>
+					<tbody>
+						<s:iterator value="orderList">
+							<tr>
+								<td><div class="checkbox">
+										<input type="checkbox" name="orderIdList"
+											value='<s:property value="orderId"/>'>
+									</div></td>
+								<td><div class="order-id">
+										<s:property value="orderId" />
+									</div></td>
+								<td><div class="side">
+										<s:property value="side" />
+									</div></td>
+								<td><div class="symbol">
+										<s:property value="symbol" />
+									</div></td>
+								<td><div class="total-quantity">
+										<s:property value="totalQuantity" />
+									</div></td>
+								<td><div class="limit-price">
+										<s:property value="limitPrice" />
+									</div></td>
+								<td><div class="stop-price">
+										<s:property value="stopPrice" />
+									</div></td>
+								<td><div class="allocated-quantity">
+										<s:property value="allocatedQuantity" />
+									</div></td>
+								<td><div class="status">
+										<s:property value="status" />
+									</div></td>
+								<td><div class="manager">
+										<s:property value="manager" />
+									</div></td>
+								<td><div class="account-type">
+										<s:property value="accountType" />
+									</div></td>
+								<td><div class="portfolio">
+										<s:property value="portfolioName" />
+									</div></td>
+								<td><div class="block-order-id">
+										<s:property value="blockOrderId" />
+									</div></td>
+							</tr>
+						</s:iterator>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<center>
+			<s:submit  cssClass="button" id="button" name="buttonName"
+				value="Create Block Order" theme="simple" style="width: 130px; margin-bottom: 30px;"></s:submit>
+			<s:submit cssClass="button" id="button" name="buttonName" style="width: 130px; margin-bottom: 30px;"
+				value="Add to Block Order" theme="simple"></s:submit>
+
+		</center>
+
+
+	</form>
+</body>
+</html>

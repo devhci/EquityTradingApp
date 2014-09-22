@@ -1,0 +1,141 @@
+
+<%@taglib uri="/struts-tags" prefix="s"%>
+
+
+
+<script>
+	function check() {
+		count = 0;
+		str = '';
+		for ( var x = 0; x < document.edit_form.elements["checkboxes"].length; x++) {
+			if (document.edit_form.elements["checkboxes"][x].checked == true) {
+				str += document.edit_form.elements["checkboxes"][x].value + ',';
+				count++;
+			}
+		}
+		if (count == 0) {
+			alert("You must choose at least 1 order");
+			return false;
+		} else if (count > 1) {
+			alert("You cannot select more than 1 order together");
+			return false;
+		} else {
+			return true;
+		}
+	}
+</script>
+
+
+
+
+
+
+<h1>Order Blotter</h1>
+<s:form theme="simple" name="edit_form" action="getOrderId">
+	<div style="position: relative; left: -70px;">
+		<div id="orderlist">
+			<s:if test="errorField!=null">
+				<br />
+				<s:textfield name="errorField" style="color: white;" />
+				<br />
+			</s:if>
+			<table width="100%" bgcolor="grey">
+
+				<tr>
+					<th width="5%">Select</th>
+					<th width="5%">Order Id</th>
+					<th width="10%">Order Status</th>
+					<th width="7%">Symbol</th>
+					<th width="11%">Portfolio Name</th>
+					<th width="5%">Account ID</th>
+					<th width="5%">Side</th>
+					<th width="8%">Order Type</th>
+					<th width="5%">Quantity</th>
+					<th width="5%">Stop Price</th>
+					<th width="5%">Limit Price</th>
+					<th width="10%">Order Qualifier</th>
+					<th width="5%">Account Type</th>
+					<th width="8%">Trader</th>
+				</tr>
+
+
+
+				<s:iterator value="orderList" status="stat">
+					<tr>
+
+						<td width="5%"><input type="checkbox" name="checkboxes"
+							value='<s:property value="orderId"/>'></td>
+						<td width="5%"><s:textfield name="orderId" readonly="true"
+								size="6" /></td>
+						<td width="10%"><s:property value="status" /></td>
+						<td width="7%"><s:property value="symbol" /></td>
+						<td width="11%"><s:property value="portfolioName" /></td>
+						<td width="5%"><s:property value="accountId" /></td>
+						<td width="5%"><s:property value="side" /></td>
+						<td width="8%"><s:property value="orderType" /></td>
+						<td width="5%"><s:property value="totalQuantity" /></td>
+						<td width="5%"><s:property value="stopPrice" /></td>
+						<td width="5%"><s:property value="limitPrice" /></td>
+						<td width="10%"><s:property value="orderQualifier" /></td>
+						<td width="5%"><s:property value="accountType" /></td>
+						<td width="8%"><s:property value="trader" /></td>
+					</tr>
+				</s:iterator>
+
+			</table>
+
+		</div>
+	</div>
+	<table style="clear: both; position: absolute; left: 60px; top: 200px;"
+		id="main">
+		<tr class="navbar">
+			<td style="border-left: 2px solid #54879d;
+		border-right: 2px solid #54879d; 
+		border-bottom: 2px solid #1f5065;
+		border-top: 2px solid #1f5065;"><s:submit value="Home" action="view-position" style="background: url('/CSS/images/edit.PNG');border:0;color:white;"></s:submit></td>
+		</tr>
+		<tr class="navbar">
+			<td style="border-left: 2px solid #54879d;
+		border-right: 2px solid #54879d; 
+		border-bottom: 2px solid #1f5065;
+		border-top: 2px solid #1f5065;"><s:submit value="Create Order" action="create-order-prefill" style="background: url('/CSS/images/edit.PNG');border:0;color:white;"></s:submit></td>
+		</tr>
+		<tr class="navbar">
+			<td style="border-left: 2px solid #54879d;
+		border-right: 2px solid #54879d; 
+		border-bottom: 2px solid #1f5065;
+		border-top: 2px solid #1f5065;"><s:submit value="Edit Order" name="option"
+					style="background: url('/CSS/images/edit.PNG');border:0;color:white;"
+					onclick="return check()" /></td>
+		</tr>
+		<tr class="navbar">
+			<td style="border-left: 2px solid #54879d;
+		border-right: 2px solid #54879d; 
+		border-bottom: 2px solid #1f5065;
+		border-top: 2px solid #1f5065;"><s:submit value="Amend Order" name="option"
+					style="background: url('/CSS/images/edit.PNG');border:0;color:white;"
+					onclick="return check()" /></td>
+		</tr>
+		<tr class="navbar">
+			<td style="border-left: 2px solid #54879d;
+		border-right: 2px solid #54879d; 
+		border-bottom: 2px solid #1f5065;
+		border-top: 2px solid #1f5065;"><s:submit value="Send Order"
+					style="background: url('/CSS/images/edit.PNG');border:0;color:white;width: 80px;"
+					action="send-for-execution" /></td>
+		</tr>
+		<tr class="navbar">
+			<td style="border-left: 2px solid #54879d;
+		border-right: 2px solid #54879d; 
+		border-bottom: 2px solid #1f5065;
+		border-top: 2px solid #1f5065;"><s:submit value="Cancel Order" name="option"
+					style="background: url('/CSS/images/edit.PNG');border:0;color:white;"
+					onclick="return check()" /></td>
+		</tr>
+	</table>
+
+	<br>
+	<br>
+
+</s:form>
+

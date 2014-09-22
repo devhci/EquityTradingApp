@@ -1,0 +1,79 @@
+<%@taglib uri="/struts-tags" prefix="s"%>
+<center>
+		<h1>Allocation Blotter</h1>
+	</center>
+	<form action="ViewAllocation">
+		<div class="scrollableContainer">
+			<div class="scrollingArea">
+				<table class="cruises scrollable, draggable">
+					<thead>
+						<tr>
+							<th><div class="checkbox"></div></th>
+							<th><div class="allocation-id">ALLOCATION ID</div></th>
+							<th><div class="side">SIDE</div></th>
+							<th><div class="transaction-price">TRANSACTION PRICE</div></th>
+							<th><div class="transaction-fee">TRANSACTION FEE</div></th>
+							<th><div class="allocated-quantity">ALLOCATED
+									QUANTITY</div></th>
+							<th><div class="open-quantity">OPEN QUANTITY</div></th>
+							<th><div class="status">STATUS</div></th>
+							<th><div class="order-id">ORDER ID</div></th>
+							<th><div class="execution-id">EXECUTION ID</div></th>
+							<th><div class="trader">TRADER</div></th>
+						</tr>
+					</thead>
+					<tbody>
+						<s:iterator value="allocationList" status="alloc" var="obj">
+							<tr>
+								<s:set name="checkStatus" value="%{#obj.status}"></s:set>
+								<td><div class="checkbox"><s:if test="%{#checkStatus=='Approved'}">
+										<input type="checkbox" name="viewAllocateList"
+											value='<s:property value="allocationId"/>'
+											disabled="disabled">
+									</s:if> <s:else>
+										<input type="checkbox" name="viewAllocateList"
+											value='<s:property value="allocationId"/>'>
+									</s:else></div></td>
+								
+								<td><div class="allocation-id">
+										<s:property value="allocationId" />
+									</div></td>
+								<td><div class="side">
+										<s:property value="side" />
+									</div></td>
+								<td><div class="transaction-price">
+										<s:property value="transactionPrice" />
+									</div></td>
+								<td><div class="transaction-fee">
+										<s:property value="transactionFee" />
+									</div></td>
+								<td><div class="allocated-quantity">
+										<s:property value="allocatedQuantity" />
+									</div></td>
+								<td><div class="open-quantity">
+										<s:property value="openQuantity" />
+									</div></td>
+								<td><div class="status">
+										<s:property value="status" />
+									</div></td>
+								<td><div class="order-id">
+										<s:property value="orderId" />
+									</div></td>
+								<td><div class="execution-id">
+										<s:property value="executionId" />
+									</div></td>
+								<td><div class="trader">
+										<s:property value="trader" />
+									</div></td>
+							</tr>
+						</s:iterator>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<center>
+			<input class="button" id="button" type="submit" name="allocate"
+				value="Approve Allocation" onclick="return validateApprove()" style="width: 130px">
+		</center>
+	</form>
+

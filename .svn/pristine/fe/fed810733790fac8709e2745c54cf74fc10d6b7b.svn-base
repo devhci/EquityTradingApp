@@ -1,0 +1,37 @@
+package com.sapient.equitytradingapp.et.tddweb;
+
+import static org.junit.Assert.*;
+
+
+import org.junit.Test;
+
+import com.sapient.equitytradingapp.et.dao.BlockOrderDAO;
+
+public class BlockOrderDaoTestShould {
+
+	
+	
+	@Test
+	public void getDetails(){
+		BlockOrderDAO blockOrderDAO = new BlockOrderDAO();
+		Object xyz = blockOrderDAO.getDetails();
+		assertEquals(null,xyz);
+		
+	}
+	
+	@Test
+	public void updateDetails(){
+		BlockOrderDAO blockOrderDAO = new BlockOrderDAO();
+		boolean result = true;
+		assertEquals(true, result);
+		
+	}
+	@Test
+	public void deleteDetails(){
+		
+		BlockOrderDAO blockOrderDAO = new BlockOrderDAO();
+		
+		//boolean result = blockOrderDAO.updateDetails();
+	}
+	
+}

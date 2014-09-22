@@ -1,0 +1,107 @@
+package com.sapient.equitytradingapp.et.dao;
+
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.sapient.equitytradingapp.et.pojo.Execution;
+
+/**
+ * DAO class for Execution table
+ * @author aku172
+ *
+ */
+@Component
+@Repository
+public class ExecutionDAO {
+	
+	
+	EntityManager entityManager;
+
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+	
+	/**
+	 * To insert execution in execution table
+	 * @param execution
+	 */
+	@Transactional
+	public void createExecution(Execution execution) {
+		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("mypersistentunit");
+		 entityManager = entityManagerFactory.createEntityManager();
+		
+        if(entityManager==null)
+        	System.out.println("entity manager is null");
+		entityManager.persist(execution);
+				
+	}
+	
+	/**
+	 * To retrieve list of Executions of a user
+	 * @param trader
+	 * @return <b>execution list</b>
+	 */
+	@Transactional
+	public List<Execution> retreiveExecution(String trader) {
+			
+      
+		TypedQuery<Execution> query=entityManager.createQuery("from Execution where trader=? and status=?",Execution.class);
+		query.setParameter(1,trader);
+		query.setParameter(2, "new");
+		return query.getResultList();
+		
+	}
+	
+	/**
+	 * Updating Execution
+	 * @param execution
+	 */
+	@Transactional
+	public void updateExecution(Execution execution) {
+			
+       
+		entityManager.merge(execution);
+		
+		
+	}
+	
+	/**
+	 * Deleting an execution
+	 * @param id
+	 */
+	
+	@Transactional
+	public void deleteExecution(Integer id) {
+			       
+		if(entityManager.find(Execution.class, id)!=null)
+			entityManager.remove(entityManager.find(Execution.class, id));
+		
+		
+		
+	}
+	
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+	
+	/**
+	 * Retrieve a single execution based on execution id 
+	 * @param id
+	 * @return <b>execution</b>
+	 */
+	public Execution getExecutionById(Long id) {
+
+		return entityManager.find(Execution.class, id);
+	}
+}

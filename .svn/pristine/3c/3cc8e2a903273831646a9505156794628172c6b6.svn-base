@@ -1,0 +1,13 @@
+<%@taglib uri="/struts-tags" prefix="s"%>
+<body bgcolor="green">
+<table width="100%">
+	<tr>
+		<td><h4>Mock Project</h4></td>
+		<td>
+			<h2>Welcome PortfolioManagerXYZ</h2>
+			<s:property value="%{#session.username}" />
+		</td>
+		<td><s:a action="Logout">Logout</s:a></td>
+	</tr>
+</table>
+</body>

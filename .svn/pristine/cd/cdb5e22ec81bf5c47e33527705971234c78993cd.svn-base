@@ -1,0 +1,43 @@
+package com.sapient.equitytradingapp.et.dao;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.sapient.equitytradingapp.et.pojo.ProposedBlockOrder;
+import com.sapient.equitytradingapp.pm.pojo.Order;
+
+@Repository
+public class ProposedBlockOrderDAO {
+	private EntityManager entityManager;
+	
+    
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+
+    @PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+     
+     @Transactional
+	public void saveProposedBlockOrder(ProposedBlockOrder proposedBlockOrder){
+		System.out.println("going to persist block");
+		entityManager.persist(proposedBlockOrder);
+	}
+
+	public List<ProposedBlockOrder> getProposedOrdersForTrader(String trader) {
+		TypedQuery<ProposedBlockOrder> query = entityManager.createQuery(
+				"from ProposedBlockOrder p where trader=?", ProposedBlockOrder.class);
+		query.setParameter(1, trader);
+		return query.getResultList();
+	
+		
+	}
+}

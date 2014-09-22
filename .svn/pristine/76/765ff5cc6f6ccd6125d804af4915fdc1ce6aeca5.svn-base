@@ -1,0 +1,119 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@taglib uri="/struts-tags" prefix="s"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+	"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<script>
+	
+	function validatePrice() {
+		
+		var limitPrice=document.getElementById("limitPrice").value;
+		
+		var stopPrice=document.getElementById("stopPrice").value;
+		if(limitPrice<0)
+			{
+			alert("Please enter a Non-Negative Value");
+			document.getElementById("limitPrice").value=document.getElementById("ltPrice").value;
+			return false;
+			}
+		if(stopPrice<0)
+			{
+			alert("Please enter a Non-Negative Value");
+			document.getElementById("stopPrice").value=document.getElementById("stPrice").value;
+			return false;
+			}
+		else
+			return true;
+	
+	}
+	
+	function validateEdit(){
+		
+		var side=document.getElementById("side").value;
+		var limitPrice=document.getElementById("limitPrice").value;
+		
+		
+		
+		var stopPrice=document.getElementById("stopPrice").value;
+		
+	
+		
+		if(side==("SELL")||side==("sell")){
+			if(stopPrice>limitPrice){
+				alert("Stop Price Cannot be greater than limit Price for Sell Block Order");
+			document.getElementById("limitPrice").value=document.getElementById("ltPrice").value;
+			document.getElementById("stopPrice").value=document.getElementById("stPrice").value;
+			return false;
+			}
+			else 
+				return true;
+		}
+		else if(side==("BUY")||side==("buy")){
+			if(stopPrice>limitPrice)
+				return true;
+			
+			else{ 
+				alert("Stop Price Cannot be less than limit Price for buy Block Order");
+			document.getElementById("limitPrice").value=document.getElementById("ltPrice").value;
+			document.getElementById("stopPrice").value=document.getElementById("stPrice").value;
+			return false;
+				}
+		}
+		else 
+			return true;
+		
+	}
+	
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<%-- <title><tiles:insertAttribute name="title" /></title> --%>
+<link rel="stylesheet" type="text/css" href="css/login-page.css" />
+<link rel="stylesheet" type="text/css" href="css/login-page.css" />
+<link rel="stylesheet" type="text/css" href="css/navigation-bar.css" />
+</head>
+<body>
+	<center>
+		<h1>Block Order Blotter</h1>
+	</center>
+	<form action="editPersist" name="formEdit">
+		<input style="display: none" type="text" name="count">
+		<table border="1" width="100%">
+			<tr>
+				
+				<td>BLOCK ORDER ID</td>
+				<td>SIDE</td>
+				<td>SYMBOL</td>
+				<td>LIMIT PRICE</td>
+				<td>STOP PRICE</td>
+				<td>TOTAL QUANTITY</td>
+				<td>EXECUTED QUANTITY</td>
+				<td>OPEN QUANTITY</td>
+				<td>STATUS</td>
+			</tr>
+			<tr>
+				
+				<td><s:property value="editBlock.blockOrderId" /></td>
+				<td><s:property  value="editBlock.side" /></td>
+				<td><s:property  value="editBlock.symbol" /></td>
+				<td><input type="text" id="limitPrice" name="limitPrice" value='<s:property value="editBlock.limitPrice" />' onchange="return validatePrice()"></input></td>
+				<td><input type="text" id="stopPrice" name="stopPrice" value='<s:property value="editBlock.stopPrice" />' onchange="return validatePrice()"></input></td>
+				<td><s:property  value="editBlock.totalQuantity" /></td>
+				<td><s:property  value="editBlock.executedQuantity" /></td>
+				<td><s:property  value="editBlock.openQuantity" /></td>
+				<td><s:property  value="editBlock.status" /></td>
+			</tr>
+		</table>
+		<input type="hidden" name="blockOrderId" value='<s:property value="editBlock.blockOrderId"/>' >	
+		<input type="hidden" id="side" name="side" value='<s:property value="editBlock.side"/>' >	
+		<input type="hidden" name="stPrice" id="stPrice" value='<s:property value="editBlock.stopPrice"/>' >
+			<input type="hidden" name="ltPrice" id="ltPrice" value='<s:property value="editBlock.limitPrice"/>' >	
+		<br>
+		<center>
+			<input type="submit" value="Save" onclick="return validateEdit()"/>
+		</center>
+	</form>
+</body>
+</html>

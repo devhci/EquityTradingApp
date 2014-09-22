@@ -1,0 +1,30 @@
+@CHARSET "ISO-8859-1";
+#main	{
+	width: 80px; /* Spans the widsth of the page */
+	height: 50px; 
+	margin: 0; /* Ensures there is no space between sides of the screen and the menu */
+	z-index: 99; /* Makes sure that your menu remains on top of other page elements */
+	background-color: #366b82;
+	}
+	.navbar td{
+			height: 50px;
+			width: 100px;  /* Each menu item is 150px wide */
+			float: up;  /* This lines up the menu items horizontally */
+			text-align: center;  /* All text is placed in the center of the box */
+			list-style: none;  /* Removes the default styling (bullets) for the list */
+			font: normal bold 12px/1.2em Arial, Verdana, Helvetica;  
+			padding: 0;
+			margin: 0;
+			background-color: #366b82;
+            }
+     .navbar a{							
+		padding: 20px 0;  /* Adds a padding on the top and bottom so the text appears centered vertically */
+		border-left: 2px solid #54879d; /* Creates a border in a slightly lighter shade of blue than the background.  Combined with the right border, this creates a nice effect. */
+		border-right: 2px solid #54879d; /* Creates a border in a slightly darker shade of blue than the background.  Combined with the left border, this creates a nice effect. */
+		border-bottom: 2px solid #1f5065;
+		border-top: 2px solid #1f5065;
+		text-decoration: none;  /* Removes the default hyperlink styling. */
+		color: white; /* Text color is white */
+		display: block;
+		width: 80px;
+		}

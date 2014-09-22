@@ -1,0 +1,14 @@
+package com.sapient.equitytradingapp.et.interfaces;
+/**
+ * Interface for PM to cancel an order
+ * @author mkum60
+ *
+ */
+public interface CancelOrderInterface {
+	/**
+	 * 
+	 * @param orderId of type Long
+	 * @return Boolean
+	 */
+	public boolean cancelOrder(long orderId);
+}

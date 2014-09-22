@@ -1,0 +1,47 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+	<%@taglib uri="/struts-tags" prefix="s" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<form name="form1" action="AddedOrdersToBlock">
+		<input style="display: none" type="text" name="count">
+		<table border="1" width="100%">
+			<tr>
+				<td>Select</td>
+				<td>BLOCK ORDER ID</td>
+				<td>SIDE</td>
+				<td>SYMBOL</td>
+				<td>LIMIT PRICE</td>
+				<td>STOP PRICE</td>
+				<td>TOTAL QUANTITY</td>
+				<td>EXECUTED QUANTITY</td>
+				<td>OPEN QUANTITY</td>
+				<td>STATUS</td>
+			</tr>
+			<s:iterator value="blockOrderList">
+				<tr>
+					<td><input type="radio" name="blockOrderIdList" value='<s:property value="blockOrderId"/>'></td>
+                    <td><s:property value="blockOrderId" /></td>
+                    <td><s:property value="side" /></td>
+					<td><s:property value="symbol" /></td>
+					<td><s:property value="limitPrice" /></td>
+					<td><s:property value="stopPrice" /></td>
+					<td><s:property value="totalQuantity" /></td>
+					<td><s:property value="executedQuantity" /></td>
+					<td><s:property value="openQuantity" /></td>
+					<td><s:property value="status" /></td>
+				</tr>
+			</s:iterator>
+		</table>
+		<br>
+		<center>
+			<s:submit value="Add Order"></s:submit>
+		</center>
+	</form>
+</body>
+</html>

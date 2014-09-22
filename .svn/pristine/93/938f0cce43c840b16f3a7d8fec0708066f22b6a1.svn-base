@@ -1,0 +1,52 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+     <%@taglib uri="/struts-tags" prefix="s" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+<style type="text/css">
+	.table1
+	{
+		position:fixed;
+		
+	}
+	.td1
+	{
+	overflow: auto;
+	}
+</style>
+</head>
+<body>
+<center><h1>Execution Blotter</h1></center>
+<form action="AllocationBlock">
+<div style="height: 200px; overflow-y: auto;">
+	<table border="1" width="100%" >
+		<tr>
+			<th></th>
+			<th>BLOCK ORDER ID</th>
+			<th>QUANTITY</th>
+			<th>TRANSACTION PRICE</th>
+			<th>STATUS</th>			
+			<th>TRANSACTION TIME</th>
+		</tr>
+			<s:iterator value="executionList">
+			<tr>
+				<td><input type="checkbox" name="executionAllocateList" value='<s:property value="executionID"/>' ></td>
+				<td><s:property value="blockOrderId" /></td>
+				<td><s:property value="executionQuantity" /></td>
+				<td><s:property value="executionPrice" /></td>
+				<td><s:property value="status" /></td>				
+				<td><s:property value="transactionTime" /></td>
+			</tr>
+			</s:iterator>
+		</table></div>
+		<br>
+		<center><input class="button" id="button" type="submit" name="allocate" value="Allocate Execution"></center>
+</form>
+	
+
+</body>
+</html>

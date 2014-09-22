@@ -1,0 +1,42 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import java.util.List;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+import com.sapient.equitytradingapp.et.pojo.Execution;
+import com.sapient.equitytradingapp.et.service.ExecutionBlotterService;
+
+@ParentPackage("tiles-default")
+@Action(value = "ExecutionBlotter")
+@Results({ @Result(name = "success", location = "executionBlotter", type = "tiles") })
+public class ExecutionBlotterAction extends ActionSupport {
+
+	private static final long serialVersionUID = 1L;
+	@Autowired
+	private ExecutionBlotterService executionBlotterService;
+
+	private List<Execution> executionList;
+
+	public List<Execution> getExecutionList() {
+		return executionList;
+	}
+
+	public void setExecutionList(List<Execution> executionList) {
+		this.executionList = executionList;
+	}
+
+	public String execute() {
+		String userName = (String) ActionContext.getContext().getSession()
+				.get("sessionUsername");
+		executionList = executionBlotterService
+				.getExecutionsForTrader(userName);
+		return "success";
+	}
+}

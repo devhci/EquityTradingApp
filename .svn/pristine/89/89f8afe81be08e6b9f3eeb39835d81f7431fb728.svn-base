@@ -1,0 +1,38 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.sapient.equitytradingapp.et.service.CreateBlockOrderService;
+
+@Action(value = "CreateBlockOrder")
+@Results({ @Result(name = "success", location = "et/pass-to-orders.jsp"),
+		@Result(name = "input", location = "et/pass-to-orders.jsp") })
+public class CreateBlockOrderAction {
+	@Autowired
+	private CreateBlockOrderService createBlockOrderService;
+	private List<Long> orderIdList = new ArrayList<Long>();
+
+	public List<Long> getOrderIdList() {
+		return orderIdList;
+	}
+
+	public void setOrderIdList(List<Long> orderIdList) {
+		this.orderIdList = orderIdList;
+	}
+
+	public String execute() {
+		for (Long i : orderIdList)
+			System.out.println("ORDER ID IS " + i);
+
+		if (createBlockOrderService.createBlocks(orderIdList))
+			return "success";
+		else
+			return "input";
+	}
+}

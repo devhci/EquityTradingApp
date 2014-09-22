@@ -1,0 +1,176 @@
+<%@taglib uri="/struts-tags" prefix="s"%>
+<center><h1>Proposed Block</h1></center>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@taglib uri="/struts-tags" prefix="s"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Proposed Block Orders</title>
+<style type="text/css">
+h1 {
+	font-size: large;
+	color: white;
+}
+
+table {
+	font-size: small;
+	color: black;
+}
+
+* {
+	padding: 0;
+	margin: 0;
+}
+
+table.cruises {
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 10px;
+	cellspacing: 0px;
+	border-collapse: collapse;
+	width: 1000px;
+}
+
+table.cruises th {
+	background-color: #002110;
+	color: #ffffff;
+	font-size: 10px;
+	background: -o-linear-gradient(bottom, #002110 5%, #558755 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #002110
+		), color-stop(1, #558755) );
+	background: -moz-linear-gradient(center top, #002110 5%, #558755 100%);
+	background: -o-linear-gradient(top, #002110, 558755);
+}
+
+table.cruises th,table.cruises td {
+	border-right: 2px solid black;
+	border-bottom: 2px solid black;
+	padding: 3px;
+}
+
+table.cruises tr:nth-child(odd) {
+	background-color: #9cad9e;
+}
+
+table.cruises tr:nth-child(even) {
+	background-color: #ffffff;
+}
+
+div.scrollableContainer1 {
+	position: relative;
+	width:1212px;
+	padding-top: 2.5em;
+	margin: 20px;
+	border: none;
+	background: none;
+}
+
+div.scrollingArea1 {
+	height: 150px;
+	overflow: auto;
+}
+
+table.scrollable thead tr {
+	left: 0;
+	top: 0;
+	position: absolute;
+}
+
+table.cruises .checkbox1 {
+	width: 12px;
+	text-align: center;
+}
+
+table.cruises .side1 {
+	width: 90px;
+	text-align: center;
+}
+
+table.cruises .symbol1 {
+	width: 200px;
+	text-align: center;
+}
+
+table.cruises .total-quantity1 {
+	width: 210px;
+	text-align: center;
+}
+
+table.cruises .open-quantity1 {
+	width: 210px;
+	text-align: center;
+}
+
+table.cruises .limit-price1 {
+	width: 210px;
+	text-align: center;
+}
+
+table.cruises .stop-price1 {
+	width: 210px;
+	text-align: center;
+}
+
+</style>
+</head>
+<body id="body">
+
+<% String msg=null; 
+  msg =(String)request.getAttribute("message1");
+  if((msg)!=null){%><script type="text/javascript">alert("<%=msg%>");</script><%} %> 
+	
+	<form action="CreateProposedBlockOrder">
+		<div class="scrollableContainer1">
+			<div class="scrollingArea1">
+				<table class="cruises scrollable1">
+					<thead>
+						<tr>
+							<th><div class="checkbox1"></div></th>
+							<th><div class="side1">SIDE</div></th>
+							<th><div class="symbol1">SYMBOL</div></th>
+							<th><div class="total-quantity1">TOTAL QUANTITY</div></th>
+							<th><div class="open-quantity1">OPEN QUANTITY</div></th>
+							<th><div class="limit-price1">LIMIT PRICE</div></th>
+							<th><div class="stop-price1">STOP PRICE</div></th>
+						</tr>
+					</thead>
+					<tbody>
+						<s:iterator value="proposedList">
+							<tr>
+								<td><div class="checkbox1">
+										<input type="checkbox" name="proposedBlockIdList"
+											value='<s:property value="blockId"/>'>
+									</div></td>
+								<td><div class="side1">
+										<s:property value="side" />
+									</div></td>
+								<td><div class="symbol1">
+										<s:property value="symbol" />
+									</div></td>
+								<td><div class="total-quantity1">
+										<s:property value="totalQuantity" />
+									</div></td>
+								<td><div class="open-quantity1">
+										<s:property value="openQuantity" />
+									</div></td>
+								<td><div class="limit-price1">
+										<s:property value="limitPrice" />
+									</div></td>
+								<td><div class="stop-price1">
+										<s:property value="stopPrice" />
+									</div></td>
+							</tr>
+						</s:iterator>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<center>
+			<s:submit cssClass="button" id="button" name="buttonName"
+				value="Create Block Order" theme="simple"
+				style="width: 130px; margin-bottom: 30px;"></s:submit>
+		</center>
+
+	</form>
+

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+	<definition name="welcomeLayout" template="/WEB-INF/content/et/baseLayout.jsp">
+		<put-attribute name="title" value="Execution Trader Access" />
+		<put-attribute name="header" value="/WEB-INF/content/et/layout_pages/header.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/content/et/menu.jsp" />
+		 <put-attribute name="body1" value="/WEB-INF/content/et/OrderBlotter.jsp" /> 
+ 		 <put-attribute name="body2" value="/WEB-INF/content/et/ProposedBlockBlotter.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/content/et/layout_pages/footer.jsp" />
+	</definition>
+	<definition name="blockOrder1" extends="welcomeLayout">
+		<put-attribute name="body1" value="/WEB-INF/content/et/BlockOrderBlotter.jsp" />
+		<put-attribute name="body2" value="/WEB-INF/content/et/demo.jsp" />
+	</definition>
+	<definition name="blockOrder2" extends="welcomeLayout">
+		<put-attribute name="body1" value="/WEB-INF/content/et/BlockOrderBlotter.jsp" />
+		<put-attribute name="body2" value="/WEB-INF/content/et/ViewBlock.jsp" />
+	</definition>
+	<definition name="orderBlotter" extends="welcomeLayout">
+		<put-attribute name="body1" value="/WEB-INF/content/et/BlockOrderBlotter.jsp" />
+		 <put-attribute name="body2" value="/WEB-INF/content/et/OrderBlotter.jsp" />
+	</definition>
+
+	<definition name="editblockOrder" extends="welcomeLayout">
+		<put-attribute name="body1" value="/WEB-INF/content/et/EditBlock.jsp" />
+		<put-attribute name="body2" value="/WEB-INF/content/et/ViewBlock.jsp" />
+	</definition>
+
+	<definition name="addOrderToBlock" extends="welcomeLayout">
+		<put-attribute name="body1" value="/WEB-INF/content/et/AddOrderToBlockOrder.jsp" />
+		 <put-attribute name="body2" value="/WEB-INF/content/et/Empty.jsp" />
+	</definition>
+	<definition name="executionBlotter" extends="welcomeLayout">
+		<put-attribute name="body1" value="/WEB-INF/content/et/ExecutedBlock.jsp" />
+		 <put-attribute name="body2" value="/WEB-INF/content/et/ViewAllocation.jsp" />
+	</definition>
+
+
+	<!-- PM Tiles definitions -->
+	<definition name="layout-view" template="/WEB-INF/content/pm/Layout.jsp">
+		<put-attribute name="title" value="Portfolio Management" />
+		<put-attribute name="menu" value="/WEB-INF/content/pm/menu3.jsp" />
+		<put-attribute name="header" value="/WEB-INF/content/pm/Header.jsp" />
+		<put-attribute name="body" value="/WEB-INF/content/pm/Holdings.jsp" />
+	</definition>
+	<definition name="login-view" extends="layout-view">
+	<put-attribute name="header" value="/WEB-INF/content/pm/LoginHeader.jsp" />
+		<put-attribute name="body" value="/WEB-INF/content/pm/Login.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/content/pm/menu1.jsp" />
+	</definition>
+	<definition name="roleSelect-view" extends="layout-view">
+	<put-attribute name="menu" value="/WEB-INF/content/pm/menu1.jsp" />
+		<put-attribute name="body" value="/WEB-INF/content/pm/RoleSelect.jsp" />
+	</definition>
+	<definition name="forgotPassword-view" extends="layout-view">
+	<put-attribute name="header" value="/WEB-INF/content/pm/LoginHeader.jsp" />
+	<put-attribute name="menu" value="/WEB-INF/content/pm/menu1.jsp" />
+		<put-attribute name="body" value="/WEB-INF/content/pm/ForgotPassword.jsp" />
+	</definition>
+	<definition name="changePassword-view" extends="layout-view">
+	<put-attribute name="header" value="/WEB-INF/content/pm/LoginHeader.jsp" />
+	<put-attribute name="menu" value="/WEB-INF/content/pm/menu1.jsp" />
+		<put-attribute name="body" value="/WEB-INF/content/pm/ChangePassword.jsp" />
+	</definition>
+	<definition name="orderBlotter-view" extends="layout-view">
+	<put-attribute name="menu" value="/WEB-INF/content/pm/menu1.jsp" />
+		<put-attribute name="body" value="/WEB-INF/content/pm/OrderBlotter.jsp" />
+	</definition>
+	<definition name="create-view" extends="layout-view">
+	<put-attribute name="menu" value="/WEB-INF/content/pm/createmenu.jsp" />
+		<put-attribute name="body" value="/WEB-INF/content/pm/Create.jsp" />
+	</definition>
+	<definition name="edit-view" extends="layout-view">
+	<put-attribute name="menu" value="/WEB-INF/content/pm/menu2.jsp" />
+		<put-attribute name="body" value="/WEB-INF/content/pm/Edit.jsp" />
+	</definition>
+	<definition name="amend-view" extends="layout-view">
+	<put-attribute name="menu" value="/WEB-INF/content/pm/amendmenu.jsp" />
+		<put-attribute name="body" value="/WEB-INF/content/pm/Amend.jsp" />
+	</definition>
+	
+</tiles-definitions>

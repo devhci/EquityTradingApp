@@ -1,0 +1,58 @@
+package com.sapient.equitytradingapp.pm.service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.sapient.equitytradingapp.pm.dao.ViewAccountDAO;
+import com.sapient.equitytradingapp.pm.dao.ViewPortfolioDAO;
+import com.sapient.equitytradingapp.pm.dao.ViewPortfolioSecurityRelationDAO;
+import com.sapient.equitytradingapp.pm.dao.ViewSecurityDAO;
+import com.sapient.equitytradingapp.pm.pojo.Account;
+import com.sapient.equitytradingapp.pm.pojo.Portfolio;
+import com.sapient.equitytradingapp.pm.pojo.PortfolioSecurityRelation;
+import com.sapient.equitytradingapp.pm.pojo.Security;
+import com.sapient.equitytradingapp.pm.pojo.ViewPosition;
+
+@Component
+public class ViewPositionService {
+
+	@Autowired
+	private ViewPortfolioDAO viewPortfolioDAO;
+	@Autowired
+	private ViewAccountDAO viewAccountDAO;
+	@Autowired
+	private ViewPortfolioSecurityRelationDAO portfolioSecurityRelationDAO;
+	@Autowired
+	private ViewSecurityDAO viewSecurityDAO;
+	@Autowired
+	private Account account;
+	@Autowired
+	private ViewPosition viewPosition;
+	
+	
+	public List<ViewPosition> displayPositions(String username) {
+		List<Portfolio> portfolioList=viewPortfolioDAO.getPortfolio(username);
+	//	Map<String, String> portfolioAccount=new HashMap<String, String>();
+		//List<List<Security>> displaySecurities=new ArrayList<List<Security>>();
+		List<ViewPosition> viewPositionList=new ArrayList<ViewPosition>();
+		for(Portfolio p:portfolioList){
+			String accId=p.getAccountId();
+			account=viewAccountDAO.getAccount(accId);
+			viewPosition.setPortfolioName(p.getPortfolioName());
+			viewPosition.setAccountName(account.getAccountName());
+			//portfolioAccount.put(p.getPortfolioName(),account.getAccountName());
+			List<PortfolioSecurityRelation> psRelationList=portfolioSecurityRelationDAO.getRelation(p.getPortfolioName());
+			List<Security> securityList=viewSecurityDAO.getSecurities(psRelationList);
+			viewPosition.setSecurityList(securityList);
+			viewPositionList.add(viewPosition);			
+		}
+		return viewPositionList;
+	}
+	
+
+}

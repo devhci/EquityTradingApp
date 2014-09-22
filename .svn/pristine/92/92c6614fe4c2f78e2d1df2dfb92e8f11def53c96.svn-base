@@ -1,0 +1,48 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.sapient.equitytradingapp.et.service.RemoveOrdersFromBlockOrderService;
+/**
+ *	This class is used to remove specified orders from the Block Order  
+ * @author aku172
+ *
+ */
+@ParentPackage("tiles-default")
+@Action(value="RemoveOrdersFromBlockOrder")
+@Result(name = "success", location = "BlockOrderBlotter", type = "chain")
+public class RemoveOrdersFromBlockOrderAction {
+	
+	@Autowired
+	private RemoveOrdersFromBlockOrderService removeOrderService;
+	
+	List<Long> orderIdList;
+
+	public List<Long> getOrderIdList() {
+		return orderIdList;
+	}
+
+	public void setOrderIdList(List<Long> orderIdList) {
+		this.orderIdList = orderIdList;
+	}
+	
+	public String execute()
+	{
+		//Putting a remove order flag to check success later
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		session.put("removeOrders","true"); 
+		//Calling remove function
+		removeOrderService.removeOrderFromBlock(orderIdList);			
+		return "success";
+		
+	}
+	
+
+}

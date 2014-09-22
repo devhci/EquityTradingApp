@@ -1,0 +1,76 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+	<%@taglib uri="/struts-tags" prefix="s" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="login-page.css">
+<style type="text/css">
+	h1{
+		font-size: large;
+		color: white;
+		}
+	table
+	{
+		font-size: small;
+		color:white;
+		
+	}	
+</style>
+</head>
+<body id="body">
+  <center><% String msg=null; 
+  msg =(String)request.getAttribute("zeroOrder");
+  if((msg)!=null) out.print(msg); %></center>
+  <center><% String msg1=null; 
+  msg1 =(String)request.getAttribute("sideSymbolNotEqual");
+  if((msg1)!=null) out.print(msg1); %></center>
+<center><h1>Order Blotter</h1></center>
+	<form action="CheckButtonPressed">
+	<div style="height: 200px; overflow-y: auto;">
+		<table border="1" width="100%">
+			<tr>
+			<th></th>
+			<th>ORDER ID</th>
+			<th>SIDE</th>
+			<th>SYMBOL</th>
+			<th>TOTAL QUANTITY</th>
+			<th>LIMIT PRICE</th>
+			<th>STOP PRICE</th>
+			<th>ALLOCATED QUANTITY</th>
+			<th>STATUS</th>
+			<th>MANAGER</th>
+			<th>ACCOUNT TYPE</th>
+			<th>PORTFOLIO</th>
+			<th>BLOCK ORDER ID</th>
+			</tr>
+			<s:iterator value="orderList">
+			<tr>
+				<td><input type="checkbox" name="orderIdList" value='<s:property value="orderId"/>' ></td>
+				<td><s:property value="orderId" /></td>
+				<td><s:property value="side" /></td>
+				<td><s:property value="symbol" /></td>
+				<td><s:property value="totalQuantity" /></td>
+				<td><s:property value="limitPrice" /></td>
+				<td><s:property value="stopPrice" /></td>
+				<td><s:property value="allocatedQuantity" /></td>
+				<td><s:property value="status" /></td>
+				<td><s:property value="manager" /></td>
+				<td><s:property value="accountType" /></td>
+				<td><s:property value="portfolioName" /></td>
+				<td><s:property value="blockOrderId" /></td>
+			</tr>
+			</s:iterator>
+		</table></div>
+		
+		 <center><s:submit id="button" name="buttonName" value = "Create Block Order" theme="simple" ></s:submit>
+		 <s:submit id="button" name="buttonName" value = "Add to Block Order" theme="simple" ></s:submit>
+		 
+		 </center>
+		
+		
+	</form>
+</body>
+</html>

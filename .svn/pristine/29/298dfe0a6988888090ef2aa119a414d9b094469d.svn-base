@@ -1,0 +1,68 @@
+<%@taglib uri="/struts-tags" prefix="s"%>
+
+	<center>
+		<h1>Execution Blotter</h1>
+	</center>
+	<form name="form1" action="AllocationBlock">
+		<div class="scrollableContainer">
+			<div class="scrollingArea">
+				<table class="cruises scrollable, draggable">
+					<thead>
+						<tr>
+							<th><div class="checkbox"></div></th>
+							<th><div class="execution-id">EXECUTION ID</div></th>
+							<th><div class="block-order-id">BLOCK ORDER ID</div></th>
+							<th><div class="execution-quantity">EXECUTED QUANTITY</div></th>
+							<th><div class="transaction-price">TRANSACTION PRICE</div></th>
+							<th><div class="status">STATUS</div></th>
+							<th><div class="transaction-time">TRANSACTION TIME</div></th>
+						</tr>
+					</thead>
+					<tbody>
+						<s:iterator value="executionList" status="alloc" var="obj">
+							<tr>
+								<s:set name="checkStatus" value="%{#obj.status}"></s:set>
+								<td><div class="checkbox">
+										<s:if test="%{#checkStatus=='Cancelled'}">
+											<input type="checkbox" name="executionAllocateList"
+												value='<s:property value="executionID"/>'
+												disabled="disabled">
+										</s:if>
+										<s:else>
+											<input type="checkbox" name="executionAllocateList"
+												value='<s:property value="executionID"/>'>
+										</s:else></td>
+								</div>
+								</td>
+								<td><div class="execution-id">
+										<s:property value="executionID" />
+									</div></td>
+								<td><div class="block-order-id">
+										<s:property value="blockOrderId" />
+									</div></td>
+								<td><div class="execution-quantity">
+										<s:property value="executionQuantity" />
+									</div></td>
+								<td><div class="transaction-price">
+										<s:property value="executionPrice" />
+									</div></td>
+								<td><div class="status">
+										<s:property value="status" />
+									</div></td>
+								<td><div class="transaction-time">
+										<s:property value="transactionTime" />
+									</div></td>
+							</tr>
+						</s:iterator>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<br>
+		<center>
+			<input class="button" id="button" type="submit" name="allocate"
+				value="Allocate Execution" onclick="return validateExecution()" style="width: 130px">
+		</center>
+	</form>
+
+

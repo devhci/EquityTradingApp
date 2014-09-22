@@ -1,0 +1,70 @@
+package com.sapient.equitytradingapp.pm.actions;
+
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
+import com.sapient.equitytradingapp.pm.constant.StringLiterals;
+import com.sapient.equitytradingapp.pm.pojo.User;
+import com.sapient.equitytradingapp.pm.service.LoginService;
+
+@ParentPackage(value = "tiles-default")
+@Results({ @Result(location = "pm/passToPmHome.jsp", name = "PM"),
+		@Result(location = "pm/passToEtHome.jsp", name = "ET"),
+		@Result(location = "roleSelect-view", type = "tiles", name = "BOTH"),
+		@Result(location = "login-view", type = "tiles", name = "input"),
+		@Result(location = "login-view", type = "tiles", name = "FAIL"),
+		@Result(location = "Error.jsp", name = "exception")
+
+})
+public class LoginAction extends ActionSupport {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private static Logger logger = Logger.getLogger(LoginAction.class);
+	@Autowired
+	User user;
+	@Autowired
+	LoginService loginService;
+	String role;
+	
+	public User getUser() {
+		return user;
+	}
+
+	@VisitorFieldValidator
+	public void setUser(User user) {
+		this.user = user;
+
+	}
+
+
+	public String execute() {
+
+		try {
+			Map<String, Object> session = ActionContext.getContext()
+					.getSession();
+			session.put("sessionUsername", new String(user.getUsername()));
+			session.put("sessionMessage", null);
+			role = loginService.authenticateUser(user.getUsername(),
+					user.getPassword());
+			if (role.equalsIgnoreCase(StringLiterals.FAIL)) {
+				addActionError("username and password didn't match");
+			}
+
+		} catch (Exception e) {
+			return StringLiterals.EXCEPTION;
+		}
+		return role;
+	}
+
+}

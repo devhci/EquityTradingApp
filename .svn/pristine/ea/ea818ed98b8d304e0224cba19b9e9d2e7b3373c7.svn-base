@@ -1,0 +1,67 @@
+
+<%@ taglib uri="/struts-tags" prefix="s"%>
+
+
+	<center>
+		<!--  May be redundent when integrated with tiles -->
+		<h1 style="color:white;">Amend Order</h1>
+	</center>
+	<div style="margin-left: 300px;">
+		<s:form action="amend_change" validate="true">
+			<s:actionerror />
+			<br />
+			<br />
+			<!-- order status, side and symbol -->
+			<s:textfield name="order.orderId" class="secondelement"
+				label="Order ID" readonly="true" cssStyle="background:#C0C0C0"/>
+				
+			<s:textfield name="order.symbol" class="secondelement"
+				label="Symbol" readonly="true" cssStyle="background:#C0C0C0"/>
+			
+			<s:textfield name="order.side" class="secondelement"
+				label="Side" readonly="true" cssStyle="background:#C0C0C0"/>	
+				
+			<s:textfield name="order.status" class="secondelement"
+				label="Status" readonly="true" cssStyle="background:#C0C0C0"/>		
+					
+			<s:textfield name="order.orderType" class="secondelement"
+				label="Order Type" readonly="true" cssStyle="background:#C0C0C0"/>
+			
+			<s:textfield name="order.orderQualifier" class="secondelement"
+				label="Order Qualifier" readonly="true" cssStyle="background:#C0C0C0"/>
+			
+			<s:textfield name="order.trader" class="secondelement"
+				label="Trader" readonly="true" cssStyle="background:#C0C0C0"/>
+					
+			<s:textfield name="order.accountType" class="secondelement"
+				label="Account Type" readonly="true" cssStyle="background:#C0C0C0"/>
+			
+			<s:select list="portfolio" name="order.portfolioName"
+				label="Portfolio" listKey="portfolioName" listValue="portfolioName"></s:select>
+			
+			<s:textfield name="order.totalQuantity" class="secondelement"
+				 label="Quantity" />
+
+			<s:textfield name="order.stopPrice" class="secondelement" 
+				label="Stop Price" readonly="true"/>
+
+			<s:textfield name="order.limitPrice" class="secondelement"
+				label=" Limit Price" readonly="true" />
+
+			<s:textarea rows="5" cols="50" id="comments"
+				label=" Add your comments here ">
+
+			</s:textarea>
+			
+			<s:hidden name="order.cusip" />
+			<s:hidden name="order.accountId" />
+			<s:hidden name="order.manager" />
+			
+			<s:submit cssClass="button" style="position:relative;left:-200px;"> </s:submit>
+		</s:form>
+
+	</div>
+
+
+</body>
+</html>

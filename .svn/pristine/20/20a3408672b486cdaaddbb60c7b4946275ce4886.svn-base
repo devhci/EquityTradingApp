@@ -1,0 +1,309 @@
+
+<%@taglib uri="/struts-tags" prefix="s"%>
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+<title>Order Blotter</title>
+<style type="text/css">
+
+table.cruises {
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 13px;
+	cellspacing: 0px;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+table.test th {
+	background-color: #002110;
+	color: #ffffff;
+	font-size: 15px;
+	background: -o-linear-gradient(bottom, #002110 5%, #558755 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #002110
+		), color-stop(1, #558755) );
+	background: -moz-linear-gradient(center top, #002110 5%, #558755 100%);
+	background: -o-linear-gradient(top, #002110, 558755);
+}
+
+table.test th,table.cruises td {
+	/* border-right: 2.5px solid black;
+	border-bottom: 2.5px solid black;
+	padding: 9px; */
+}
+
+table.cruises tr:nth-child(odd) {
+	background-color: #9cad9e;
+}
+
+table.cruises tr:nth-child(even) {
+	background-color: #ffffff;
+}
+
+table.cruises th:FIRST-CHILD {
+	border-left: 2.5px solid black;
+}
+
+table.cruises td:FIRST-CHILD {
+	border-left: 2.5px solid black;
+}
+
+table.cruises th {
+	border-top: 2.5px solid black;
+}
+
+} 
+div.scrollableContainer {
+	position: relative;
+	width: 1300px;
+	padding-top: 3.3em;
+	margin: 40px;
+	border: none;
+	left:50px;
+	background: none;
+}
+
+div.scrollingArea {
+	height: 400px;
+	overflow: auto;
+}
+
+table.scrollable thead tr {
+	
+}
+
+table.cruises .select {
+	width: 30px;
+	text-align: center;
+}
+
+table.cruises .orderid{
+	width: 30px;
+	text-align: center;
+}
+
+table.cruises .orderstatus {
+	width: 55px;
+	text-align: center;
+}
+
+table.cruises .symbol{
+	width: 50px;
+	text-align: center;
+}
+
+table.cruises .portfolio {
+	width: 65px;
+	text-align: center;
+}
+table.cruises .accountid{
+	width: 30px;
+	text-align: center;
+}
+
+table.cruises .side {
+	width: 30px;
+	text-align: center;
+}
+
+table.cruises .order {
+	width: 30px;
+	text-align: center;
+}
+
+table.cruises .qun{
+	width: 30px;
+	text-align: center;
+}
+
+table.cruises .stopprice {
+	width: 20px;
+	text-align: center;
+}
+table.cruises .limitprice {
+	width: 20px;
+	text-align: center;
+}
+
+table.cruises .orderqualifier{
+	width: 50px;
+	text-align: center;
+}
+
+table.cruises .accounttype {
+	width: 50px;
+	text-align: center;
+}
+
+table.cruises .trader {
+	width: 50px;
+	text-align: center;
+}
+
+
+</style>
+</head>
+
+<script>
+	function check(i) {
+		count = 0;
+		str = '';
+		for ( var x = 0; x < document.edit_form.elements["checkboxes"].length; x++) {
+			if (document.edit_form.elements["checkboxes"][x].checked == true) {
+				str += document.edit_form.elements["checkboxes"][x].value + ',';
+				count++;
+			}
+		}
+		if (count == 0) {
+			alert("You must choose at least 1 order");
+			return false;
+		} else if (count > 1 && i == 0) {
+			alert("You cannot select more than 1 order together");
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	function cancel(i) {
+		if (check(i)) {
+			if (confirm("Are you sure about cancelling the order?")) {
+				alert("You pressed OK!");
+				return true;
+			} else {
+				alert("You pressed Cancel!");
+				return false;
+			}
+		} else
+			return false;
+	}
+
+	function message_display() {
+		var message = document.getElementsByName("showMessage")[0].value;
+		if (message) {
+			alert(message);
+		}
+	}
+	window.onload = message_display;
+</script>
+
+<body>
+<center>
+	<h1 style="color: white;">Order Blotter</h1>
+	<s:hidden name="showMessage" />
+</center>
+<s:form theme="simple" name="edit_form" action="getOrderId">
+	<div style="margin-left: 5%;">
+		<table style="float: left;" id="main" >
+			<tr class="navbar">
+				<td
+					style="border-left: 2px solid #54879d; border-right: 2px solid #54879d; border-bottom: 2px solid #1f5065; border-top: 2px solid #1f5065;"><s:submit
+						value="Home" action="view-position"
+						style="background: url('/CSS/images/edit.PNG');border:0;color:white;"></s:submit></td>
+			</tr>
+			<tr class="navbar">
+				<td
+					style="border-left: 2px solid #54879d; border-right: 2px solid #54879d; border-bottom: 2px solid #1f5065; border-top: 2px solid #1f5065;"><s:submit
+						value="Create Order" action="create-order-prefill"
+						style="background: url('/CSS/images/edit.PNG');border:0;color:white;"></s:submit></td>
+			</tr>
+			<tr class="navbar">
+				<td
+					style="border-left: 2px solid #54879d; border-right: 2px solid #54879d; border-bottom: 2px solid #1f5065; border-top: 2px solid #1f5065;"><s:submit
+						value="Edit New Order" name="option"
+						style="background: url('/CSS/images/edit.PNG');border:0;color:white;"
+						onclick="return check(0)" /></td>
+			</tr>
+			<tr class="navbar">
+				<td
+					style="border-left: 2px solid #54879d; border-right: 2px solid #54879d; border-bottom: 2px solid #1f5065; border-top: 2px solid #1f5065;"><s:submit
+						value="Amend Order" name="option"
+						style="background: url('/CSS/images/edit.PNG');border:0;color:white;"
+						onclick="return check(0)" /></td>
+			</tr>
+			<tr class="navbar">
+				<td
+					style="border-left: 2px solid #54879d; border-right: 2px solid #54879d; border-bottom: 2px solid #1f5065; border-top: 2px solid #1f5065;"><s:submit
+						value="Send Order" name="option"
+						style="background: url('/CSS/images/edit.PNG');border:0;color:white;width: 80px;"
+						onclick="return check(1)" /></td>
+			</tr>
+			<tr class="navbar">
+				<td
+					style="border-left: 2px solid #54879d; border-right: 2px solid #54879d; border-bottom: 2px solid #1f5065; border-top: 2px solid #1f5065;"><s:submit
+						value="Cancel Order" name="option"
+						style="background: url('/CSS/images/edit.PNG');border:0;color:white;"
+						onclick="return cancel(0)" /></td>
+			</tr>
+		</table>
+	</div>
+	<div>
+		<%-- <s:form theme="simple" name="edit_form" action="getOrderId"> --%>
+		<!-- <div  style="width:70%;margin-left:20%;height: 398px;  overflow: auto;" > -->
+		<div id="orderlist">
+			<s:if test="errorField!=null">
+				<br />
+				<s:textfield name="errorField" style="color: white;" />
+				<br />
+			</s:if>
+			<table style="width: 70%; margin-left: 20%" bgcolor="grey" class="test">
+
+				<tr>
+					<th style="width: 6%">Select</th>
+					<th style="width: 6%">Order Id</th>
+					<th style="width: 7%">Order Status</th>
+					<th style="width: 6%">Symbol</th>
+					<th style="width: 11%">Portfolio</th>
+					<th style="width: 6%">Account ID</th>
+					<th style="width: 5%">Side</th>
+					<th style="width: 5%">Order</th>
+					<th style="width: 5%;">Quan</th>
+					<th style="width: 6%">Stop Price</th>
+					<th style="width: 6%">Limit Price</th>
+					<th style="width: 6%">Order Qualifier</th>
+					<th style="width: 6%">Account Type</th>
+					<th style="width: 6%">Trader</th>
+					<th style="width: 6%">Notes</th>
+				</tr>
+			</table>
+			<div
+				style="width: 71%; margin-left: 20%; height: 398px; overflow: auto;">
+				<table style="font-family: monospace; font-size: 14px;">
+					<s:iterator value="orderList" status="stat">
+						<tr>
+
+							<td style="width: 6%"><input type="checkbox"
+								name="checkboxes" value='<s:property value="orderId"/>'></td>
+							<%-- <td style="width: 6%"><s:textfield name="orderId"
+									readonly="true" size="4" /></td> --%>
+							<s:hidden name="orderId"></s:hidden>
+							<td style="width: 6%"><s:property value="orderId" /></td>
+							<td style="width: 6%"><s:property value="status" /></td>
+							<td style="width: 6%"><s:property value="symbol" /></td>
+							<td style="width: 10%"><s:property value="portfolioName" /></td>
+							<td style="width: 6%"><s:property value="accountId" /></td>
+							<td style="width: 5%"><s:property value="side" /></td>
+							<td style="width: 5%"><s:property value="orderType" /></td>
+							<td style="width: 5%"><s:property value="totalQuantity" /></td>
+							<td style="width: 6%"><s:property value="stopPrice" /></td>
+							<td style="width: 6%"><s:property value="limitPrice" /></td>
+							<td style="width: 6%"><s:property value="orderQualifier" /></td>
+							<td style="width: 6%"><s:property value="accountType" /></td>
+							<td style="width: 6%"><s:property value="trader" /></td>
+							<td style="width: 6%"><s:property value="notes" /></td>
+						</tr>
+					</s:iterator>
+
+				</table>
+
+			</div>
+		</div>
+
+	</div>
+	<br>
+	<br>
+
+</s:form>
+</body>
+</html>

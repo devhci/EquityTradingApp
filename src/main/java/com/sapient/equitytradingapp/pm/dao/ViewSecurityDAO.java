@@ -1,0 +1,46 @@
+package com.sapient.equitytradingapp.pm.dao;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import com.sapient.equitytradingapp.pm.pojo.PortfolioSecurityRelation;
+import com.sapient.equitytradingapp.pm.pojo.Security;
+
+@Repository
+public class ViewSecurityDAO {
+
+	private EntityManager entityManager;
+
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+
+	@Transactional
+	public List<Security> getSecurities(
+			List<PortfolioSecurityRelation> psRelationList) {
+		List<Security> security = new ArrayList<Security>();
+
+		TypedQuery<Security> q = entityManager.createQuery(
+				"select s from Security s", Security.class);
+		List<Security> list = q.getResultList();
+		for (Iterator<Security> iter = list.iterator(); iter.hasNext();) {
+			Security temp = iter.next();
+			for (PortfolioSecurityRelation ps : psRelationList) {
+				if (ps.getSecuritySymbol().equals(temp.getSymbol())) {
+					security.add(temp);
+				}
+			}
+		}
+		return security;
+	}
+}

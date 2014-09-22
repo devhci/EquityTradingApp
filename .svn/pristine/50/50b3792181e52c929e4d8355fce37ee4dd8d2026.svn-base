@@ -1,0 +1,88 @@
+<%@taglib uri="/struts-tags" prefix="s"%>
+<center><% String msg=null; 
+  msg =(String)request.getAttribute("message");
+  if((msg)!=null){%><script type="text/javascript">alert("<%=msg%>");</script><%} %> </center>
+  
+	<center>
+		<h1>Order Blotter</h1>
+	</center>
+	<form action="CheckButtonPressed">
+		<div class="scrollableContainer">
+			<div class="scrollingArea">
+				<table  class="cruises scrollable draggable"  >
+					<thead>
+						<tr>
+							<th><div class="checkbox"></div></th>
+							<th><div class="order-id">ORDER ID</div></th>
+							<th><div class="side">SIDE</div></th>
+							<th><div class="symbol">SYMBOL</div></th>
+							<th><div class="total-quantity">TOTAL QUANTITY</div></th>
+							<th><div class="limit-price">LIMIT PRICE</div></th>
+							<th><div class="stop-price">STOP PRICE</div></th>
+							<th><div class="allocated-quantity">ALLOCATED QUANTITY</div></th>
+							<th><div class="status">STATUS</div></th>
+							<th><div class="manager">MANAGER</div></th>
+							<th><div class="account-type">ACCOUNT TYPE</div></th>
+							<th><div class="portfolio">PORTFOLIO</div></th>
+							<th><div class="block-order-id">BLOCK ORDER ID</div></th>
+						</tr>
+					</thead>
+					<tbody>
+						<s:iterator value="orderList">
+							<tr>
+								<td><div class="checkbox">
+										<input type="checkbox" name="orderIdList"
+											value='<s:property value="orderId"/>'>
+									</div></td>
+								<td><div class="order-id">
+										<s:property value="orderId" />
+									</div></td>
+								<td><div class="side">
+										<s:property value="side" />
+									</div></td>
+								<td><div class="symbol">
+										<s:property value="symbol" />
+									</div></td>
+								<td><div class="total-quantity">
+										<s:property value="totalQuantity" />
+									</div></td>
+								<td><div class="limit-price">
+										<s:property value="limitPrice" />
+									</div></td>
+								<td><div class="stop-price">
+										<s:property value="stopPrice" />
+									</div></td>
+								<td><div class="allocated-quantity">
+										<s:property value="allocatedQuantity" />
+									</div></td>
+								<td><div class="status">
+										<s:property value="status" />
+									</div></td>
+								<td><div class="manager">
+										<s:property value="manager" />
+									</div></td>
+								<td><div class="account-type">
+										<s:property value="accountType" />
+									</div></td>
+								<td><div class="portfolio">
+										<s:property value="portfolioName" />
+									</div></td>
+								<td><div class="block-order-id">
+										<s:property value="blockOrderId" />
+									</div></td>
+							</tr>
+						</s:iterator>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<center>
+			<s:submit  cssClass="button" id="button" name="buttonName"
+				value="Create Block Order" theme="simple" style="width: 130px; margin-bottom: 30px;"></s:submit>
+			<s:submit cssClass="button" id="button" name="buttonName" style="width: 130px; margin-bottom: 30px;"
+				value="Add to Block Order" theme="simple"></s:submit>
+		</center>
+		
+
+
+	</form>

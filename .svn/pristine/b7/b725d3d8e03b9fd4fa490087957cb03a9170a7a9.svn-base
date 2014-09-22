@@ -1,0 +1,58 @@
+package com.sapient.equitytradingapp.et.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.sapient.equitytradingapp.et.dao.BlockOrderDAO;
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+import com.sapient.equitytradingapp.pm.dao.OrderDao;
+import com.sapient.equitytradingapp.pm.pojo.Order;
+
+@Component
+public class AddedOrdersToBlockService {
+	@Autowired
+	private BlockOrderDAO blockOrderDAO;
+	@Autowired
+	private OrderDao orderDao;
+	private List<Order> orderList = new ArrayList<Order>();
+
+	public void addOrdersToBlock(Long blockOrderId, List<Long> orderIdList) {
+		BlockOrder blockOrder = blockOrderDAO.getBlockOrderById(blockOrderId);
+		for (Long orderId : orderIdList)
+			orderList.add(orderDao.getOrderById(orderId));
+		// after this
+		double limitPrice = blockOrder.getLimitPrice();
+		double stopPrice = blockOrder.getStopPrice();
+		int quantity = blockOrder.getTotalQuantity();
+		for (Order order : orderList) {
+			quantity = quantity + order.getTotalQuantity();
+			if (order.getSide().equals("buy")) {
+				if (order.getLimitPrice() < limitPrice)
+					limitPrice = order.getLimitPrice();
+				if (order.getStopPrice() > stopPrice)
+					stopPrice = order.getStopPrice();
+			} else {
+				if (order.getLimitPrice() > limitPrice)
+					limitPrice = order.getLimitPrice();
+				if (order.getStopPrice() < stopPrice)
+					stopPrice = order.getStopPrice();
+			}
+
+		}
+		System.out.println("created all field values");
+		blockOrder.setLimitPrice(limitPrice);
+		blockOrder.setStopPrice(stopPrice);
+		blockOrder.setTotalQuantity(quantity);
+		blockOrderDAO.updateBlockOrder(blockOrder);
+		for(Order order:orderList){
+			order.setBlockOrderId(blockOrder.getBlockOrderId());
+			System.out.println("merging orders");
+			orderDao.saveUpdatedOrder(order);
+		}
+		System.out.println("orders saved to db");
+	}
+
+}

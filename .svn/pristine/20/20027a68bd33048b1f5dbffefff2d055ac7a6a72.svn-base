@@ -1,0 +1,81 @@
+package com.sapient.equitytradingapp.pm.actions;
+
+import java.util.List;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+import com.sapient.equitytradingapp.pm.pojo.Order;
+import com.sapient.equitytradingapp.pm.pojo.Portfolio;
+import com.sapient.equitytradingapp.pm.service.AmendService;
+import com.sapient.equitytradingapp.pm.service.CreateOrderPrefillFieldsService;
+
+@ParentPackage(value = "tiles-default")
+@Action(value = "/amend_change", results = {
+		@Result(location = "view-order-blotter", type = "chain",  name = "success"),
+		@Result(location = "amend-view", type = "tiles", name = "input") })
+public class AmendChangeAction extends ActionSupport{
+
+	/**
+	 * Call "Amend" interface of ET for chosen orders to persist the change.
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Autowired
+	Order order;
+
+	private List<Portfolio> portfolio;
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+
+	public List<Portfolio> getPortfolio() {
+		return portfolio;
+	}
+
+	public void setPortfolio(List<Portfolio> portfolio) {
+		this.portfolio = portfolio;
+	}
+
+	@Autowired
+	private AmendService amendService;
+	
+	@Autowired
+	CreateOrderPrefillFieldsService OrderPrefillLists;
+	
+
+	public String execute() {
+		
+		if(amendService.changeValues(order))
+			return "success";
+		addActionError("This order cannot be amended");
+		return "input";
+	}
+	@Override
+	public void validate()
+	{	
+		String manager = (String) ActionContext.getContext().getSession().get("sessionUsername");
+		portfolio = OrderPrefillLists.returnPortfolio(manager);	
+		
+		if (order.getPortfolioName().equalsIgnoreCase("1")) {
+
+			addActionError("Please select portfolio");
+
+		}
+
+		if (order.getTotalQuantity() <= 0) {
+
+			addActionError("Quantity must be greater than zero");
+		}
+	
+	}
+}	
+

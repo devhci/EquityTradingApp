@@ -1,0 +1,88 @@
+@CHARSET "ISO-8859-1";
+
+#main {
+	width: 80px; /* Spans the widsth of the page */
+	height: 50px;
+	margin: 0;
+	/* Ensures there is no space between sides of the screen and the menu */
+	z-index: 99;
+	/* Makes sure that your menu remains on top of other page elements */
+	background-color: #366b82;
+}
+
+.navbar td {
+	height: 30px;
+	width: 50px; 
+	float: up; 
+	text-align: center; 
+	list-style: none;
+	
+	font: normal bold 12px/1.2em Arial, Verdana, Helvetica;
+	padding: 0;
+	margin: 0;
+	background-color: #366b82;
+}
+.navbar h1 {
+	height: 60px;
+	width: 150px; 
+	float: up; 
+	text-align: center; 
+	list-style: none;
+	
+	font: normal bold 12px/1.2em Arial, Verdana, Helvetica;
+	padding: 0;
+	margin: 0;
+	background-color: #366b82;
+}
+.navbar a {
+	padding: 20px 0;
+	/* Adds a padding on the top and bottom so the text appears centered vertically */
+	border-left: 2px solid #54879d;
+	/* Creates a border in a slightly lighter shade of blue than the background.  Combined with the right border, this creates a nice effect. */
+	border-right: 2px solid #54879d;
+	/* Creates a border in a slightly darker shade of blue than the background.  Combined with the left border, this creates a nice effect. */
+	border-bottom: 2px solid #1f5065;
+	border-top: 2px solid #1f5065;
+	text-decoration: none; /* Removes the default hyperlink styling. */
+	color: white; /* Text color is white */
+	display: block;
+	width: 80px;
+}
+
+#orderlist tr:nth-child(odd) {
+	background-color: #9cad9e;
+}
+
+#orderlist tr:nth-child(even) {
+	background-color: #ffffff;
+}
+
+#outsidetable tr:nth-child(odd) {
+	background-color: #9cad9e;
+	color:black;
+}
+#outsidetable tr:nth-child(even) {
+	background-color: #ffffff;
+	color:black;
+}
+ 
+ .menubutton
+{
+border-left: 2px solid #54879d;
+border-right: 2px solid #54879d;
+border-bottom: 2px solid #1f5065;
+border-top: 2px solid #1f5065;
+height:60px;
+width:100px;
+background: url('/CSS/images/edit.PNG');
+color:white;
+}
+
+
+.test:{ color: 
+#5097b6; }
+.test:visited { color: 
+#5097b6; } 
+.test:hover { color: white; } 
+
+

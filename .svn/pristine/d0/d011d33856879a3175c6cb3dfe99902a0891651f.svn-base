@@ -1,0 +1,60 @@
+package com.sapient.equitytradingapp.pm.dao;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.sapient.equitytradingapp.pm.pojo.Order;
+
+@Repository
+public class CreateOrderDao {
+
+	private EntityManager entityManager;
+
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+
+	@Transactional
+	public void addOrder(Order order) {
+		// entityManager.getTransaction().begin();
+		//Order order1 = new Order();
+		//order1=order;
+		//entityManager.persist(order);
+		System.out.println(order.getAccountType());
+		System.out.println(order.getTotalQuantity());
+		System.out.println("in dao");
+	
+		
+		
+		 order.setAccountId(12345); 
+		 //order.setBlockOrderId(5);
+		 order.setCusip("abcd1234"); //from db , match with security symbol
+		 order.setManager("abhinav");//session
+		 order.setStatus("new");
+		 
+		 System.out.println(order.getCusip());
+		 System.out.println(order.getAccountId());
+		 System.out.println(order.getManager());
+		 System.out.println(order.getBlockOrderId());
+		
+	
+			entityManager.merge(order);
+		
+		
+	
+		
+		
+		
+
+		
+	}
+
+}

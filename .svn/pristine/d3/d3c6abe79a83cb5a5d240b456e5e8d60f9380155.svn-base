@@ -1,0 +1,62 @@
+package com.sapient.equitytradingapp.pm.actions;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+
+/*import com.opensymphony.xwork2.ActionContext;*/
+import com.opensymphony.xwork2.ActionSupport;
+import com.sapient.equitytradingapp.pm.pojo.Order;
+import com.sapient.equitytradingapp.pm.service.EditService;
+
+@ParentPackage(value = "tiles-default")
+@Action(value = "edit", results = {
+		@Result(location = "orderBlotter-view.jsp", type = "tiles", name = "success"),
+		@Result(location = "edit-view", type = "tiles", name = "input") })
+public class EditAction extends ActionSupport
+{
+	private static final long serialVersionUID = 1L;
+	
+	@Autowired
+	private Order order;
+	@Autowired
+	private EditService editService;
+		
+	public Order 
+	getOrder() {
+		return order;
+	}
+
+	//@VisitorFieldValidator
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+	 
+	public String execute(){
+		/*String username = (String) ActionContext.getContext().getSession().get("sessionUsername");*/
+		System.out.println("execute method");
+		if(editService.editOrder(order))		
+			return "success";
+		return "failure";
+	}
+	
+	public void validate()
+	{
+		System.out.println("validate method");
+		if(order.getOrderType()=="Market")
+		{
+			order.setStopPrice(0.0);
+			order.setLimitPrice(0.0);
+		}
+		else
+			if(order.getOrderType()=="Profitlimit")
+				order.setStopPrice(0.0);
+		else
+				order.setLimitPrice(0.0);
+	}
+
+
+
+	
+}

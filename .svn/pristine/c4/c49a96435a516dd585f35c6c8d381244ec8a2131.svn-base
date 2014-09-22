@@ -1,0 +1,19 @@
+package com.sapient.equitytradingapp.et.service;
+
+import java.util.List;
+
+import com.sapient.equitytradingapp.et.dao.BlockOrderDAO;
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+import com.sapient.equitytradingapp.pm.pojo.Order;
+
+@Component
+public class BlockOrderService {
+	@Autowired
+	private BlockOrderDAO blockOrderDao;
+	
+	public List<BlockOrder> getBlockOrders() {
+		return blockOrderDao.getDetails();
+	}
+	
+
+}

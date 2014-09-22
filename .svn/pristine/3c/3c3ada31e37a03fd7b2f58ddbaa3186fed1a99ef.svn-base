@@ -1,0 +1,230 @@
+package com.sapient.equitytradingapp.et.dao;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+import com.sapient.equitytradingapp.pm.pojo.Order;
+
+/**
+ * 
+ * @author mkum60 this class interacts with block_order table of mock_database
+ */
+@Repository
+public class BlockOrderDAO {
+
+	private static Logger logger = Logger.getLogger(BlockOrderDAO.class);
+	EntityManager entityManager;
+
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+
+	/**
+	 * 
+	 * @param trader
+	 * @return List<BlockOrder>
+	 */
+	public List<BlockOrder> getDetails(String trader) {
+
+		Query q = entityManager
+				.createQuery("Select b from BlockOrder b where b.trader =? and b.status!=?");
+		q.setParameter(1, trader);
+		q.setParameter(2, "Completed");
+		@SuppressWarnings("unchecked")
+		List<BlockOrder> list = q.getResultList();
+		logger.info("Block Order Details fetched");
+		return list;
+	}
+
+	/**
+	 * 
+	 * @param blockOrder
+	 * @return void
+	 */
+	public void save(BlockOrder blockOrder) {
+		entityManager.persist(blockOrder);
+	}
+
+	/**
+	 * 
+	 * @param blockOrder
+	 * @return void
+	 */
+	@Transactional
+	public void updateBlockOrder(BlockOrder blockOrder) {
+		entityManager.merge(blockOrder);
+	}
+
+	/**
+	 * Retrieve Block Orders for respective Id
+	 * 
+	 * @param blockOrder
+	 *            of type BlockOrder
+	 * @return
+	 */
+	@Transactional
+	public void deleteDetails(BlockOrder blockOrder) {
+		BlockOrder block = getBlockOrderById(blockOrder.getBlockOrderId());
+		entityManager.remove(block);
+	}
+
+	/**
+	 * 
+	 * @param id
+	 *            of type Long
+	 * @return List<Order>
+	 */
+	public List<Order> getOrderDetails(long id) {
+
+		TypedQuery<Order> query = entityManager.createQuery(
+				"from Order o where blockOrderId=?", Order.class);
+		query.setParameter(1, id);
+		List<Order> list = query.getResultList();
+		return list;
+	}
+
+	/**
+	 * 
+	 * @param blockOrder
+	 * @param orderList
+	 */
+	@Transactional
+	public void createNewBlockOrder(BlockOrder blockOrder, List<Order> orderList) {
+		entityManager.persist(blockOrder);
+		for (Order order : orderList) {
+			order.setBlockOrderId(blockOrder.getBlockOrderId());
+			entityManager.merge(order);
+		}
+
+	}
+
+	public BlockOrder getBlockOrderById(Integer blockOrderId) {
+
+		return entityManager.find(BlockOrder.class, blockOrderId);
+	}
+
+	public BlockOrder getBlockOrderById(Long blockOrderId) {
+
+		return entityManager.find(BlockOrder.class, blockOrderId);
+
+	}
+
+	/**
+	 * 
+	 * @param blockId
+	 * @param ltPrice
+	 * @param stopPrice
+	 *            To save edited block order in database
+	 */
+	@Transactional
+	public void persistEdit(Long blockId, double ltPrice, double stopPrice) {
+
+		BlockOrder blOrder = entityManager.find(BlockOrder.class, blockId);
+		blOrder.setLimitPrice(ltPrice);
+		blOrder.setStopPrice(stopPrice);
+		entityManager.persist(blOrder);
+
+	}
+
+	/**
+	 * 
+	 * @param side
+	 * @param symbol
+	 * @param trader
+	 * @return list of block orders : List<BlockOrder>
+	 */
+	public List<BlockOrder> getCorrespondingBlocks(String side, String symbol,
+			String trader) {
+
+		TypedQuery<BlockOrder> query = entityManager
+				.createQuery(
+						"from BlockOrder bo where bo.side = ? and bo.symbol=? and bo.trader=? and bo.status=? ",
+						BlockOrder.class);
+		query.setParameter(1, side);
+		query.setParameter(2, symbol);
+		query.setParameter(3, trader);
+		query.setParameter(4, "new");
+		return query.getResultList();
+	}
+
+	/**
+	 * 
+	 * @param blockOrderList
+	 */
+	@Transactional
+	public void cancelBlockOrder(List<BlockOrder> blockOrderList) {
+		for (BlockOrder b : blockOrderList) {
+			Query query = entityManager
+					.createQuery("update Order set blockOrderId=null where blockOrderId=?");
+			query.setParameter(1, b.getBlockOrderId());
+			query.executeUpdate();
+
+		}
+
+	}
+
+	/**
+	 * 
+	 * @param orderList
+	 *            of type List<Order>
+	 */
+	@Transactional
+	public void removeOrdersFromBlockOrder(List<Order> orderList) {
+		for (Order o : orderList) {
+			Query query = entityManager
+					.createQuery("update Order set blockOrderId=null where blockOrderId=? and orderId=?");
+			query.setParameter(1, o.getBlockOrderId());
+			query.setParameter(2, o.getOrderId());
+			query.executeUpdate();
+
+			Query query1 = entityManager
+					.createQuery("update BlockOrder set totalQuantity=totalQuantity-?,executedQuantity=executedQuantity-? where blockOrderId=?");
+			query1.setParameter(1, o.getTotalQuantity());
+			query1.setParameter(2, o.getAllocatedQuantity());
+			query1.setParameter(3, o.getBlockOrderId());
+			query1.executeUpdate();
+		}
+		if (orderList.get(0).getSide().equalsIgnoreCase("buy")) {
+			Query query7 = entityManager
+					.createQuery("update BlockOrder set limitPrice=(select min(limitPrice) from Order where blockOrderId=?), stopPrice=(select max(stopPrice) from Order where blockOrderId=?) where blockOrderId=?");
+			query7.setParameter(1, orderList.get(0).getBlockOrderId());
+			query7.setParameter(2, orderList.get(0).getBlockOrderId());
+			query7.setParameter(3, orderList.get(0).getBlockOrderId());
+			query7.executeUpdate();
+		} else if (orderList.get(0).getSide().equalsIgnoreCase("sell")) {
+			Query query7 = entityManager
+					.createQuery("update BlockOrder set limitPrice=(select max(limitPrice) from Order where blockOrderId=?), stopPrice=(select min(stopPrice) from Order where blockOrderId=?) where blockOrderId=?");
+			query7.setParameter(1, orderList.get(0).getBlockOrderId());
+			query7.setParameter(2, orderList.get(0).getBlockOrderId());
+			query7.setParameter(3, orderList.get(0).getBlockOrderId());
+			query7.executeUpdate();
+		}
+		Query query1 = entityManager
+				.createQuery("select count(orderId) from Order where blockOrderId=?");
+		query1.setParameter(1, orderList.get(0).getBlockOrderId());
+		Integer count = Integer.parseInt(query1.getSingleResult().toString());
+		Query query2 = entityManager
+				.createQuery("select b from BlockOrder b where blockOrderId=?");
+		query2.setParameter(1, orderList.get(0).getBlockOrderId());
+
+		BlockOrder blockOrder = (BlockOrder) query2.getSingleResult();
+		if (count == 0)
+			deleteDetails(blockOrder);
+
+	}
+
+}

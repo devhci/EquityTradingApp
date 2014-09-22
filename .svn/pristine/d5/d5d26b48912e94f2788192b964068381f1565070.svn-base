@@ -1,0 +1,8 @@
+package com.sapient.equitytradingapp.et.interfaces;
+
+import com.sapient.equitytradingapp.pm.pojo.Order;
+
+public interface AmendOrderInterface {
+	public boolean amendOrder(Order order);
+
+}

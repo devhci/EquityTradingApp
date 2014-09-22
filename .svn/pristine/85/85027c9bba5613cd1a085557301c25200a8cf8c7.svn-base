@@ -1,0 +1,79 @@
+<%@taglib uri="/struts-tags" prefix="s"%>
+<%
+	String msg = null;
+	msg = (String) request.getAttribute("message1");
+	if ((msg) != null) {
+%><script type="text/javascript">alert("<%=msg%>
+			");
+		</script>
+<%
+	}
+%>
+<center>
+	<font size="5" color="#339EE"><h5>Proposed Block</h5></font>
+</center>
+<form action="CreateProposedBlockOrder">
+	<div class="scrollableContainer" style="margin-left: 1%; width: 846px;">
+		<div class="scrollingArea">
+			<table class="cruises scrollable ">
+				<thead>
+					<tr>
+						<th><div class="checkbox"></div></th>
+						<th><div class="side">SIDE</div></th>
+						<th><div class="symbol">SYMBOL</div></th>
+						<th><div class="order-type">ORDER TYPE</div></th>
+						<th><div class="qualifier">QUALIFIER</div></th>
+						<th><div class="total-quantity">TOTAL QUANTITY</div></th>
+						<th><div class="open-quantity">OPEN QUANTITY</div></th>
+						<th><div class="limit-price">LIMIT PRICE</div></th>
+						<th><div class="stop-price">STOP PRICE</div></th>
+						<th><div class="status">STATUS</div></th>
+					</tr>
+				</thead>
+				<tbody>
+					<s:iterator value="proposedList">
+						<tr>
+							<td><div class="checkbox">
+									<input type="checkbox" name="proposedBlockIdList"
+										value='<s:property value="blockId"/>'>
+								</div></td>
+							<td><div class="side">
+									<s:property value="side" />
+								</div></td>
+							<td><div class="symbol">
+									<s:property value="symbol" />
+								</div></td>
+							<td><div class="order-type">
+									<s:property value="blockOrderType" />
+								</div></td>
+							<td><div class="qualifier">
+									<s:property value="qualifier" />
+								</div></td>
+							<td><div class="total-quantity">
+									<s:property value="totalQuantity" />
+								</div></td>
+							<td><div class="open-quantity">
+									<s:property value="openQuantity" />
+								</div></td>
+							<td><div class="limit-price">
+									<s:property value="limitPrice" />
+								</div></td>
+							<td><div class="stop-price">
+									<s:property value="stopPrice" />
+								</div></td>
+							<td><div class="status">Proposed</div></td>
+						</tr>
+					</s:iterator>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<center>
+		<s:submit cssClass="button" id="button" name="buttonName"
+			value="Create Block Order" theme="simple"
+			style="width: 130px; margin-bottom: 30px;"></s:submit>
+	</center>
+
+</form>
+
+

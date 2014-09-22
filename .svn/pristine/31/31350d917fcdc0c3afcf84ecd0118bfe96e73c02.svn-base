@@ -1,0 +1,45 @@
+package com.sapient.equitytradingapp.pm.actions;
+
+import java.util.Map;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
+import com.sapient.equitytradingapp.pm.pojo.User;
+import com.sapient.equitytradingapp.pm.service.LoginService;
+
+@ParentPackage(value = "tiles-default")
+@Action(value = "login", results = {
+		@Result(location = "passToPmHome.jsp", name = "PM"),
+		@Result(location = "passToEtHome.jsp", name = "ET"),
+		@Result(location = "roleSelect-view", type = "tiles", name = "BOTH"),
+		@Result(location = "login-view", type = "tiles", name = "FAIL") })
+public class LoginAction {
+
+	@Autowired
+	User user;
+	@Autowired
+	LoginService loginService;
+	public User getUser() {
+		return user;
+	}
+
+	@VisitorFieldValidator
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	 
+	public String execute() {
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		session.put("sessionUsername",new String(user.getUsername())); 
+		
+		String role=loginService.authenticateUser(user.getUsername(),user.getPassword());
+
+		return role;
+	}
+
+}

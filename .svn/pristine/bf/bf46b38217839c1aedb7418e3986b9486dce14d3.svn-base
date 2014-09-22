@@ -1,0 +1,113 @@
+package com.sapient.equitytradingapp.pm.actions;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.sapient.equitytradingapp.pm.dao.StringLiterals;
+import com.sapient.equitytradingapp.pm.service.SendForExecutionService;
+
+@Action(value = "send-for-execution", results = { @Result(location = "pm/passToOrderBlotterAction.jsp", name = "success")})
+public class SendForExecutionAction extends ActionSupport {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	List<Long> orderId;
+	String errorField;
+	private Map<Integer, Boolean> checkboxes;
+	
+	
+	public Map<Integer, Boolean> getCheckboxes() {
+		return checkboxes;
+	}
+
+	public void setCheckboxes(Map<Integer, Boolean> checkboxes) {
+		this.checkboxes = checkboxes;
+	}
+
+	public String getErrorField() {
+		return errorField;
+	}
+
+	public void setErrorField(String errorField) {
+		this.errorField = errorField;
+	}
+
+	public List<Long> getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(List<Long> orderId) {
+		this.orderId = orderId;
+	}
+
+	@Autowired
+	SendForExecutionService sendForExecutionService;
+
+	public String execute() {
+
+	/*	for(Long l:orderId){
+			System.out.print(l+" ");
+		}
+		
+		Set<Entry<Integer, Boolean>> hashMapSet =checkboxes.entrySet();
+		for (Entry<Integer, Boolean> entry : hashMapSet) {
+			System.out.print("\n" + entry.getKey().intValue());
+			System.out.print(", " + entry.getValue());
+		}*/
+		
+		
+		// Code after we are able to pass checkbox value and orderid in tiles
+		int flag = 0,flag1=0;
+		List<Long> selectedOrderId = new ArrayList<Long>();
+		
+		Set<Entry<Integer, Boolean>> hashMapSet =checkboxes.entrySet();
+		for (Entry<Integer, Boolean> entry : hashMapSet) {
+			if(entry.getValue()==true){
+				flag=1;
+				selectedOrderId.add(orderId.get(entry.getKey().intValue()));
+			}
+		}
+		
+		/*while (i < orderCheckList.size()) {
+			if (orderCheckList.get(i) == true) {
+				flag = 1;
+				selectedOrderId.add(orderId.get(i));
+			}
+			i++;
+		}
+*/
+		if (flag == 1) {
+			for (Long j : selectedOrderId)
+				{String status=sendForExecutionService.sendOrderForExecution(j);
+				if(status.equalsIgnoreCase(StringLiterals.FAILURE))
+					flag1=1;
+				}
+		} else {
+			addFieldError(errorField,
+					"You must select atleast one Checkbox to perform this action");
+			return StringLiterals.INPUT;
+		}
+
+	//	String status = sendForExecutionService.sendOrderForExecution(14L);
+		if(flag1==1)
+			addFieldError(errorField,"This order cannot be sent for execution.");
+		else
+			addFieldError(errorField,"Order successfully sent for execution.");
+		return StringLiterals.SUCCESS;
+	}
+
+	public void validate() {
+
+	}
+
+}

@@ -1,0 +1,298 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@taglib uri="/struts-tags" prefix="s"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="login-page.css">
+<script src="JS/dragtable.js"></script>
+<script>
+	function validateRemove()
+	{
+		
+		var count1 = 0;
+		for (var x = 0; x < document.form1.elements["orderIdList"].length; x++) {
+			
+			if (document.form1.elements["orderIdList"][x].checked == true) {
+				
+				count1++;
+			}
+		}
+		if (count1 == 0) {
+			alert("You must choose at least 1 order to remove");
+			return false;
+		} /* else if (count1 > 1) {
+			alert("You cannot edit more than 1 order together");
+			return false;
+		} */ else {
+			return true;
+		}
+	}
+	
+	
+</script>
+<style type="text/css">
+h1 {
+	font-size: large;
+	color: white;
+}
+
+table {
+	font-size: small;
+	color: black;
+}
+
+* {
+	padding: 0;
+	margin: 0;
+}
+
+table.cruises {
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 10px;
+	cellspacing: 0px;
+	border-collapse: collapse;
+	width: 1000px;
+}
+
+table.cruises th {
+	background-color: #002110;
+	color: #ffffff;
+	font-size: 10px;
+	background: -o-linear-gradient(bottom, #002110 5%, #558755 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #002110
+		), color-stop(1, #558755) );
+	background: -moz-linear-gradient(center top, #002110 5%, #558755 100%);
+	background: -o-linear-gradient(top, #002110, 558755);
+}
+
+table.cruises th,table.cruises td {
+	border-right: 2px solid black;
+	border-bottom: 2px solid black;
+	padding: 3px;
+}
+
+table.cruises tr:nth-child(odd) {
+	background-color: #9cad9e;
+	line-height: 16px;
+}
+
+table.cruises tr:nth-child(even) {
+	background-color: #ffffff;
+	line-height: 16px;
+}
+
+div.scrollableContainer5 {
+	position: relative;
+	width: 1000px;
+	padding-top: 2.5em;
+	margin: 0px;
+	border: none;
+	background: none;
+}
+
+div.scrollingArea5 {
+	height: 150px;
+	overflow: auto;
+}
+
+table.scrollable thead tr {
+	left: 0;
+	top: 0;
+	position: absolute;
+}
+
+table.cruises .order-id5 {
+	width: 65px;
+	text-align: center;
+}
+
+table.cruises .side5 {
+	width: 60px;
+	text-align: center;
+}
+
+table.cruises .symbol5 {
+	width: 60px;
+	text-align: center;
+}
+
+table.cruises .total-quantity5 {
+	width: 100px;
+	text-align: center;
+}
+
+table.cruises .checkbox5 {
+	width: 12px;
+	text-align: center;
+}
+
+table.cruises .limit-price5 {
+	width: 100px;
+	text-align: center;
+}
+
+table.cruises .stop-price5 {
+	width: 100px;
+	text-align: center;
+}
+
+table.cruises .open-quantity5 {
+	width: 100px;
+	text-align: center;
+}
+
+table.cruises .allocated-quantity5 {
+	width: 100px;
+	text-align: center;
+}
+
+table.cruises .status5 {
+	width: 80px;
+	text-align: center;
+}
+
+table.cruises .manager5 {
+	width: 80px;
+	text-align: center;
+}
+
+table.cruises .account-type5 {
+	width: 100px;
+	text-align: center;
+}
+
+table.cruises .portfolio5 {
+	width: 100px;
+	text-align: center;
+}
+
+table.cruises .block-order-id5 {
+	width: 100px;
+	text-align: center;
+}
+</style>
+</head>
+<body>
+
+	<%
+		String msg = null;
+		msg = (String) request.getAttribute("message1");
+		if ((msg) != null) {
+	%><script type="text/javascript">alert("<%=msg%>
+			");
+		</script>
+	<%
+		}
+	%>
+	<center>
+		<h1>Block Contents</h1>
+	</center>
+	<center>
+		<form name="form1" action="CheckOrderButtonPressed">
+		<div class="scrollableContainer5">
+			<div class="scrollingArea5">
+				<table class="cruises scrollable5, draggable">
+					<thead>
+						<tr>
+							<th><div class="checkbox5"></div></th>
+							<th><div class="order-id5">ORDER ID</div></th>
+							<th><div class="side5">SIDE</div></th>
+							<th><div class="total-quantity5">TOTAL QUANTITY</div></th>
+							<th><div class="limit-price5">LIMIT PRICE</div></th>
+							<th><div class="stop-price5">STOP PRICE</div></th>
+							<th><div class="open-quantity5">OPEN QUANTITY</div></th>
+							<th><div class="allocated-quantity5">ALLOCATED
+									QUANTITY</div></th>
+							<th><div class="status5">STATUS</div></th>
+							<th><div class="manager5">MANAGER</div></th>
+							<th><div class="account-type5">ACCOUNT TYPE</div></th>
+							<th><div class="portfolio5">PORTFOLIO</div></th>
+							<th><div class="block-order-id5">BLOCK ORDER ID</div></th>
+						</tr>
+					</thead>
+					<tbody>
+						<s:iterator value="orderList">
+							<tr>
+								<td><div class="checkbox5">
+										<input type="checkbox" name="orderIdList"
+											value='<s:property value="orderId"/>'>
+									</div></td>
+								<td><div class="order-id5">
+										<s:property value="orderId" />
+									</div></td>
+								<td><div class="side5">
+										<s:property value="side" />
+									</div></td>
+								<td><div class="total-quantity5">
+										<s:property value="totalQuantity" />
+									</div></td>
+								<td><div class="limit-price5">
+										<s:property value="limitPrice" />
+									</div></td>
+								<td><div class="stop-price5">
+										<s:property value="stopPrice" />
+									</div></td>
+								<td><div class="open-quantity5">
+										<s:property value="openQuantity" />
+									</div></td>
+								<td><div class="allocated-quantity5">
+										<s:property value="allocatedQuantity" />
+									</div></td>
+								<td><div class="status5">
+										<s:property value="status" />
+									</div></td>
+								<td><div class="manager5">
+										<s:property value="manager" />
+									</div></td>
+								<td><div class="account-type5">
+										<s:property value="accountType" />
+									</div></td>
+								<td><div class="portfolio5">
+										<s:property value="portfolio" />
+									</div></td>
+								<td><div class="block-order-id5">
+										<s:property value="blockOrderId" />
+									</div></td>
+							</tr>
+						</s:iterator>
+					</tbody>
+				</table>
+			</div>
+		</div>
+			<%-- 
+				<s:iterator value="orderList">
+					<tr>
+						<td><input type="checkbox" name="orderIdList"
+							value='<s:property value="orderId"/>'></td>
+						<td><s:property value="orderId" /></td>
+						<td><s:property value="side" /></td>
+						<td><s:property value="symbol" /></td>
+
+						<td><s:property value="totalQuantity" /></td>
+						<td><s:property value="limitQuantity" /></td>
+						<td><s:property value="stopPrice" /></td>
+						<td><s:property value="executedQuantity" /></td>
+						<td><s:property value="openQuantity" /></td>
+						<td><s:property value="status" /></td>
+						<td><s:property value="manager" /></td>
+						<td><s:property value="accountType" /></td>
+						<td><s:property value="portfolio" /></td>
+						<td><s:property value="blockOrderId" /></td>
+					</tr>
+				</s:iterator>
+
+			</table> --%>
+			<input type="hidden" name="blockOrderId"
+				value='<s:property value="blockOrderId" />'> <br>
+			
+			<input class="button" id="button" type="submit" name="buttonName"
+				value="Remove Orders" onclick="return validateRemove()" style="width: 100px">
+
+		</form>
+
+	</center>
+</body>
+</html>

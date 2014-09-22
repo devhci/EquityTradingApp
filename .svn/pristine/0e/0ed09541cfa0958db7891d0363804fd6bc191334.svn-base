@@ -1,0 +1,62 @@
+package com.sapient.equitytradingapp.pm.actions;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.sapient.equitytradingapp.pm.dao.CreateOrderPrefillPortfolioNameDAO;
+import com.sapient.equitytradingapp.pm.dao.CreateOrderPrefillTraderDAO;
+import com.sapient.equitytradingapp.pm.pojo.Portfolio;
+import com.sapient.equitytradingapp.pm.pojo.User;
+
+@ParentPackage(value = "tiles-default")
+@Action(value = "create-order-prefill", results = {
+		@Result(location = "create-view", type = "tiles", name = "success") })
+public class CreateOrderPrefillFieldsAction {
+	
+	@Autowired
+	CreateOrderPrefillTraderDAO createOrderPrefillTraderDAO;
+	
+	@Autowired
+	CreateOrderPrefillPortfolioNameDAO createOrderPrefillPortfolioNameDAO;
+	
+	List<User> trader;
+	List<Portfolio> portfolio;
+	
+	public List<User> getTrader() {
+		return trader;
+	}
+
+	public void setTrader(List<User> trader) {
+		this.trader = trader;
+	}
+
+	public List<Portfolio> getPortfolio() {
+		return portfolio;
+	}
+
+	public void setPortfolio(List<Portfolio> portfolio) {
+		this.portfolio = portfolio;
+	}
+
+	public String execute(){
+		System.out.println("LALALLALLALALALLALAALLALALALALALALAL");
+		String manager = (String) ActionContext.getContext().getSession().get("sessionUsername");
+		trader=new ArrayList<User>();
+		trader=createOrderPrefillTraderDAO.prefillTraderDB();
+	for(User u : trader)
+		System.out.println(u.getUsername());
+	portfolio=new ArrayList<Portfolio>();
+		portfolio= createOrderPrefillPortfolioNameDAO.prefillPortfolioDB(manager);
+		for(Portfolio p : portfolio)	{
+			System.out.println(p.getPortfolioName()+" "+p.getUsername());
+		}
+		return "success";
+	}
+	
+}

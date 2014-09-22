@@ -1,0 +1,90 @@
+package com.sapient.equitytradingapp.et.pojo;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name="allocation")
+public class Allocation {
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="allocation_id")
+	private String allocationId;
+	@Column(name="side")	
+	private String side;
+    @Column(name="transaction_price")
+	private Double transactionPrice;
+	@Column(name="transaction_fee")
+	private Double transactionFee;
+	@Column(name="allocated_quantity")
+	private Integer allocatedQuantity;
+	@Column(name="open_quantity")
+	private Integer openQuantity;
+	@Column(name="status")
+	private String status;
+    @Column(name="order_id")
+	private long orderId;
+    @Column(name="execution_id")
+	private String executionId;
+	public String getAllocationId() {
+		return allocationId;
+	}
+	public void setAllocationId(String allocationId) {
+		this.allocationId = allocationId;
+	}
+	public String getSide() {
+		return side;
+	}
+	public void setSide(String side) {
+		this.side = side;
+	}
+	public Double getTransactionPrice() {
+		return transactionPrice;
+	}
+	public void setTransactionPrice(Double transactionPrice) {
+		this.transactionPrice = transactionPrice;
+	}
+	public Double getTransactionFee() {
+		return transactionFee;
+	}
+	public void setTransactionFee(Double transactionFee) {
+		this.transactionFee = transactionFee;
+	}
+	public Integer getAllocatedQuantity() {
+		return allocatedQuantity;
+	}
+	public void setAllocatedQuantity(Integer allocatedQuantity) {
+		this.allocatedQuantity = allocatedQuantity;
+	}
+	public Integer getOpenQuantity() {
+		return openQuantity;
+	}
+	public void setOpenQuantity(Integer openQuantity) {
+		this.openQuantity = openQuantity;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public long getOrderId() {
+		return orderId;
+	}
+	public void setOrderId(long orderId) {
+		this.orderId = orderId;
+	}
+	public String getExecutionId() {
+		return executionId;
+	}
+	public void setExecutionId(String executionId) {
+		this.executionId = executionId;
+	}
+	
+}

@@ -1,0 +1,21 @@
+package com.sapient.equitytradingapp.pm.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.sapient.equitytradingapp.pm.dao.ForgotPasswordAndChangePasswordDao;
+
+@Component
+public class ForgotPasswordService {
+@Autowired
+ForgotPasswordAndChangePasswordDao forgotPasswordDao;
+
+
+public String authenticate(String username,String securityAnswer){
+	
+	System.out.println("inside service ");
+	String result=forgotPasswordDao.forgotpassword(username,securityAnswer);
+	return result;
+}	
+
+}

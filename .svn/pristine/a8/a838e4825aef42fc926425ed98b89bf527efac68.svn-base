@@ -1,0 +1,92 @@
+package com.sapient.equitytradingapp.et.pojo;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.springframework.stereotype.Component;
+
+@Component
+@Entity
+@Table(name = "execution")
+public class Execution {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "execution_id")
+	private long executionID;
+	@Column(name = "block_order_id")
+	private Long blockOrderId;
+	@Column(name = "execution_quantity")
+	private int executionQuantity;
+	@Column(name = "trade_execution_id")
+	private int tradeExecutionId;
+	@Column(name = "execution_price")
+	private double executionPrice;
+	
+	@Column
+	private String status;
+	@Column(name = "transaction_time")
+	private Date transactionTime;
+
+	public long getExecutionID() {
+		return executionID;
+	}
+
+	public void setExecutionID(long executionID) {
+		this.executionID = executionID;
+	}
+
+	public Long getBlockOrderId() {
+		return blockOrderId;
+	}
+
+	public void setBlockOrderId(Long blockOrderId) {
+		this.blockOrderId = blockOrderId;
+	}
+
+	public int getExecutionQuantity() {
+		return executionQuantity;
+	}
+
+	public void setExecutionQuantity(int executionQuantity) {
+		this.executionQuantity = executionQuantity;
+	}
+
+	public int getTradeExecutionId() {
+		return tradeExecutionId;
+	}
+
+	public void setTradeExecutionId(int tradeExecutionId) {
+		this.tradeExecutionId = tradeExecutionId;
+	}
+
+	public double getExecutionPrice() {
+		return executionPrice;
+	}
+
+	public void setExecutionPrice(double executionPrice) {
+		this.executionPrice = executionPrice;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Date getTransactionTime() {
+		return transactionTime;
+	}
+
+	public void setTransactionTime(Date transactionTime) {
+		this.transactionTime = transactionTime;
+	}
+
+}

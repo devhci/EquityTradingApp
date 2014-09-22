@@ -1,0 +1,4 @@
+password.mismatch=The passwords do not match. Its Case Sensitive.
+password.short=Enter a password with at least 6 characters.
+
+

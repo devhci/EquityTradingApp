@@ -1,0 +1,75 @@
+package com.sapient.equitytradingapp.et.dao;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.sapient.equitytradingapp.et.pojo.ProposedBlockOrder;
+
+/**
+ * Class to interact with proposed_block_order table
+ * 
+ * @author mkum60
+ * 
+ */
+@Repository
+public class ProposedBlockOrderDAO {
+	private EntityManager entityManager;
+
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+
+	/**
+	 * to save a proposed block order
+	 * 
+	 * @param proposedBlockOrder
+	 *            of type ProposedBlockOrder
+	 */
+	@Transactional
+	public void saveProposedBlockOrder(ProposedBlockOrder proposedBlockOrder) {
+		entityManager.persist(proposedBlockOrder);
+	}
+
+	/**
+	 * to get PropsedBlockOrders for a trader
+	 * 
+	 * @param trader
+	 *            of type String
+	 * @return List of ProposedBlockOrder
+	 */
+	public List<ProposedBlockOrder> getProposedOrdersForTrader(String trader) {
+		TypedQuery<ProposedBlockOrder> query = entityManager.createQuery(
+				"from ProposedBlockOrder p where trader=?",
+				ProposedBlockOrder.class);
+		query.setParameter(1, trader);
+		return query.getResultList();
+
+	}
+
+	/**
+	 * to delete records form proposedBlockOrder table
+	 */
+	@Transactional
+	public void deleteRecords() {
+		Query query = entityManager
+				.createNativeQuery("delete from proposed_block_order");
+		query.executeUpdate();
+	}
+
+	public ProposedBlockOrder getBlockById(Long proposedBlockId) {
+
+		return entityManager.find(ProposedBlockOrder.class, proposedBlockId);
+	}
+}

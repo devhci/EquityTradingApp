@@ -1,0 +1,90 @@
+package com.sapient.equitytradingapp.et.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+import com.sapient.equitytradingapp.pm.dao.OrderDao;
+import com.sapient.equitytradingapp.pm.pojo.Order;
+
+@Component
+public class ProposedBlockService {
+@Autowired
+private OrderDao orderDao;
+@Autowired
+private BlockOrder blockOrder;
+
+
+
+	public List<BlockOrder> getProposedList(List<Order> orderList) {
+		List<BlockOrder> blockOrderList=new ArrayList<BlockOrder>();
+		boolean flag[]=new boolean[orderList.size()];
+		
+		for(int i=0;i<orderList.size();i++)
+		{
+			
+				for(int j=i+1;j<orderList.size();j++)
+				{
+					if(orderList.get(j).getSide()==orderList.get(i).getSide()&& orderList.get(j).getSymbol()==orderList.get(i).getSymbol() && flag[j]==false)
+					{						
+						blockOrder.setSide(orderList.get(j).getSide());
+						blockOrder.setSymbol(orderList.get(j).getSymbol());
+						blockOrder.setTotalQuantity(blockOrder.getTotalQuantity()+orderList.get(j).getTotalQuantity());
+						blockOrder.setExecutedQuantity(blockOrder.getExecutedQuantity()+orderList.get(j).getAllocatedQuantity());
+						blockOrder.setOpenQuantity(blockOrder.getOpenQuantity()+(orderList.get(j).getTotalQuantity()-orderList.get(j).getAllocatedQuantity()));
+						if(orderList.get(j).getSide()=="BUY")
+						{
+							blockOrder.setLimitPrice(min(blockOrder.getLimitPrice(),orderList.get(j).getLimitPrice()));
+						}
+						else
+						{
+							blockOrder.setStopPrice(max(blockOrder.getStopPrice(),orderList.get(j).getStopPrice()));
+						}
+						if(orderList.get(j).getSide()=="SELL")
+						{
+							blockOrder.setLimitPrice(max(blockOrder.getLimitPrice(),orderList.get(j).getLimitPrice()));
+						}
+						else
+						{
+							blockOrder.setStopPrice(min(blockOrder.getStopPrice(),orderList.get(j).getStopPrice()));
+						}
+						blockOrder.setStatus(orderList.get(i).getStatus());
+						flag[j]=true;						
+					}
+					blockOrderList.add(blockOrder);
+					blockOrder=null;
+					
+				}
+		}
+		return blockOrderList;
+			
+	
+		
+	}
+
+
+
+	private Double min(Double price, double price2) {
+		if(price==0 || price==null)
+		return price2;
+		if(price<price2)
+			return price;
+		else
+			return price2;
+	}
+	
+	private Double max(Double price, double price2) {
+		if(price==0 || price==null)
+		return price2;
+		if(price<price2)
+			return price2;
+		else
+			return price;
+	}
+
+
+	
+}

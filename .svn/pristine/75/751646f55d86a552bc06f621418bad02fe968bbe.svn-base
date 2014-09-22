@@ -1,0 +1,18 @@
+<%@taglib uri="/struts-tags" prefix="s"%>
+	<h1>Change Password</h1>
+	<table>
+		<s:form theme="simple">
+			<tr>
+				<td>New Password:</td>
+				<td><s:textfield name="newPassword" value="%{username}" /></td>
+			</tr>
+			<tr>
+				<td>Confirm Password:</td>
+				<td><s:textfield name="confirmPassword" /></td>
+			</tr>
+			<tr>
+				<td colspan="2" align ="right"><s:submit value="OK" action="Login" />
+				<s:submit value="Cancel" action="Login" /></td>
+			</tr>
+		</s:form>
+	</table>

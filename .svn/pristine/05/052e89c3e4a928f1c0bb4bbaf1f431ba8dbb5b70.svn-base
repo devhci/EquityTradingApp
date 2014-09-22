@@ -1,0 +1,23 @@
+package com.sapient.equitytradingapp.pm.dao;
+
+public class StringLiterals {
+public static String CANCELLED="cancelled";
+public static String INPUT="input";
+public static String SUCCESS="success";
+public static String COMPLETED="completed";
+public static String MARKETPRICE="Market Price";
+public static String PROFITLIMIT="Profit Limit";
+public static String STOPLIMIT="Stop Limit";
+public static String ANY="any";
+public static String CANCEL="cancel";
+public static String EDIT="edit";
+public static String AMEND="amend";
+public static String CANCELORDER="Cancel Order";
+public static String EDITORDER="Edit Order";
+public static String AMENDORDER="Amend Order";
+public static String FAIL="fail";
+public static String FAILURE="failure";
+public static String NEW="new";
+public static String SENT="sent for execution";
+
+}

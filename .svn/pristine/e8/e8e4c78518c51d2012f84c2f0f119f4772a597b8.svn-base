@@ -1,0 +1,46 @@
+package com.sapient.equitytradingapp.pm.actions;
+
+import java.util.List;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.sapient.equitytradingapp.pm.pojo.StringLiterals;
+import com.sapient.equitytradingapp.pm.service.CancelOrderService;
+
+/**
+ * Call "Cancel" service for chosen orders.
+ */
+@Action(value = "Cancel", results = { @Result(location = "pm/passToOrderBlotterAction.jsp") })
+public class CancelAction extends ActionSupport {
+
+	private static final long serialVersionUID = 1L;
+
+	@Autowired
+	CancelOrderService cancelOrderService;
+	List <Long> checkboxes;
+			
+	public List<Long> getCheckboxes() {
+		return checkboxes;
+	}
+
+	public void setCheckboxes(List<Long> checkboxes) {
+		this.checkboxes = checkboxes;
+	}
+
+	public String execute() {
+
+		String status = cancelOrderService.cancelOrder(checkboxes.get(0));
+			if (status.equalsIgnoreCase(StringLiterals.CANCELLED))
+				addActionError("Order successfully cancelled");
+			else if (status.equalsIgnoreCase(StringLiterals.COMPLETED))
+				addActionError("The completed order cannot be cancelled");
+			else
+				addActionError("The order sent to Broker cannot be cancelled");
+		
+		return StringLiterals.SUCCESS;
+	}
+
+}

@@ -1,0 +1,26 @@
+package com.sapient.equitytradingapp.pm.pojo;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.springframework.stereotype.Component;
+@Component
+@Entity
+@Table(name="security")
+public class Security {
+
+	@Id
+	String cusip;
+	@Column(name="symbol")
+	String symbol;
+	@Column(name="securit_name")
+	String securityName;
+	@Column(name="expir_date")
+	Date expiryDate;
+	@Column(name="portfolio_name")
+	String portfolioName;
+}

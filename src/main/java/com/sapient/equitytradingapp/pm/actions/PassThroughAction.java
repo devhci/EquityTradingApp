@@ -1,0 +1,26 @@
+package com.sapient.equitytradingapp.pm.actions;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Actions;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.sapient.equitytradingapp.pm.constant.StringLiterals;
+
+@ParentPackage(value = "tiles-default")
+@Actions({
+		@Action(value = "pass-through-login", results = { @Result(location = "login-view", type = "tiles", name = "success") }),
+		@Action(value = "pass-through-forgot-password", results = { @Result(location = "forgotPassword-view", type = "tiles") }),
+		@Action(value = "pass-through-change-password", results = { @Result(location = "changePassword-view", type = "tiles") }),
+		@Action(value = "OrderBlotter", results = { @Result(location = "orderBlotter-view", type = "tiles") }), })
+public class PassThroughAction extends ActionSupport {
+
+	private static final long serialVersionUID = 1L;
+
+	public String execute() {
+
+		System.out.println("in passthrough");
+		return StringLiterals.SUCCESS;
+	}
+}

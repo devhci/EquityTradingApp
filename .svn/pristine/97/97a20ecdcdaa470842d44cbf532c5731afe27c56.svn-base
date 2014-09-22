@@ -1,0 +1,94 @@
+package com.sapient.equitytradingapp.pm.dao;
+
+import java.util.Scanner;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.sapient.equitytradingapp.pm.pojo.User;
+
+@Component
+public class ForgotPasswordAndChangePasswordDao {
+	@Autowired
+	User user;
+
+	@Autowired
+	User user1;
+
+	private EntityManager manager;
+
+	@PersistenceContext
+	public void setManager(EntityManager manager) {
+		this.manager = manager;
+	}
+
+	@Transactional
+	public String forgotpassword(String username, String securityAnswer) {
+		System.out.println("in dao");
+		user = manager.find(User.class, username);
+		if (user != null) {
+
+			/*
+			 * String
+			 * q="Select question from users where username='"+username+"'";
+			 * Query query = manager.createQuery(q); String question=(String)
+			 * query.getSingleResult();
+			 */
+
+			String question = user.getQuestion();
+			System.out.println(question);
+			/*
+			 * String
+			 * q2="Select question from users where username='"+username+"'";
+			 * Query query2 = manager.createQuery(q2);
+			 */
+			String dbAnswer = user.getAnswer();
+			System.out.println(dbAnswer);
+
+			if (securityAnswer.equalsIgnoreCase(dbAnswer))
+				return "success";
+			else
+				System.out.println("You entered the wrong answer");
+		} else
+			System.out.println("User doesnot exist");
+		return "failure";
+	}
+
+	@Transactional
+	public String changepassword(String newPassword, String confirmPassword) {
+		{
+
+			System.out.println("in dao of change password");
+			// String
+			// s="Update User u set u.password='"+newPassword+"' where u.username='"+user.getUsername()+"'";
+			// System.out.println("query is :"+s);
+			// Query q=manager.createQuery(s);
+
+			// q.executeUpdate();
+			System.out.println("username:" + user.getUsername());
+			user = manager.find(User.class, user.getUsername());
+
+			if (newPassword.equalsIgnoreCase(confirmPassword)) {
+				user1 = manager.find(User.class, user.getUsername());
+				user1.setPassword(newPassword);
+				System.out.println("username:" + user1.getUsername());
+				System.out.println("in change password transacting");
+				System.out.println(user1.getPassword());
+
+				manager.merge(user1);
+
+				System.out.println("success");
+				return "success";
+			} else
+				System.out.println("Passwords do not match");
+			return "failure";
+		}
+
+	}
+}

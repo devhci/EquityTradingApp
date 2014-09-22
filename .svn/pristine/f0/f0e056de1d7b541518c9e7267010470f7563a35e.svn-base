@@ -1,0 +1,61 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import java.util.List;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.sapient.equitytradingapp.et.jms.Receiver;
+import com.sapient.equitytradingapp.et.service.SentForExecutionService;
+
+/**
+ * This class will fetch the list of orders to be sent for execution, then will
+ * send the list to the service, which in turn will put the marshalled object on
+ * the JMS Queue
+ * 
+ * @author nnihal
+ * 
+ */
+@ParentPackage("tiles-default")
+@Action(value = "SentForExecution")
+@Results({
+		@Result(name = "success", location = "ViewBlockOrder", type = "chain"),
+		@Result(name = "failure", location = "blockOrder1", type = "tiles") })
+public class SentForExecutionAction extends ActionSupport {
+
+	private static final long serialVersionUID = 1L;
+	@Autowired
+	private SentForExecutionService sentForExecutionService;
+	@Autowired
+	Receiver receiver;
+	public Receiver getReceiver() {
+		return receiver;
+	}
+
+	public void setReceiver(Receiver receiver) {
+		this.receiver = receiver;
+	}
+
+	private List<Long> blockOrderIdList;
+
+	public List<Long> getBlockOrderIdList() {
+		return blockOrderIdList;
+	}
+
+	public void setBlockOrderIdList(List<Long> blockOrderIdList) {
+		this.blockOrderIdList = blockOrderIdList;
+	}
+
+	public String execute() {
+		if (sentForExecutionService.sentForExecution(blockOrderIdList)) {
+			return "success";
+		}
+
+		return "failure";
+	}
+
+}

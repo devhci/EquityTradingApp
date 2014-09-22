@@ -1,0 +1,111 @@
+package com.sapient.equitytradingapp.pm.dao;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+import com.sapient.equitytradingapp.pm.pojo.Order;
+
+@Repository
+public class OrderDao {
+	private EntityManager manager;
+	@Autowired
+	BlockOrder blockOrder;
+	
+	public EntityManager getManager() {
+		return manager;
+	}
+
+	@PersistenceContext
+	public void setManager(EntityManager manager) {
+		this.manager = manager;
+	}
+
+	@Transactional
+	public void createOrder(Order orderBlotter) {
+		orderBlotter.setStatus("new");
+		manager.persist(orderBlotter);
+	}
+
+	@Transactional
+	public void sendOrder(int orderId) {
+
+		String q = "update Order set status='sent' where orderId='"
+				+ orderId + "'";
+		Query query = manager.createQuery(q);
+		query.executeUpdate();
+	}
+
+	@Transactional
+	public void cancelOrder(int orderId) {
+
+		String q = "update Order set status='cancelled' where orderId='"
+				+ orderId + "'";
+		Query query = manager.createQuery(q);
+		query.executeUpdate();
+	}
+
+	@Transactional
+	public void editOrder(Order orderBlotter) {
+		Order ob = manager.find(Order.class, 3);
+		String status = ob.getStatus();
+		ob = orderBlotter;
+		ob.setStatus(status);
+		manager.merge(ob);
+	}
+
+	public List<Order> getOrdersForTrader(String trader) {
+		TypedQuery<Order> query = manager
+				.createQuery(
+						"from Order o where o.trader = ? and o.status=? and o.blockOrderId is null",
+						Order.class);
+		query.setParameter(1, trader);
+		query.setParameter(2, "sent for execution");
+		return query.getResultList();
+	}
+
+	public Order getOrderById(Long orderId) {
+		if(manager==null)
+			System.out.println("manager is null");
+		return manager.find(Order.class, orderId);
+	}
+
+	@Transactional
+	public List<BlockOrder> getProposedList(String trader){
+	
+	
+		Query query=manager.createQuery("select side,symbol,sum(totalQuantity) as totalQuantity, sum(allocatedQuantity) as executedQuantity, (totalQuantity-allocatedQuantity) as openQuantity, min(limitPrice) as limitPrice,max(stopPrice) as stopPrice,status from Order where trader=? and status=? and block_order_id is null group by side,symbol");		
+		
+		query.setParameter(1, trader);
+		System.out.println(trader);
+		query.setParameter(2, "sent for execution");
+		
+		List<Object[]> list=query.getResultList();
+		List<BlockOrder> proposedList=new ArrayList<BlockOrder>();
+		BlockOrder tempOrder;
+		for (Object[] result : list) {
+	
+			tempOrder = new BlockOrder();
+			tempOrder.setSide((String)result[0]);
+			tempOrder.setSymbol((String)result[1]);
+			tempOrder.setTotalQuantity(Integer.parseInt(result[2].toString()));
+		
+			tempOrder.setExecutedQuantity(Integer.parseInt(result[3].toString()));
+			tempOrder.setOpenQuantity(Integer.parseInt(result[4].toString()));
+			tempOrder.setLimitPrice(Double.parseDouble(result[5].toString()));
+			tempOrder.setStopPrice(Double.parseDouble(result[6].toString()));
+			tempOrder.setStatus((String)result[7]);
+			proposedList.add(tempOrder);
+			System.out.println(proposedList);
+		}
+		return proposedList;
+}}

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:jms="http://www.springframework.org/schema/jms"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-3.1.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+http://www.springframework.org/schema/jms 
+http://www.springframework.org/schema/jms/spring-jms-3.0.xsd">
+
+	<context:component-scan base-package="com"></context:component-scan>
+	<context:annotation-config></context:annotation-config>
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<bean id="myEmf"
+		class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="mypersistentunit" />
+	</bean>
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="myEmf" />
+	</bean>
+	<bean class="org.springframework.orm.hibernate4.HibernateExceptionTranslator"></bean>
+
+
+
+
+
+	<!-- <bean id="activeMQConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory"> 
+		<property name="brokerURL" value="tcp://localhost:61616" /> </bean> <bean 
+		id="testQ" class="org.apache.activemq.command.ActiveMQQueue"> </bean> <bean 
+		id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate"> <property 
+		name=" connectionFactory" ref=" activeMQConnectionFactory" /> </bean> -->
+
+
+	<!-- <bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory" 
+		p:brokerURL="tcp://localhost:61616" /> <bean id="destination" class="org.apache.activemq.command.ActiveMQQueue"> 
+		<constructor-arg value="TEST.FOO" /> </bean> <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate" 
+		p:connectionFactory-ref="connectionFactory" p:defaultDestination-ref="destination" 
+		/> <bean id="messageProducer" class="com.sapient.equitytradingapp.et.jms.ETSender" 
+		p:jmsTemplate-ref="jmsTemplate" /> -->
+
+	<bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+		<property name="brokerURL" value="${MESSAGING_PROVIDER_URL}"></property>
+	</bean>
+
+	<bean id="buyDestination" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg index="0" value="${JMS_ETSEND_QUEUE}">
+		</constructor-arg>
+	</bean>
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:config.properties"></property>
+	</bean>
+
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="connectionFactory"></property>
+	</bean>
+
+	<bean id="jndiTemplate" class="org.springframework.jndi.JndiTemplate">
+		<property name="environment">
+			<props>
+				<prop key="java.naming.factory.initial">org.apache.activemq.jndi.ActiveMQInitialContextFactory
+				</prop>
+				<prop key="java.naming.provider.url">${MESSAGING_PROVIDER_URL}</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="jndiQueueConnectionFactory" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiTemplate" ref="jndiTemplate" />
+		<property name="jndiName" value="ConnectionFactory" />
+	</bean>
+
+	<bean id="queueConnectionFactory"
+		class="org.springframework.jms.connection.CachingConnectionFactory">
+		<property name="targetConnectionFactory" ref="jndiQueueConnectionFactory"></property>
+		<property name="sessionCacheSize" value="5"></property>
+	</bean>
+
+	<bean id="destinationResolver"
+		class="org.springframework.jms.support.destination.JndiDestinationResolver">
+		<property name="jndiTemplate" ref="jndiTemplate"></property>
+		<property name="cache" value="true"></property>
+		<property name="fallbackToDynamicDestination" value="false"></property>
+	</bean>
+
+	<bean id="jndiJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="queueConnectionFactory"></property>
+		<property name="destinationResolver" ref="destinationResolver"></property>
+		<property name="defaultDestinationName" value="JMS_ETRECEIVE_QUEUE"></property>
+		<!-- <property name="messageConverter" ref="orderConverter"></property> -->
+		<property name="pubSubDomain" value="false"></property>
+	</bean>
+
+	<bean id="pureMDP"
+		class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
+		<property name="delegate" ref="sellReceiver"></property>
+		<property name="defaultListenerMethod" value="receiveMessage"></property>
+		<!-- <property name="messageConverter" ref="orderConverter"></property> -->
+	</bean>
+
+	<bean
+		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="queueConnectionFactory"></property>
+		<property name="destinationResolver" ref="destinationResolver"></property>
+		<property name="destinationName" value="JMS_SELL_QUEUE"></property>
+		<property name="messageListener" ref="pureMDP"></property>
+		<property name="concurrentConsumers" value="6"></property>
+	</bean>
+
+
+
+
+
+
+
+</beans>

@@ -1,0 +1,52 @@
+package com.sapient.equitytradingapp.et.jms;
+
+import java.io.StringWriter;
+
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.ObjectMessage;
+import javax.jms.Session;
+import javax.jms.Destination;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
+import org.springframework.stereotype.Component;
+
+/**
+ * 
+ * This class is a JMS Message Sender. It will send the marshalled object(got
+ * form the service) on the queue.
+ * 
+ * @author nnihal
+ * 
+ */
+@Component
+public class ETSender {
+
+	@Autowired
+	protected JmsTemplate jmsTemplate;
+
+	public JmsTemplate getJmsTemplate() {
+		return jmsTemplate;
+	}
+
+	public void setJmsTemplate(JmsTemplate jmsTemplate) {
+		this.jmsTemplate = jmsTemplate;
+	}
+
+	public void sendBlockOrder(Destination destination,
+			StringWriter stringWriter) {
+		final String buffer = new String(stringWriter.toString());
+		jmsTemplate.send(destination, new MessageCreator() {
+			public Message createMessage(Session session) throws JMSException {
+				ObjectMessage objMessage = session.createObjectMessage();
+				objMessage.setObjectProperty("ETMessage", buffer);
+				return objMessage;
+
+			}
+		});
+
+	}
+
+}

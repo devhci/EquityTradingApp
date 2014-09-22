@@ -1,0 +1,120 @@
+package com.sapient.equitytradingapp.et.pojo;
+
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import com.sapient.equitytradingapp.pm.pojo.User;
+
+public class AllocationShould {
+	
+	
+	private Allocation allocation;
+	@Before
+	public void init()
+	{
+		allocation=new Allocation();
+	}
+
+	@Test
+	public void testGetAllocationId() {
+		assertNull(allocation.getAllocationId());
+	}
+
+	@Test
+	public void testSetAllocationId() {
+		allocation.setAllocationId(113l);
+		assertEquals("113", allocation.getAllocationId());
+	}
+
+	@Test
+	public void testGetSide() {
+		assertNull(allocation.getSide());
+	}
+
+	@Test
+	public void testSetSide() {
+		allocation.setSide("buy");
+		assertEquals("buy", allocation.getSide());
+	}
+	
+	@Test
+	public void testGetTransactionPrice() {
+		assertNull(allocation.getTransactionPrice());
+	}
+
+	@Test
+	public void testSetTransactionPrice() {
+		allocation.setTransactionPrice(100.0);
+		assertEquals(100.0, allocation.getTransactionPrice());
+	}
+	@Test
+	public void testGetTransactionFee() {
+		assertNull(allocation.getTransactionFee());
+	}
+
+	@Test
+	public void testSetTransactionFee() {
+		allocation.setTransactionFee(500.0);
+		assertEquals(500.0, allocation.getTransactionFee());
+	}
+	@Test
+	public void testGetAllocatedQuantity() {
+		assertNull(allocation.getAllocatedQuantity());
+	}
+
+	@Test
+	public void testSetAllocatedQuantity() {
+		allocation.setAllocatedQuantity(100);
+		assertEquals(100, allocation.getAllocatedQuantity());
+	}
+	
+	@Test
+	public void testGetOpenQuantity() {
+		assertNull(allocation.getOpenQuantity());
+	}
+
+	@Test
+	public void testSetOpenQuantity() {
+		allocation.setOpenQuantity(11);
+		assertEquals(11, allocation.getOpenQuantity());
+		
+	}
+	
+	@Test
+	public void testGetStatus() {
+		assertNull(allocation.getStatus());
+	}
+
+	@Test
+	public void testSetStatus() {
+		allocation.setStatus("new");
+		assertEquals("new", allocation.getStatus());
+	}
+	
+	
+
+	@Test
+	public void testSetOrderId() {
+		allocation.setOrderId(234l);
+		assertEquals(234l, allocation.getOrderId());
+	}
+	
+	@Test
+	public void testGetExecutionId() {
+		assertNull(allocation.getExecutionId());
+
+	}
+	@Test
+	public void testSetExecutionId() {
+		allocation.setExecutionId("101");
+		assertEquals("101", allocation.getExecutionId());
+	}
+	
+	@Test
+	public void test() {
+		//fail("Not yet implemented");
+	}
+
+}

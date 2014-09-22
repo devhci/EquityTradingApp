@@ -1,0 +1,31 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.sapient.equitytradingapp.et.service.GetCorrespondingBlockOrderService;
+
+@Action(value = "AddToBlockOrder")
+@Result(name="input",location="orders",type="chain")
+public class AddToBlockOrderAction {
+	@Autowired
+	private GetCorrespondingBlockOrderService service;
+	private List<Long> orderIdList = new ArrayList<Long>();
+	public String execute() {
+		if(!service.checkSymbolAndSide(orderIdList))
+			return "input";
+		return "success";
+	}
+	
+	public List<Long> getOrderIdList() {
+		return orderIdList;
+	}
+	public void setOrderIdList(List<Long> orderIdList) {
+		this.orderIdList = orderIdList;
+	}
+
+}

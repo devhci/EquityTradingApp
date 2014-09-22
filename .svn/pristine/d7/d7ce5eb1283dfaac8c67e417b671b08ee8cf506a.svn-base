@@ -1,0 +1,171 @@
+package com.sapient.equitytradingapp.et.pojo;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name="allocation")
+public class Allocation {
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private String id;
+	@Column(name="side")	
+	private String side;
+	/*@Column(name="side")
+	private String symbol;*/
+	@Column(name="transaction_price")
+	private Double transactionPrice;
+	@Column(name="transaction_fee")
+	private Double transactionFee;
+	@Column(name="allocated_quantity")
+	private Integer allocatedQuantity;
+	@Column(name="open_quantity")
+	private Integer openQuantity;
+	@Column(name="status")
+	private String status;
+	@Column(name="portfolio_name")
+	private String portfolio;
+	@Column(name="order_id")
+	private String orderId;
+	/*@Column(name="side")
+	private String accountType;*/
+	@Column(name="block_order_id")
+	private String blockOrderId;
+	@Column(name="execution_id")
+	private String executionId;
+	
+	
+	
+	public void setId(String id) {
+		this.id=id;
+		
+	}
+
+
+	
+
+	public String getSide() {
+		
+		return side;
+	}
+
+	/*public String getSymbol() {
+		
+		return symbol;
+	}*/
+
+	public Double getTransactionPrice() {
+	
+		return transactionPrice;
+	}
+
+	public Double getTransactionFee() {
+	
+		return transactionFee;
+	}
+
+	public Integer getAllocatedQuantity() {
+	
+		return allocatedQuantity;
+	}
+
+	public Integer getOpenQuantity() {
+	
+		return openQuantity;
+	}
+
+	public String getStatus() {
+	
+		return status;
+	}
+
+	public String getPortfolio() {
+		
+		return portfolio;
+	}
+
+	public String getOrderId() {
+		
+		return orderId;
+	}
+
+	/*public String getAccountType() {
+		
+		return accountType;
+	}*/
+
+	public String getBlockOrderId() {
+	
+		return blockOrderId;
+	}
+
+	public String getExecutionId() {
+		
+		return executionId;
+	}
+
+	
+	public void setSide(String side) {
+	this.side=side;		
+	}
+
+	/*public void setSymbol(String symbol) {
+	this.symbol=symbol;		
+	}*/
+
+	public void setTransactionPrice(double transactionPrice) {
+		this.transactionPrice=transactionPrice;		
+	}
+
+	public void setTransactionFee(double transactionFee) {
+		this.transactionFee=transactionFee;
+		
+	}
+
+	public void setAllocatedQuantity(int allocatedQuantity) {
+		this.allocatedQuantity=allocatedQuantity;		
+	}
+
+	public void setOpenQuantity(int openQuantity) {
+		this.openQuantity=openQuantity;		
+	}
+
+	public void setStatus(String status) {
+		this.status=status;		
+	}
+
+	/*public void setAccountType(String accountType) {
+		this.accountType=accountType;		
+	}*/
+
+	public void setPortfolio(String portfolio) {
+		this.portfolio=portfolio;		
+	}
+
+	public void setOrderId(String orderId) {
+		this.orderId=orderId;
+		
+	}
+
+	public void setBlockOrderId(String blockOrderId) {
+		this.blockOrderId=blockOrderId;		
+	}
+
+	public void setExecutionId(String executionId) {
+		this.executionId=executionId;		
+	}
+
+
+	public String getId() {
+		// TODO Auto-generated method stub
+		return id;
+	}
+
+
+}

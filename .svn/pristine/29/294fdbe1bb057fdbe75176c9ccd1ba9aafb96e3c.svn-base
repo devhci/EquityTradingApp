@@ -1,0 +1,28 @@
+package com.sapient.equitytradingapp.et.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.sapient.equitytradingapp.et.dao.AmendOrderEtDAO;
+import com.sapient.equitytradingapp.et.interfaces.AmendInterface;
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+
+@Component
+public class AmendOrdersEtService implements AmendInterface{
+
+	
+	@Autowired
+	AmendOrderEtDAO amendOrderEtDao;
+	
+
+	public boolean amendOrder(long orderId) {
+		System.out.println("inside edit order");
+		BlockOrder amendOrder = amendOrderEtDao.authenticateAmendFromDB(orderId);
+		System.out.println("after editing");
+		if(amendOrder.getStatus().equals("New"))
+			return true;
+		
+		return false;
+	}
+
+}

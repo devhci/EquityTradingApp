@@ -1,0 +1,57 @@
+package com.sapient.equitytradingapp.et.actions;
+
+
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+import org.apache.struts2.interceptor.SessionAware;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+
+@ParentPackage("tiles-default")
+@Action(value = "editPersist")
+@Results({ @Result(name = "success", location = "BlockOrderBlotter", type = "chain") })
+public class PersistEditAction extends ActionSupport {
+	
+	private int blockId;
+	private double lPrice;
+	private double stopPrice;
+	public int getBlockId() {
+		return blockId;
+	}
+	public void setBlockId(int blockId) {
+		this.blockId = blockId;
+	}
+	public double getlPrice() {
+		return lPrice;
+	}
+	public void setlPrice(double lPrice) {
+		this.lPrice = lPrice;
+	}
+	
+	
+	public double getStopPrice() {
+		return stopPrice;
+	}
+	public void setStopPrice(double stopPrice) {
+		this.stopPrice = stopPrice;
+	}
+	private BlockOrder editBlock;
+	public BlockOrder getEditBlock() {
+		return editBlock;
+	}
+	public void setEditBlock(BlockOrder editBlock) {
+		this.editBlock = editBlock;
+	}
+	public String execute(){
+		
+		
+		return "success";
+	}
+	
+	
+
+}

@@ -1,0 +1,56 @@
+package com.sapient.equitytradingapp.pm.dao;
+import com.sapient.equitytradingapp.pm.pojo.OrderBlotter;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+
+@Repository
+public class OrderBlotterDao {
+	private EntityManager manager;
+
+	public EntityManager getManager() {
+		return manager;
+	}
+
+	@PersistenceContext
+	public void setManager(EntityManager manager) {
+		this.manager = manager;
+	}
+
+	@Transactional
+	public void createOrder(OrderBlotter orderBlotter) {
+		orderBlotter.setStatus("new");
+		manager.persist(orderBlotter);
+	}
+
+	@Transactional
+	public void sendOrder(int orderId) {
+
+		String q = "update OrderBlotter set status='sent' where orderId='"
+				+ orderId + "'";
+		Query query = manager.createQuery(q);
+		query.executeUpdate();
+	}
+
+	@Transactional
+	public void cancelOrder(int orderId) {
+
+		String q = "update OrderBlotter set status='cancelled' where orderId='"
+				+ orderId + "'";
+		Query query = manager.createQuery(q);
+		query.executeUpdate();
+	}
+
+	@Transactional
+	public void editOrder(OrderBlotter orderBlotter) {
+		OrderBlotter ob = manager.find(OrderBlotter.class, 3);
+		String status=ob.getStatus();
+		ob = orderBlotter;
+		ob.setStatus(status);
+		manager.merge(ob);
+	}
+}

@@ -1,0 +1,29 @@
+package com.sapient.equitytradingapp.pm.dao;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+@Repository
+public class SendForExecutionDAO {
+private EntityManager entityManager;
+	
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+	
+	@Transactional
+	public void sendOrdersForExecutionDB(List<Long> orderId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

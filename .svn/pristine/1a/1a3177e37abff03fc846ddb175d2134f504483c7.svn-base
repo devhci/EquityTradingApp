@@ -1,0 +1,12 @@
+<%@taglib uri="/struts-tags" prefix="s"%>
+
+<table width="90%">
+	<tr>
+		<td style="float:left"><img src="CSS/images/pmlogo.png"></td>
+		<td>
+			<img src="CSS/images/pmtext.png">
+			<s:property value="%{#session.username}" />
+		</td>
+		<td><h3><s:a action="Logout">Logout</s:a></h3></td>
+	</tr>
+</table>

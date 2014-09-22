@@ -1,0 +1,38 @@
+package com.sapient.equitytradingapp.et.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.sapient.equitytradingapp.et.dao.BlockOrderDAO;
+import com.sapient.equitytradingapp.et.interfaces.CancelOrderInterface;
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+import com.sapient.equitytradingapp.pm.dao.OrderDao;
+import com.sapient.equitytradingapp.pm.pojo.Order;
+
+public class CancelOrderService implements CancelOrderInterface {
+	@Autowired
+	OrderDao orderDao;
+	@Autowired
+	BlockOrderDAO blockOrderDAO;
+
+	public boolean cancelOrder(long orderId) {
+		Order order = orderDao.getOrderById(orderId);
+		if (order.getBlockOrderId() == null) {
+			order.setStatus("cancelled");
+			orderDao.saveUpdatedOrder(order);
+			return true;
+		}
+		BlockOrder blockOrder = blockOrderDAO.getBlockOrderById(order
+				.getBlockOrderId());
+		if (!blockOrder.getStatus().equalsIgnoreCase("new"))
+			return false;
+		int quantity = blockOrder.getTotalQuantity() - order.getTotalQuantity();
+		blockOrder.setTotalQuantity(quantity);
+		blockOrder.setOpenQuantity(quantity);
+		blockOrderDAO.updateBlockOrder(blockOrder);
+		order.setStatus("cancelled");
+		order.setBlockOrderId(null);
+		orderDao.saveUpdatedOrder(order);
+		return true;
+	}
+
+}

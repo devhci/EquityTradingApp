@@ -1,0 +1,23 @@
+package com.sapient.equitytradingapp.pm.service;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.sapient.equitytradingapp.pm.actions.LoginAction;
+import com.sapient.equitytradingapp.pm.dao.LoginDao;
+
+@Component
+public class LoginService {
+
+	private static Logger logger = Logger.getLogger(LoginAction.class);
+	@Autowired
+	LoginDao loginDao;
+	public String authenticateUser(String username,String password) {
+		
+		logger.info("inside authenticate user");
+		String role=loginDao.authenticateFromDB(username,password );			
+		return role;				
+	}
+
+}

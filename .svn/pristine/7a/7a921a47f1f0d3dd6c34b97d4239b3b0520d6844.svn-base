@@ -1,0 +1,36 @@
+package com.sapient.equitytradingapp.pm.constant;
+
+/**
+ * Class for String Literals, i.e. Constants
+ * 
+ */
+public class StringLiterals {
+	public static String CANCELLED = "cancelled";
+	public static String INPUT = "input";
+	public static String SUCCESS = "success";
+	public static String COMPLETED = "completed";
+	public static String MARKETPRICE = "Market Price";
+	public static String PROFITLIMIT = "Profit Limit";
+	public static String STOPLIMIT = "Stop Limit";
+	public static String ANY = "Any";
+	public static String CANCEL = "cancel";
+	public static String EDIT = "edit";
+	public static String AMEND = "amend";
+	public static String CANCELORDER = "Cancel Order";
+	public static String EDITORDER = "Edit Order";
+	public static String AMENDORDER = "Amend Order";
+	public static String FAIL = "fail";
+	public static String FAILURE = "failure";
+	public static String NEW = "new";
+	public static String SENT = "sent for execution";
+	public static String SENDORDER = "Send Order";
+	public static String SENDACTION = "send";
+	public static String LIMITORDER = "Limit Order";
+	public static String MARKETORDER = "Market Order";
+	public static String STOPORDER = "Stop Order";
+	public static String STOPLIMITORDER = "Stop Limit Order";
+	public static String PORTFOLIO_NAME="Portfolio Name";
+	public static String SECURITY_SYMBOL="Security Symbol";
+	public static String ACCOUNT_NAME="Account Name";
+	public static String EXCEPTION="exception";
+}

@@ -1,0 +1,52 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.sapient.equitytradingapp.et.service.CreateBlockOrderService;
+
+@Action(value = "CreateBlockOrder")
+@Results({ @Result(name = "success", location = "et/pass-to-orders.jsp"),
+		@Result(name = "input", location = "orders", type = "chain") })
+public class CreateBlockOrderAction extends ActionSupport {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@Autowired
+	private CreateBlockOrderService createBlockOrderService;
+	private List<Long> orderIdList = new ArrayList<Long>();
+
+	public List<Long> getOrderIdList() {
+		return orderIdList;
+	}
+
+	public void setOrderIdList(List<Long> orderIdList) {
+		this.orderIdList = orderIdList;
+	}
+
+	public String execute() {
+		
+		if (orderIdList.size() == 0) {
+			HttpServletRequest request = ServletActionContext.getRequest();
+			request.setAttribute("message", "Please select atleat one order");
+			return "input";
+		}
+		if (createBlockOrderService.createBlocks(orderIdList)) {
+			return "success";
+		} else {
+			HttpServletRequest request = ServletActionContext.getRequest();
+			request.setAttribute("message", "Please select orders with same side and symbol");
+			return "input";
+		}
+	}
+}

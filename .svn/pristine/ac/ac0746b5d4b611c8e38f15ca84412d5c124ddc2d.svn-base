@@ -1,0 +1,229 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+     <%@taglib uri="/struts-tags" prefix="s" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Executed Block Orders</title>
+<style type="text/css">
+	.table1
+	{
+		position:fixed;
+		
+	}
+	.td1
+	{
+	overflow: auto;
+	}
+</style>
+<script type="text/javascript">
+	function validateExecution()
+	{
+		count = 0;
+		str = '';
+		for (var x = 0; x < document.form1.elements["executionAllocateList"].length; x++) {
+			if (document.form1.elements["executionAllocateList"][x].checked == true) {
+				str += document.form1.elements["executionAllocateList"][x].value + ',';
+				count++;
+			}
+		}
+		if (count == 0) {
+			alert("You must choose at least 1 order to allocate");
+			return false;
+		}  else {		
+		var r=confirm("Do you want to allocate the selected executions?");
+		return r;}
+	}
+	
+	
+</script>
+<style type="text/css">
+h1 {
+	font-size: large;
+	color: white;
+}
+
+table {
+	font-size: small;
+	color: black;
+}
+
+* {
+	padding: 0;
+	margin: 0;
+}
+
+table.cruises {
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 10px;
+	cellspacing: 0px;
+	border-collapse: collapse;
+	width: 1000px;
+}
+
+table.cruises th {
+	background-color: #002110;
+	color: #ffffff;
+	font-size: 10px;
+	background: -o-linear-gradient(bottom, #002110 5%, #558755 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #002110
+		), color-stop(1, #558755) );
+	background: -moz-linear-gradient(center top, #002110 5%, #558755 100%);
+	background: -o-linear-gradient(top, #002110, 558755);
+}
+
+table.cruises th,table.cruises td {
+	border-right: 2px solid black;
+	border-bottom: 2px solid black;
+	padding: 3px;
+}
+
+table.cruises tr:nth-child(odd) {
+	background-color: #9cad9e;
+}
+
+table.cruises tr:nth-child(even) {
+	background-color: #ffffff;
+}
+
+div.scrollableContainer1 {
+	position: relative;
+	width:1212px;
+	padding-top: 2.5em;
+	margin: 20px;
+	border: none;
+	background: none;
+}
+
+div.scrollingArea1 {
+	height: 150px;
+	overflow: auto;
+}
+
+table.scrollable thead tr {
+	left: 0;
+	top: 0;
+	position: absolute;
+}
+
+table.cruises .checkbox3 {
+	width: 12px;
+	text-align: center;
+}
+
+table.cruises .execution-id3 {
+	width: 90px;
+	text-align: center;
+}
+
+table.cruises .block-order-id3 {
+	width: 200px;
+	text-align: center;
+}
+
+table.cruises .quantity3 {
+	width: 210px;
+	text-align: center;
+}
+
+table.cruises .transaction-price3 {
+	width: 210px;
+	text-align: center;
+}
+
+table.cruises .status3 {
+	width: 210px;
+	text-align: center;
+}
+
+table.cruises .ransaction-time3 {
+	width: 210px;
+	text-align: center;
+}
+
+</style>
+
+</head>
+<body>
+<center><h1>Execution Blotter</h1></center>
+<form name="form1" action="AllocationBlock">
+<%-- <div style="height: 150px; overflow-y: auto;">
+	<table border="1" width="100%" style="height: 150px;">
+		<tr>
+			<th></th>
+			<th>EXECUTION ID</th>
+			<th>BLOCK ORDER ID</th>
+			<th>QUANTITY</th>
+			<th>TRANSACTION PRICE</th>
+			<th>STATUS</th>			
+			<th>TRANSACTION TIME</th>
+		</tr><s:iterator value="executionList" status="alloc" var="obj">
+			<tr>
+			<s:set name="checkStatus" value="%{#obj.status}"></s:set>
+				<td><s:if test="%{#checkStatus=='Cancelled'}"><input type="checkbox" name="executionAllocateList" value='<s:property value="executionID"/>' disabled="disabled"></s:if>
+				<s:else><input type="checkbox" name="executionAllocateList" value='<s:property value="executionID"/>'></s:else> </td>
+					
+				<td><s:property value="executionID"/></td>
+				<td><s:property value="blockOrderId" /></td>
+				<td><s:property value="executionQuantity" /></td>
+				<td><s:property value="executionPrice" /></td>
+				<td><s:property value="status" /></td>				
+				<td><s:property value="transactionTime" /></td>
+			</tr>
+			</s:iterator>
+		</table></div> --%>
+		
+		<div class="scrollableContainer1">
+			<div class="scrollingArea1">
+				<table class="cruises scrollable1">
+					<thead>
+						<tr>
+							<th><div class="checkbox3"></div></th>
+							<th><div class="execution-id3">EXECUTION ID</div></th>
+							<th><div class="block-order-id3">BLOCK ORDER ID</div></th>
+							<th><div class="quantity3">QUANTITY</div></th>
+							<th><div class="transaction-price3">TRANSACTION PRICE</div></th>
+							<th><div class="status3">STATUS</div></th>
+							<th><div class="transaction-time3">TRANSACTION TIME</div></th>
+						</tr>
+					</thead>
+					<tbody>
+						<s:iterator value="executionList"  status="alloc" var="obj">
+							<tr><s:set name="checkStatus" value="%{#obj.status}"></s:set>
+								<td><div class="checkbox3">		
+				<s:if test="%{#checkStatus=='Cancelled'}"><input type="checkbox" name="executionAllocateList" value='<s:property value="executionID"/>' disabled="disabled"></s:if>
+				<s:else><input type="checkbox" name="executionAllocateList" value='<s:property value="executionID"/>'></s:else> </td>
+									</div></td>
+								<td><div class="execution-id3">
+										<s:property value="executionID"/>
+									</div></td>
+								<td><div class="block-order-id3">
+										<s:property value="blockOrderId" />
+									</div></td>
+								<td><div class="quantity3">
+										<s:property value="executionQuantity" />
+									</div></td>
+								<td><div class="transaction-price3">
+										<s:property value="executionPrice" />
+									</div></td>
+								<td><div class="status3">
+										<s:property value="status" />
+									</div></td>
+								<td><div class="transaction-time3">
+										<s:property value="transactionTime" />
+									</div></td>
+							</tr>
+						</s:iterator>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<br>
+		<center><input class="button" id="button" type="submit" name="allocate" value="Allocate Execution" onclick="return validateExecution()"></center>
+</form>
+	
+
+</body>
+</html>

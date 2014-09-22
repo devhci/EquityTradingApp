@@ -1,0 +1,105 @@
+package com.sapient.equitytradingapp.pm.actions;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
+import com.sapient.equitytradingapp.pm.pojo.Order;
+import com.sapient.equitytradingapp.pm.service.CreateOrderService;
+
+/**
+ * @Result(location = "Create", type = "tiles", name = "failure"),
+ * @Result(location = "Create", type = "tiles", name = "input")
+ * 
+ * 
+ */
+@ParentPackage(value = "tiles-default")
+@Action(value = "/create", results = {
+		@Result(location = "pm/passToOrderBlotterAction.jsp", name = "success"),
+		@Result(location = "create-view", type = "tiles", name = "input") })
+public class CreateAction extends ActionSupport {
+
+	private static final long serialVersionUID = 1L;
+	
+	@Autowired
+	Order order;
+
+	@Autowired
+	CreateOrderService orderService;
+
+	//@VisitorFieldValidator
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+
+	public Order getOrder() {
+		return order;
+	}
+
+	
+
+	public String execute() {
+		
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+order.getTrader()+" "+order.getPortfolioName());
+		System.out.println("security start");
+		//this.securityList=securityService.getSecurityList();
+		System.out.println("security ends");
+		System.out.println("tulika" + getOrder().getPortfolioName());
+		System.out.println(order.getTotalQuantity());
+		System.out.println("hello puneet in exec");
+		
+		orderService.addorderservice(order);
+		System.out.println("abhishek" + getOrder().getOrderType() + "here");
+		
+		return "success";
+	}
+
+
+
+@Override
+	public void validate() {
+ System.out.println("tulika" +getOrder().getPortfolioName());
+
+	if (getOrder().getOrderType().equalsIgnoreCase("Market Price")) {
+
+		if (getOrder().getLimitPrice() != 0
+				|| getOrder().getStopPrice() != 0) {
+			System.out.println("abhishek" + getOrder().getLimitPrice()
+					+ "here");
+			addActionError("limit price and stop price should be null in case of market order");
+		}
+		}
+	if (getOrder().getOrderType().equalsIgnoreCase("Profit Limit")) {
+			if (getOrder().getLimitPrice() == 0
+						|| getOrder().getStopPrice() != 0) {
+				addActionError("limit price cant be zero in case of limit order and stop order should be zero");
+
+				}
+
+		}
+		
+		if (getOrder().getOrderType().equalsIgnoreCase("Stop Limit")) {
+
+			if (getOrder().getLimitPrice() != 0
+					|| getOrder().getStopPrice() == 0) {
+			addActionError("stop price cant be zero in case of Stop Limit Order and Limit price should be zero");
+
+			}
+
+		}
+	if (getOrder().getPortfolioName().equalsIgnoreCase("1")) {
+
+		addActionError("please select portfolio");
+	
+
+	}
+
+	if (getOrder().getTotalQuantity()<=0){
+		
+		addActionError("Quantity must be greater than zero");
+	}
+	}
+}

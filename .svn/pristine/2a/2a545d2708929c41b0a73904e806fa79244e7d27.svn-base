@@ -1,0 +1,46 @@
+package com.sapient.equitytradingapp.pm.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.sapient.equitytradingapp.et.interfaces.AmendInterface;
+import com.sapient.equitytradingapp.pm.dao.AmendDAO;
+import com.sapient.equitytradingapp.pm.pojo.Order;
+
+/**
+ * Call Amend DAO to check order of status and amend order for which check
+ * status is passed.
+ */
+
+@Component
+public class AmendService {
+
+	@Autowired
+	AmendDAO amendDAO;
+	Order order;
+	@Autowired
+	AmendInterface amendOrdersEtService;
+	@Autowired
+	AmendDAO amendOrderDAO;
+
+	/**
+	 * Call Amend DAO methods to check order of status and amend,retrieve order
+	 * for which check status is passed.
+	 * 
+	 * @param orderId of type long
+	 * @return Order
+	 */
+	public Order amendMethod(long orderId) {
+
+		String status = amendDAO.checkOrderStatusInDB(orderId);
+		if (status.equalsIgnoreCase("sent for execution")) {
+			if (amendOrdersEtService.amendOrder(orderId))
+				order = amendOrderDAO.retrieveFromDB(orderId);
+			else
+				order = null;
+		} else
+			order = null;
+		return order;
+	}
+
+}

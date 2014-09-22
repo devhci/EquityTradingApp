@@ -1,0 +1,32 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.sapient.equitytradingapp.et.pojo.Execution;
+import com.sapient.equitytradingapp.et.service.AllocationBlockService;
+
+public class AllocationBlockAction {
+	
+	@Autowired
+	private AllocationBlockService allocationBlockService;
+	
+	@Autowired
+	private List<Execution> executionList;
+
+	public List<Execution> getExecutionList() {
+		return executionList;
+	}
+
+	public void setExecutionList(List<Execution> executionList) {
+		this.executionList = executionList;
+	}
+	
+	public String success()
+	{
+		boolean result=allocationBlockService.allocateExecutionList(executionList);
+		return "success";
+	}
+
+}

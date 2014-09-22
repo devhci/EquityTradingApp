@@ -1,0 +1,66 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+	"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title><tiles:insertAttribute name="title" />
+</title>
+
+<style type="text/css">
+	.table1
+	{
+		position:fixed;
+		
+	}
+	.td1
+	{
+	overflow: auto;
+	}
+</style>
+<link rel="stylesheet" type="text/css" href="CSS/login-pageboro.css" />
+<link rel="stylesheet" type="text/css" href="CSS/navigation-bar.css" />
+<style type="text/css">
+h1{
+		font-size: large;
+		color: white;
+		}
+	.table
+	{
+		font-size: small;
+		color:white;
+		position:absolute;
+		
+	}	
+	</style>
+</head>
+<body id="body">
+	
+	<table class="table1" height="100%" width="100%" border="1" cellpadding="2"
+		cellspacing="2" align="center" >
+		<tr>
+			<td  class="navbar td" height="15%" colspan="2"><tiles:insertAttribute name="header" /></td>
+		</tr>
+		<tr>
+			<td width="10%" height="80%"><tiles:insertAttribute name="menu" /></td>
+			<td width="90%" height="80%">
+				<table height="100%" width="100%" align="center" border="1" >
+					<tr>
+						<td class="td1" height="50%" >
+						<tiles:insertAttribute name="body1" /></td>
+					</tr>
+					<tr>
+						<td class="td1" height="50%">
+						<tiles:insertAttribute name="body2" /></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr >
+			<td height="5%" colspan="2"><tiles:insertAttribute name="footer" /></td>
+		</tr>
+	</table>
+</body>
+</html>

@@ -1,0 +1,67 @@
+package com.sapient.equitytradingapp.pm.actions;
+
+import java.util.List;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.sapient.equitytradingapp.pm.pojo.Order;
+import com.sapient.equitytradingapp.pm.service.AmendService;
+
+
+@ParentPackage(value = "tiles-default")
+@Action(value = "Amend", results = {
+		@Result(location = "amend-view", type = "tiles", name = "success"),
+		@Result(location = "orderBlotter-view", type = "tiles", name = "input") })
+public class AmendAction extends ActionSupport{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	List<Boolean> orderCheckList;
+
+	List<Long> orderIdList;
+	
+	@Autowired
+	AmendService amendService;
+	
+	public List<Boolean> getOrderCheckList() {
+		return orderCheckList;
+	}
+
+	public void setOrderCheckList(List<Boolean> orderCheckList) {
+		this.orderCheckList = orderCheckList;
+	}
+		
+	public List<Long> getOrderIdList() {
+		return orderIdList;
+	}
+
+	public void setOrderList(List<Long> orderIdList) {
+		this.orderIdList = orderIdList;
+	}
+
+	public AmendService getAmendService() {
+		return amendService;
+	}
+
+	public void setAmendService(AmendService amendService) {
+		this.amendService = amendService;
+	}
+
+	public String execute(){
+		
+		String value = amendService.amendMethod(14L);
+		if(value.equalsIgnoreCase("success") )
+			addActionError("Order successfully amended");
+		else
+			addActionError("The order cannot be amended");
+		return "success";
+	}
+}

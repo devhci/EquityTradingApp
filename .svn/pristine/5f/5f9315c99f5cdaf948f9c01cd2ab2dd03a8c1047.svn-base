@@ -1,0 +1,51 @@
+package com.sapient.equitytradingapp.pm.dao;
+
+import java.util.Iterator;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.sapient.equitytradingapp.pm.pojo.Account;
+
+@Repository
+public class ViewAccountDAO {
+
+	@Autowired
+	private Account account;
+	
+private EntityManager entityManager;
+	
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+	
+	@Transactional
+	public Account getAccount(String accId){
+		/*Map<String, Object> session = ActionContext.getContext().getSession();
+		session.put("sessionEntityManager",(entityManager));*/
+		int flag=0;
+		TypedQuery<Account> q=entityManager.createQuery("select a from account a",Account.class);
+		List<Account> list=q.getResultList();
+		for(Iterator<Account> iter=list.iterator(); iter.hasNext();){
+			Account temp=iter.next();
+			if(temp.getAccountId().equals(accId)){
+				flag=1;
+				return account;
+			}
+			
+		}
+		if(flag==0){account=null;}
+		return account;
+	}
+	
+}

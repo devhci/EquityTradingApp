@@ -1,0 +1,14 @@
+<%@taglib uri="/struts-tags" prefix="s"%>
+
+<h1 align="left">Welcome, <%=session.getAttribute("sessionUsername") %></h1>
+	<center>
+		<h1>Execution Trader Access</h1>
+	</center>
+	<table align="right" height="5px">
+		<tr>
+			<td height="5px"><s:a action="Logout">Logout</s:a></td>
+		</tr>
+	</table>
+
+
+

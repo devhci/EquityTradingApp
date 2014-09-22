@@ -1,0 +1,31 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+
+@Action(value="CheckOrderButtonPressed")
+@Results({@Result(name="addMoreOrders",location="OrderBlotter1",type="chain"),
+	@Result(name="removeOrders",location="RemoveOrdersFromBlockOrder",type="chain"),
+	@Result(name="input",location="orders",type="chain")
+	})
+public class CheckOrderButtonPressedAction {
+	private String buttonName;
+	 
+	public String execute() {
+		System.out.println("mohit yadav "+buttonName);
+		if(buttonName.equals("Add More Orders"))
+			return "addMoreOrders";
+		else if (buttonName.equals("Remove Orders"))
+		   return "removeOrders";
+		else
+		return "input";
+	}
+	public String getButtonName() {
+		return buttonName;
+	}
+	public void setButtonName(String buttonName) {
+		this.buttonName = buttonName;
+	}
+
+}

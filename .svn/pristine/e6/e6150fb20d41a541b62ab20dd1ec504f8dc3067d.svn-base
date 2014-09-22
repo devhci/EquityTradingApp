@@ -1,0 +1,43 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.sapient.equitytradingapp.pm.service.CreateProposedproposedBlockOrderService;
+
+@Action(value = "CreateProposedBlockOrder")
+@Results({ @Result(name = "input", location = "orders", type = "chain"),
+		@Result(name = "success", location = "orders", type = "chain") })
+public class CreateProposedBlockOrderAction extends ActionSupport {
+
+	private static final long serialVersionUID = 1L;
+	private List<Long> proposedBlockIdList = new ArrayList<Long>();
+	@Autowired
+	private CreateProposedproposedBlockOrderService service;
+
+	public String execute() {
+		service.createProposedBlock(proposedBlockIdList);
+		return "success";
+
+	}
+
+	@Override
+	public void validate() {
+		if (proposedBlockIdList.size() == 0)
+			addActionError(getText("listsizezero"));
+	}
+
+	public List<Long> getProposedBlockIdList() {
+		return proposedBlockIdList;
+	}
+
+	public void setProposedBlockIdList(List<Long> proposedBlockIdList) {
+		this.proposedBlockIdList = proposedBlockIdList;
+	}
+}

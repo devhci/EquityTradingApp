@@ -1,0 +1,36 @@
+package com.sapient.equitytradingapp.pm.actions;
+
+import java.util.List;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.sapient.equitytradingapp.pm.service.SendForExecutionService;
+
+@Action(value="send-for-execution", results={@Result(location = "pm/passToOrderBlotterAction.jsp", name="success"),
+	})
+public class SendForExecutionAction {
+
+	List<Boolean> orderCheckList;
+	long orderId = 1L;
+	public List<Boolean> getOrderCheckList() {
+		return orderCheckList;
+	}
+
+	public void setOrderCheckList(List<Boolean> orderCheckList) {
+		this.orderCheckList = orderCheckList;
+	}
+	
+	@Autowired
+	SendForExecutionService sendForExecutionService;
+	
+	public String execute(){
+		/*for(Boolean o:orderCheckList){
+			System.out.println(o+" ");
+		}*/
+		sendForExecutionService.sendOrderForExecution(orderId);
+		return "success";
+	}
+	
+}

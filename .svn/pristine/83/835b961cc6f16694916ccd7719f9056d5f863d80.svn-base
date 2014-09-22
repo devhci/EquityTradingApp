@@ -1,0 +1,52 @@
+<%-- <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%> --%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@taglib uri="/struts-tags" prefix="s"%>
+<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+	"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+</head>
+<body> -->
+<center>
+	<h1>Holdings</h1>
+	<table>
+		<tr>
+			<s:a action="view-order-blotter" style="color: white;">Order Blotter</s:a>
+			<br/>
+			<!-- 	<s:select label="Filter " list="{'P1','P2','P3','P4'}"></s:select>-->
+	</table>
+	<s:form>
+		<table border="1" width="80%" style="color: white;" >
+			<tr bgcolor="grey">
+				<th width="25%">Portfolio</th>
+				<th width="25%">Account Name</th>
+				<th width="25%">Security</th>
+				<th width="25%">Average Price</th>
+
+			</tr>
+
+			<s:iterator value="viewPositionList" var="holding">
+				<br />
+				<tr>
+				<!-- <td>sjasjks</td>	<td>sjasjks</td>	<td>sjasjks</td>	<td>sjasjks</td> -->
+					<td width="25%"><s:property value="portfolioName" /></td>
+					<td width="25%"><s:property value="accountName" /></td>
+					<td colspan="2" width="50%">
+						<table border="1" width="100%">
+							<s:iterator value="securityList" var="security">
+								<tr>
+									<td width="50%"><s:property value="symbol" /></td>
+									<td width="50%"><s:property value="securityName" /></td>
+								</tr>
+							</s:iterator>
+						</table>
+					</td>
+				</tr>
+			</s:iterator>
+		</table>
+	</s:form>
+</center>
+<!-- </body>
+</html> -->

@@ -1,0 +1,35 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import static org.junit.Assert.assertEquals;
+
+
+import java.util.List;
+
+import org.junit.Test;
+
+import com.sapient.equitytradingapp.pm.pojo.Order;
+
+public class OrdersActionShould {
+
+	@Test
+	public void getOrderList(){
+		OrdersAction abc=new OrdersAction();
+		List<Order> xyz=abc.getOrderList();
+		assertEquals(null,xyz);
+	}
+	
+	@Test
+	public void setOrderList(){
+		OrdersAction abc=new OrdersAction();
+		List<Order> xyz=null;
+		abc.setOrderList(xyz);
+		assertEquals(null,abc.getOrderList());
+	}
+	
+	@Test
+	public void execute(){
+		OrdersAction abc=new OrdersAction();
+		assertEquals("success",abc.execute());
+	}
+
+}

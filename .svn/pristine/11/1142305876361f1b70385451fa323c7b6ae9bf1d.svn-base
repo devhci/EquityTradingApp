@@ -1,0 +1,87 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@taglib uri="/struts-tags" prefix="s"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+
+<html>
+<head>
+<script>
+	function getCheckedBoxes(chkboxName) {
+		var checkboxes = document.getElementsByName(chkboxName);
+		var checkboxesChecked = [];
+		// loop over them all
+		for ( var i = 0; i < checkboxes.length; i++) {
+			// And stick the checked ones onto an array...
+			if (checkboxes[i].checked) {
+				checkboxesChecked.push(checkboxes[i]);
+			}
+		}
+		// Return the array if it is non-empty, or null
+		return checkboxesChecked.length > 0 ? checkboxesChecked : null;
+	}
+
+	function check() {
+		var count = 0;
+		for ( var i = 0; i < document.form1.blockOrderId.length; i++) {
+			if (document.form1.blockOrderId[i].checked) {
+				count = count + 1;
+			}
+
+		}
+		document.form1.count.innerHTML = count;
+	}
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="login-page.css">
+</head>
+<body>
+	<center>
+		<h1>Block Order Blotter</h1>
+	</center>
+	<form name="form1" action="SentForExecution">
+		<input style="display: none" type="text" name="count">
+		<table border="1" width="100%">
+			<tr>
+				<td>Select</td>
+				<td>BLOCK ORDER ID</td>
+				<td>SIDE</td>
+				<td>SYMBOL</td>
+				<td>LIMIT PRICE</td>
+				<td>STOP PRICE</td>
+				<td>TOTAL QUANTITY</td>
+				<td>EXECUTED QUANTITY</td>
+				<td>OPEN QUANTITY</td>
+				<td>STATUS</td>
+			</tr>
+			<s:iterator value="blockOrderList">
+				<tr>
+					<td><input type="checkbox" name="blockOrderIdList"
+						value='<s:property value="blockOrderId"/>'></td>
+					<td><s:url id="orderURL" action="ViewBlockOrder">
+							<s:param name="blockOrderId" value="blockOrderId" />
+						</s:url> <s:a href="%{orderURL}">
+							<s:property value="blockOrderId" />
+						</s:a></td>
+					<td><s:property value="side" /></td>
+					<td><s:property value="symbol" /></td>
+					<td><s:property value="limitPrice" /></td>
+					<td><s:property value="stopPrice" /></td>
+					<td><s:property value="totalQuantity" /></td>
+					<td><s:property value="executedQuantity" /></td>
+					<td><s:property value="openQuantity" /></td>
+					<td><s:property value="status" /></td>
+				</tr>
+			</s:iterator>
+		</table>
+		<br>
+		<center>
+			<input id="button" type="submit" name="sendForExecution"
+				value="Send For Execution"> <input id="button" type="submit"
+				name="editBlockOrder" value="Edit"> <input id="button"
+				type="submit" name="cancelBlockOrder" value="Cancel">
+		</center>
+	</form>
+</body>
+</html>

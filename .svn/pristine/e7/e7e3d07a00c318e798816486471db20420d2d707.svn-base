@@ -1,0 +1,39 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import java.util.List;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.sapient.equitytradingapp.et.service.CancelBlockOrderService;
+
+@ParentPackage("tiles-default")
+@Action(value="CancelBlockOrder")
+@Results({
+		@Result(name = "success1", location = "blockOrder1", type = "tiles") })
+public class CancelBlockOrderAction {
+	
+	@Autowired
+	private CancelBlockOrderService cancelBlockOrderService;
+	
+	private List<Long> blockOrderIdList;
+
+	public List<Long> getBlockOrderIdList() {
+		return blockOrderIdList;
+	}
+
+	public void setBlockOrderIdList(List<Long> blockOrderIdList) {
+		this.blockOrderIdList = blockOrderIdList;
+	}
+	
+	
+	public String execute()
+	{
+		cancelBlockOrderService.cancelBlockOrder(blockOrderIdList);
+		return "sucess";
+	}
+
+}

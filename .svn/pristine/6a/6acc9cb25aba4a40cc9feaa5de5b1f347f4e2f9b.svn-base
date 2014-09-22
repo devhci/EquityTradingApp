@@ -1,0 +1,13 @@
+package com.sapient.equitytradingapp.pm.actions;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Result;
+
+//@Action(value = "Home", results = {@Result(location = "layout-view", type = "tiles") })
+public class ViewPositionAction {
+
+	public String execute(){
+		
+		return "success";
+	}
+}

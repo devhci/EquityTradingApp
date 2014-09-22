@@ -1,0 +1,54 @@
+ package com.sapient.equitytradingapp.et.actions;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.sapient.equitytradingapp.et.service.CreateProposedBlockOrderService;
+import com.sapient.equitytradingapp.pm.constant.StringLiterals;
+
+@Action(value = "CreateProposedBlockOrder")
+@Results({ @Result(name = "input", location = "orders", type = "chain"),
+		@Result(name = "success", location = "orders", type = "chain"),
+		@Result(location = "Error.jsp", name = "exception") })
+public class CreateProposedBlockOrderAction extends ActionSupport {
+
+	private static final long serialVersionUID = 1L;
+	private List<Long> proposedBlockIdList = new ArrayList<Long>();
+	@Autowired
+	private CreateProposedBlockOrderService service;
+
+	public String execute() {
+		try {
+			if (proposedBlockIdList == null || proposedBlockIdList.size() == 0) {
+				HttpServletRequest request = ServletActionContext.getRequest();
+				request.setAttribute("message",
+						"Please Select At Least One Block Order");
+				return StringLiterals.INPUT;
+			}
+
+			service.createProposedBlock(proposedBlockIdList);
+			return StringLiterals.SUCCESS;
+
+		} catch (Exception e) {
+			return StringLiterals.EXCEPTION;
+		}
+
+	}
+
+	public List<Long> getProposedBlockIdList() {
+		return proposedBlockIdList;
+	}
+
+	public void setProposedBlockIdList(List<Long> proposedBlockIdList) {
+		this.proposedBlockIdList = proposedBlockIdList;
+	}
+}

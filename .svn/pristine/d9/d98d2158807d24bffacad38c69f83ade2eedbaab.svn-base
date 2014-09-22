@@ -1,0 +1,39 @@
+package com.sapient.equitytradingapp.pm.service;
+import com.sapient.equitytradingapp.pm.dao.UserDao;
+import com.sapient.equitytradingapp.pm.pojo.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+
+
+@Component
+public class UserService {
+	@Autowired
+	com.sapient.equitytradingapp.pm.dao.UserDao userDao;
+
+	public boolean userExists(User u) {
+		User user = userDao.retrieve(u.getUsername());
+		if (user == null)
+			return false;
+		return true;
+	}
+
+	public boolean authenticate(User u) {
+		User user = userDao.retrieve(u.getUsername());
+		if (user.getPassword().equals(u.getPassword()))
+			return true;
+		return false;
+	}
+
+	public boolean checkAnswer(User u) {
+		User user = userDao.retrieve(u.getUsername());
+		if (user.getAnswer().equals(u.getAnswer()))
+			return true;
+		return false;
+	}
+
+	public void resetPassword(User u) {
+		userDao.save(u);
+	}
+
+}

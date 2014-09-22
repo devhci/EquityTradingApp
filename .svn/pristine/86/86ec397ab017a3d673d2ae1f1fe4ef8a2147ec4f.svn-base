@@ -1,0 +1,127 @@
+package com.sapient.equitytradingapp.et.jms;
+
+import java.io.Serializable;
+import java.io.StringReader;
+import java.util.Date;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+
+import org.apache.activemq.command.ActiveMQDestination;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.stereotype.Component;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.sapient.equitytradingapp.et.dao.ExecutionDAO;
+import com.sapient.equitytradingapp.et.pojo.Execution;
+
+@Component
+public class SellReceiver implements Serializable {// implements Runnable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1683255343089486604L;
+	@Autowired
+	private JmsTemplate jmsTemplate;
+	@Autowired
+	Execution execution;
+	@Autowired
+	ExecutionDAO executionDao;
+	@Autowired
+	ActiveMQDestination sellDestination;
+	EntityManager entityManager;
+
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+
+	public JmsTemplate getJmsTemplate() {
+		return jmsTemplate;
+	}
+
+	public void setJmsTemplate(JmsTemplate jmsTemplate) {
+		this.jmsTemplate = jmsTemplate;
+	}
+
+	/*public void receiveMessage(ActiveMQDestination destination)
+			throws JMSException, ClassNotFoundException, IOException,
+			JAXBException {
+
+		destination = this.sellDestination;
+		Message msg = jmsTemplate.receive(destination);
+		HashMap<String, Object> properties = new HashMap<String, Object>();
+
+		// Object obj = msg.getObjectProperty("ETMessage");
+		// System.out.println(msg.toString());
+		Enumeration enums = msg.getPropertyNames();
+		while (enums.hasMoreElements()) {
+			String propertyName = (String) enums.nextElement();
+			properties.put(propertyName, msg.getObjectProperty(propertyName));
+		}
+		Object value = null;
+		for (Map.Entry<String, Object> entry : properties.entrySet()) {
+			String propertyName = entry.getKey();
+			value = entry.getValue();
+			System.out.println(propertyName + " " + value);
+		}
+
+		@SuppressWarnings("restriction")
+		JAXBContext jaxbContext = JAXBContext
+				.newInstance(BlockOrderListWrapper.class);
+		StringReader stringReader = new StringReader(value.toString());
+		@SuppressWarnings("restriction")
+		Unmarshaller unmarshall = jaxbContext.createUnmarshaller();
+		Transactions transaction = (Transactions) unmarshall
+				.unmarshal(stringReader);
+		entityManager.persist(transaction);
+		execution.setBlockOrderId((long) transaction.getBlockorderid());
+		execution.setExecutionQuantity(transaction.getTradequantity());
+		execution.setStatus("new");
+		execution.setExecutionPrice(transaction.getTradeprice());
+		execution.setTradeExecutionId(transaction.getTradeexecutionid());
+		execution.setTransactionTime(transaction.getTransactiontime());
+		execution.setExecutionID(transaction.getTradeexecutionid());
+		System.out.println(execution.toString());
+		executionDao.createExecution(execution);
+
+		// List<BlockOrder> blockOrderList = transaction.getBlockOrderList();
+		// receiverDao.saveBlockOrder(blockOrderList);
+
+	}*/
+	
+	public void createExecution(String messageText) throws JAXBException{
+		
+		JAXBContext jaxbContext = JAXBContext
+				.newInstance(Transactions.class);
+		StringReader stringReader = new StringReader(messageText);
+		@SuppressWarnings("restriction")
+		Unmarshaller unmarshall = jaxbContext.createUnmarshaller();
+		Transactions transaction = (Transactions) unmarshall
+				.unmarshal(stringReader);
+		
+		execution.setBlockOrderId((long) transaction.getBlockorderid());
+		execution.setExecutionQuantity(transaction.getTradequantity());
+		execution.setStatus("new");
+		execution.setExecutionPrice(transaction.getTradeprice());
+		execution.setTradeExecutionId(transaction.getTradeexecutionid());
+		execution.setTransactionTime((Date)transaction.getTransactiontime());
+		
+		
+		
+		
+		System.out.println(execution.toString());
+		executionDao.createExecution(execution);
+		
+	}
+
+}

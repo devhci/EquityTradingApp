@@ -1,0 +1,123 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@taglib uri="/struts-tags" prefix="s" %> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<style type="text/css">
+.secondelement
+{
+position:absolute;
+left:250px;
+
+}
+.thirdelement
+{
+position:absolute;
+left:450px;
+
+}
+
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Edit Order</title>
+</head>
+<body>
+
+<center> <!--  May be redundent when integrated with tiles -->
+    <h1>Edit Order</h1> </center>  
+    
+    <div style="margin-left:50px;">
+    <form action="">
+    Type Security Symbol:
+    <input type="text" name="input_autocomplete" class="secondelement" value="MIC">
+    <!-- <input type="text" name="input_autocomplete_lookup" class="thirdelement" value="MSFT">
+     --><br/><br>
+   <!--  have to check this one  -->
+    Symbol Look Up:
+   
+<select  id="symbol" class="secondelement">
+  <option value="Infosys">INFY</option>
+  <option value="Sapient">SAPE</option>
+  <option value="Google">GOOG</option>
+  <option value="Microsoft" selected="selected">MSFT</option>
+  <option value="Apple">APPL</option>
+  <option value="StateBankOfIndia">SBIN</option>
+  <option value="TataConsultancyServices">TCS</option>
+  <option value="KingFisherAirles">KFA</option>
+   <option value="HDFCBank">HDFC</option>
+  <option value="OilandNaturalGasCorporation">ONGC</option>
+</select>
+<br>
+<br>
+   Security Name Look Up:
+<select id="securityname" class="secondelement">
+  <option value="Infosys">INFOSYS</option>
+  <option value="Sapient">SAPIENT</option>
+  <option value="Google">GOOGLE</option>
+  <option value="Microsoft" selected="selected">MICROSOFT</option>
+  <option value="Apple">APPLE</option>
+  <option value="StateBankOfIndia">STATE BANK OF INDIA</option>
+  <option value="TataConsultancyServices">TCS</option>
+  <option value="KingFisherAirles">KINGFISHER AIRLINES</option>
+   <option value="HDFCBank">HDFC BANK</option>
+  <option value="OilandNaturalGasCorporation">ONGC</option>
+</select>
+  <br>
+  <br>Security Type Selection:
+  <select id="typeselection" class="secondelement">
+  <option value="Buy">BUY</option>
+  <option value="Sell" selected="selected">SELL</option>
+  </select>
+  
+   <br>
+   <br>Order Type:
+  <select id="ordertype" class="secondelement">
+  <option value="Market">Market Price</option>
+  <option value="Profitlimit" selected="selected">Profit Limit</option>
+  <option value="Stoplimit">Stop Limit</option>
+  </select>
+  
+  
+  <br>
+   <br>Order Qualifier:
+  <select id="orderqualifier" class="secondelement">
+  <option value="DayOrder">Day Order</option>
+  <option value="GTC" selected="selected">GTC</option>
+  </select>
+  
+   <br>
+   <br>Trader:
+  <select id="trader" class="secondelement">
+  <option value="Kotak Security">Kotak Security</option>
+  <option value="HDFC Securities" selected="selected">HDFC Securities</option>
+  </select>
+   <br>
+   <br>Account Type:
+  <select id="accounttype" class="secondelement">
+  <option value="Cash">Cash</option>
+  <option value="Margin" selected="selected">Margin</option>
+  </select>
+   <br>
+   <br>Portfolio:
+  <select id="portfolio" class="secondelement">
+  <option value="ClientA">Client A</option>
+  <option value="ClientB" selected="selected">Client B</option>
+  </select>
+   <br>
+   <br>
+  Quantity:<input type="text" name="quantity" value="0" class="secondelement">   <br><br>
+  Stop Price:<input type="text" name="stopprice" value="0" class="secondelement">   <br><br>
+  Limit Price:<input type="text" name="limitprice" value="140" class="secondelement">   <br><br>
+  <input type="submit" value="Save Order" class="secondelement"><br><br>
+  <textarea rows="5" cols="50" id="comments">   
+  Add your comments here 
+</textarea> 
+
+  </form>
+  
+  </div>  
+    
+    
+</body>
+</html>

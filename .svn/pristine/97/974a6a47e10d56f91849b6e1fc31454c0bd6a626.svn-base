@@ -1,0 +1,41 @@
+<%-- <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> --%>
+<%@taglib uri="/struts-tags" prefix="s"%>
+
+
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<center>
+<fieldset id="field1"><img src="CSS/images/login-icon.png" style="float:left;">
+			<h5 style="color:white; position:relative;left:-310px; top:-15px;">Login<br/>Enter your credentials below</h5></fieldset>
+			<fieldset id="field2">
+			
+	<table>
+		<s:form action="login" theme="simple" >
+		
+			<tr>
+				<td>Username:</td>
+				<td><s:textfield name="user.username" value="%{username}" /><br></td>
+			</tr>
+			<tr>
+				<td>Password:</td>
+				<td><s:password name="user.password" label="Password:" /></td>
+			</tr>
+			<tr>
+				<td colspan="2" align ="center"><s:submit cssClass="button" label="Login"/></td>
+			</tr>
+			
+		</s:form>
+	<tr><td colspan="2" align ="center"><br/>
+	<s:a action="pass-through-forgot-password">Forgot Password</s:a>
+	</td></tr></table>
+	</fieldset>
+</center>
+
+

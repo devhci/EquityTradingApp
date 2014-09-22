@@ -1,0 +1,45 @@
+package com.sapient.equitytradingapp.pm.dao;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.sapient.equitytradingapp.pm.pojo.Order;
+import com.sapient.equitytradingapp.pm.pojo.User;
+
+@Repository
+public class CreateOrderPrefillTraderDAO {
+
+private EntityManager entityManager;
+	
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+	
+	@Transactional
+	public List<User> prefillTraderDB() {
+		List<User> trader=new ArrayList<User>();
+
+		TypedQuery<User> q=entityManager.createQuery("select o from User o where o.roles!='PM'",User.class);
+		List<User> list=q.getResultList();
+		for(Iterator<User> iter=list.iterator(); iter.hasNext();){
+			User temp=iter.next();
+			trader.add(temp);
+			System.out.println("\n  "+temp.getUsername());	
+		}
+		return trader;
+		
+	}
+
+}

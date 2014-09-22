@@ -1,0 +1,93 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import java.util.List;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Actions;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+import com.sapient.equitytradingapp.et.service.BlockOrderService;
+import com.sapient.equitytradingapp.pm.pojo.Order;
+
+
+@ParentPackage("tiles-default")
+@Actions({  
+		@Action(value = "ViewBlockOrder") })
+@Results({
+		 
+		@Result(name = "success2", location = "blockOrder2", type = "tiles"), 
+		@Result(name = "success1", location = "blockOrder1", type = "tiles")})
+public class ViewBlockOrderAction implements ApplicationContextAware{
+
+	@Autowired
+	private BlockOrderService blockOrderService;
+	private List<Order> orderList;
+	private long blockOrderId;
+	private String blockStatus;
+	
+	private List<BlockOrder> blockOrderList;
+
+	public List<BlockOrder> getBlockOrderList() {
+		return blockOrderList;
+	}
+
+	public void setBlockOrderList(List<BlockOrder> blockOrderList) {
+		this.blockOrderList = blockOrderList;
+	}
+	
+	public long getBlockOrderId() {
+		return blockOrderId;
+	}
+
+	public void setBlockOrderId(long blockOrderId) {
+		this.blockOrderId = blockOrderId;
+	}
+
+	public List<Order> getOrderList() {
+		return orderList;
+	}
+
+	public void setOrderList(List<Order> orderList) {
+		this.orderList = orderList;
+	}
+	
+	public String execute() {
+		
+		String userName = (String)ActionContext.getContext().getSession().get("sessionUsername");		
+		blockOrderList = blockOrderService.getBlockOrders(userName);		
+		
+		orderList = blockOrderService.getOrders(blockOrderId);	
+		blockStatus=blockOrderService.getStatusOfBlock(blockOrderId);
+		 if(orderList.size()==0)
+		{
+			return "success1";
+		}
+		return "success2";
+	}
+
+	public void setApplicationContext(ApplicationContext appContext)
+			throws BeansException {
+		String arr[] = appContext.getBeanDefinitionNames();
+		for(String args: arr){
+			System.out.println("Bean Names " + args);
+		}
+		
+	}
+
+	public String getBlockStatus() {
+		return blockStatus;
+	}
+
+	public void setBlockStatus(String blockStatus) {
+		this.blockStatus = blockStatus;
+	}
+}

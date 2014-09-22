@@ -1,0 +1,28 @@
+package com.sapient.equitytradingapp.pm.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.sapient.equitytradingapp.pm.dao.SendForExecutionDAO;
+
+@Component
+public class SendForExecutionService {
+
+	@Autowired
+	SendForExecutionDAO sendForExecutionDAO;
+	
+	public String sendOrderForExecution(long orderId) {
+		
+		String result;
+		String status=sendForExecutionDAO.checkOrderStatusInDB(orderId);
+		if(status.equalsIgnoreCase("new"))
+		{	sendForExecutionDAO.sendOrdersForExecutionDB(orderId);
+			result = "success";
+		}
+		else
+			result = "failure";
+		return result;
+		
+	}
+
+}

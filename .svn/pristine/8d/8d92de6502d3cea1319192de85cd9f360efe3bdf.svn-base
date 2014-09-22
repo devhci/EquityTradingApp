@@ -1,0 +1,98 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="login-page.css">
+</head>
+<body>
+<center><h1>Block Contents</h1></center>
+<table border="1" width="100%">
+			<th>
+			<td>ORDER ID</td>
+			<td>SIDE</td>
+			<td>SYMBOL</td>
+			<td>TOTAL QUANTITY</td>
+			<td>LIMIT PRICE</td>
+			<td>STOP PRICE</td>
+			<td>OPEN QUANTITY</td>
+			<td>ALLOCATED QUANTITY</td>
+			<td>STATUS</td>
+			<td>MANAGER</td>
+			<td>ACCOUNT TYPE</td>
+			<td>PORTFOLIO</td>
+			<td>BLOCK ORDER ID</td>
+			</th>
+			<tr>
+				<td><input type="checkbox" name="orderId" value="order" ></td>
+				<td>11112</td>
+				<td>Buy</td>
+				<td>GOOG</td>
+				<td>100</td>
+				<td>123.78</td>
+				<td>98.22</td>
+				<td>100</td>
+				<td>0</td>
+				<td>New</td>
+				<td>PM</td>
+				<td>Cash</td>
+				<td>ABCD</td>
+				<td>B112</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="orderId" value="order" ></td>
+				<td>11113</td>
+				<td>Buy</td>
+				<td>GOOG</td>
+				<td>100</td>
+				<td>123.78</td>
+				<td>98.22</td>
+				<td>100</td>
+				<td>0</td>
+				<td>New</td>
+				<td>PM</td>
+				<td>Cash</td>
+				<td>ABCD</td>
+				<td>B112</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="orderId" value="order" ></td>
+				<td>11114</td>
+				<td>Buy</td>
+				<td>GOOG</td>
+				<td>100</td>
+				<td>123.78</td>
+				<td>98.22</td>
+				<td>100</td>
+				<td>0</td>
+				<td>New</td>
+				<td>PM</td>
+				<td>Cash</td>
+				<td>ABCD</td>
+				<td>B112</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="orderId" value="order" ></td>
+				<td>11115</td>
+				<td>Buy</td>
+				<td>GOOG</td>
+				<td>100</td>
+				<td>123.78</td>
+				<td>98.22</td>
+				<td>100</td>
+				<td>0</td>
+				<td>New</td>
+				<td>PM</td>
+				<td>Cash</td>
+				<td>ABCD</td>
+				<td>B112</td>
+			</tr>
+		</table>
+		<br><center>
+		<form action="OrderBlotter1">
+		<input id="button" type="submit" name="addOrders" value="Add More Orders">&nbsp;&nbsp;&nbsp;&nbsp;
+		<input id="button" type="submit" name="removeOrders" value="Remove Orders"></center></form>
+</body>
+</html>

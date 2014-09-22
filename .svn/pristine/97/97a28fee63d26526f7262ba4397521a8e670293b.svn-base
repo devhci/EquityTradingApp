@@ -1,0 +1,39 @@
+package com.sapient.equitytradingapp.pm.actions;
+
+import java.util.List;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.sapient.equitytradingapp.pm.service.AmendService;
+
+
+@ParentPackage(value = "tiles-default")
+@Action(value = "Amend", results = {
+		@Result(location = "amend-view", type = "tiles", name = "success"),
+		@Result(location = "orderBlotter-view", type = "tiles", name = "input") })
+public class AmendAction {
+
+	List<Boolean> orderCheckList;
+	
+	long orderId = 1L;
+	
+	public List<Boolean> getOrderCheckList() {
+		return orderCheckList;
+	}
+
+	public void setOrderCheckList(List<Boolean> orderCheckList) {
+		this.orderCheckList = orderCheckList;
+	}
+	
+	@Autowired
+	AmendService amendService;
+	
+	public String execute(){
+		
+		amendService.amendMethod(orderId);
+		return "success";
+	}
+}

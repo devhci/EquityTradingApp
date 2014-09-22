@@ -1,0 +1,47 @@
+package com.sapient.equitytradingapp.et.actions;
+
+import java.util.List;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+import com.sapient.equitytradingapp.et.service.SentForExecutionService;
+
+@ParentPackage("tiles-default")
+@Action(value = "SentForExecution")
+@Results({ @Result(name = "success", location = "blockOrder1", type = "tiles"),
+		@Result(name = "failure", location = "blockOrder1", type = "tiles") })
+public class SentForExecutionAction extends ActionSupport {
+
+	@Autowired
+	private SentForExecutionService sentForExecutionService;
+	private List<Integer> blockOrderIdList;
+	private boolean sendForExecution;
+
+	public void setSendForExecution(boolean sendForExecution) {
+		this.sendForExecution = sendForExecution;
+	}
+
+	public List<Integer> getBlockOrderIdList() {
+		return blockOrderIdList;
+	}
+
+	public void setBlockOrderIdList(List<Integer> blockOrderIdList) {
+		this.blockOrderIdList = blockOrderIdList;
+	}
+
+	public String execute() {
+
+		if (sentForExecutionService.sentForExecution(blockOrderIdList)) {
+			return "success";
+		}
+
+		return "failure";
+	}
+
+}

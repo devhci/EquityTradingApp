@@ -1,0 +1,254 @@
+package com.sapient.equitytradingapp.et.dao;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.sapient.equitytradingapp.et.pojo.Allocation;
+import com.sapient.equitytradingapp.et.pojo.BlockOrder;
+import com.sapient.equitytradingapp.et.pojo.Execution;
+import com.sapient.equitytradingapp.pm.pojo.Order;
+
+/**
+ * DAO class for Execution table
+ * 
+ * @author dkum40
+ * 
+ */
+@Repository
+public class ExecutionDAO {
+
+	EntityManager entityManager;
+	
+	@Autowired
+	BlockOrder blockOrder;
+
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+
+	/**
+	 * To insert execution in execution table
+	 * 
+	 * @param execution
+	 */
+	@Transactional
+	public void createExecution(Execution execution1) {
+		Query query10 = entityManager
+				.createQuery("select trader from BlockOrder where blockOrderId=?");
+		query10.setParameter(1, execution1.getBlockOrderId());
+		execution1.setTrader((String) query10.getSingleResult());
+		/*Execution execute = entityManager.merge(execution1);*/
+		entityManager.persist(execution1);
+		/*Query query=entityManager.createQuery("select e from Execution e where status=?");
+		query.setParameter(1, "new");
+		List<Execution> executionList=query.getResultList();
+		for(Execution execution: executionList)
+		  autoAllocate(execution);*/
+	}
+	
+	/*@Transactional
+	public void autoAllocate()
+	{
+		Query query15=entityManager.createQuery("select e from Execution e where status=?");
+		query15.setParameter(1, "new");
+		List<Execution> executionList=query15.getResultList();
+		
+		for(Execution e: executionList)
+		{
+		
+		if(e.getStatus().equalsIgnoreCase("new"))
+		{
+		// Query to get Block Order based on Execution Block Order Id
+					Query query = entityManager
+							.createQuery("Select b from BlockOrder b where blockOrderId=?");
+					query.setParameter(1, e.getBlockOrderId());
+					blockOrder = (BlockOrder) query.getSingleResult();
+
+					Integer quantity = blockOrder.getOpenQuantity();
+					String trader = blockOrder.getTrader();
+					// updating executed, open quantity and status of block order
+					if (e.getExecutionQuantity() < quantity) {
+
+						Query query1 = entityManager
+								.createQuery("update BlockOrder set executedQuantity=executedQuantity+?,openQuantity=openQuantity-?, status=? where blockOrderId=? and trader=?");
+						query1.setParameter(1, e.getExecutionQuantity());
+						query1.setParameter(2, e.getExecutionQuantity());
+						query1.setParameter(3, "Partially Executed");
+						query1.setParameter(4, e.getBlockOrderId());
+						query1.setParameter(5, trader);
+						query1.executeUpdate();
+						quantity=quantity-e.getExecutionQuantity();
+					} else {
+
+						Query query1 = entityManager
+								.createQuery("update BlockOrder set executedQuantity=executedQuantity+?,openQuantity=0, status=? where blockOrderId=? and trader=?");
+						query1.setParameter(1, quantity);
+						query1.setParameter(2, "Completed");
+						query1.setParameter(3, e.getBlockOrderId());
+						query1.setParameter(4, trader);
+						query1.executeUpdate();
+					}
+					// Now updating orders of the block Order
+					// Query to get order id list of the block order
+					Query query2 = entityManager
+							.createQuery("select orderId from Order where blockOrderId=? and trader=? and status!=? order by orderId asc");
+					query2.setParameter(1, (long) e.getBlockOrderId());
+					query2.setParameter(2, trader);
+					query2.setParameter(3, "Completed");
+
+					@SuppressWarnings("unchecked")
+					List<Object> list = query2.getResultList();
+					List<Long> orderIdList = new ArrayList<Long>();
+					for (Object result : list)
+						orderIdList.add(Long.parseLong(result.toString()));
+
+					// List<Order> list=query2.getResultList();
+					int quantity1 = e.getExecutionQuantity();
+					List<Allocation> allocationList = new ArrayList<Allocation>();
+					// Updating quantity and status of orders of the block order
+					for (Long o : orderIdList) {
+						Query query5 = entityManager
+								.createQuery("select totalQuantity from Order where orderId=?");
+						query5.setParameter(1, o);
+						Query query8 = entityManager
+								.createQuery("select allocatedQuantity from Order where orderId=?");
+						query8.setParameter(1, o);
+						int allocatedQuantity = Integer.parseInt(query8
+								.getSingleResult().toString());
+
+						int totalQuantity = Integer.parseInt(query5.getSingleResult()
+								.toString());
+						int quantity2 = totalQuantity - allocatedQuantity;
+						if (quantity2 <= quantity1) {
+							Query query4 = entityManager
+									.createQuery("update Order set allocatedQuantity=allocatedQuantity+?, status=? where orderId=?");
+							query4.setParameter(1, quantity2);
+							query4.setParameter(2, "Completed");
+							query4.setParameter(3, o);
+							quantity1 -= quantity2;
+							query4.executeUpdate();
+						} else if (quantity1 == 0) {
+							continue;
+
+						} else {
+							Query query4 = entityManager
+									.createQuery("update Order set allocatedQuantity=allocatedQuantity+?,status=? where orderId=?");
+							query4.setParameter(1, quantity1);
+							query4.setParameter(2, "Partially Executed");
+							query4.setParameter(3, o);
+							quantity1 = 0;
+							query4.executeUpdate();
+						}
+						// Filling Allocation Table
+						Query query7 = entityManager
+								.createQuery("select o from Order o where orderId=?");
+						query7.setParameter(1, o);
+						Order order = (Order) query7.getSingleResult();
+
+						Allocation allocation = new Allocation();
+						allocation.setSide(order.getSide());
+						allocation.setAllocatedQuantity(order.getAllocatedQuantity());
+						allocation.setOpenQuantity(order.getTotalQuantity()
+								- order.getAllocatedQuantity());
+						allocation.setOrderId(order.getOrderId());
+						allocation.setExecutionId(e.getExecutionID());
+						allocation.setStatus("Allocated");
+						allocation.setTransactionPrice(e.getExecutionPrice());
+						allocation.setTransactionFee(e.getExecutionPrice()
+								* (double) (order.getTotalQuantity() - order
+										.getAllocatedQuantity()) * 0.34);
+						allocation.setTrader(trader);
+						allocationList.add(allocation);
+
+					}
+		
+
+					for (Allocation allocation : allocationList)
+						entityManager.persist(allocation);
+					// updating execution table
+					Query updatingExecution = entityManager
+							.createQuery("update Execution set status=? where executionID=?");
+					updatingExecution.setParameter(1, "Allocated");
+					updatingExecution.setParameter(2, e.getExecutionID());
+					updatingExecution.executeUpdate();
+					
+		}
+		}
+	}*/
+
+	/**
+	 * To retrieve list of Executions of a user
+	 * 
+	 * @param trader
+	 * @return <b>execution list</b>
+	 */
+	@Transactional
+	public List<Execution> retreiveExecution(String trader) {
+
+		TypedQuery<Execution> query = entityManager.createQuery(
+				"from Execution where trader=?", Execution.class);
+		query.setParameter(1, trader);
+		
+		return query.getResultList();
+
+	}
+
+	/**
+	 * Updating Execution
+	 * 
+	 * @param execution
+	 */
+	@Transactional
+	public void updateExecution(Execution execution) {
+
+		entityManager.merge(execution);
+
+	}
+
+	/**
+	 * Deleting an execution
+	 * 
+	 * @param id
+	 */
+
+	@Transactional
+	public void deleteExecution(Integer id) {
+
+		if (entityManager.find(Execution.class, id) != null)
+			entityManager.remove(entityManager.find(Execution.class, id));
+
+	}
+
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+
+	/**
+	 * Retrieve a single execution based on execution id
+	 * 
+	 * @param id
+	 * @return <b>execution</b>
+	 */
+	
+	public Execution getExecutionById(Long id) {
+
+		return entityManager.find(Execution.class, id);
+	}
+
+	public List<Execution> getNewExecutions() {
+		TypedQuery<Execution> query=entityManager.createQuery("from Execution where status=?", Execution.class);
+		query.setParameter(1, "new");
+		return query.getResultList();
+	}
+}

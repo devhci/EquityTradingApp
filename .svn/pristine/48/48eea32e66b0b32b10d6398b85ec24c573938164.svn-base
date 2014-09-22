@@ -1,0 +1,37 @@
+package com.sapient.equitytradingapp.pm.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.sapient.equitytradingapp.pm.dao.CreateOrderDao;
+import com.sapient.equitytradingapp.pm.pojo.Order;
+
+@Component
+public class CreateOrderService {
+	
+	
+	@Autowired
+	CreateOrderDao orderdao;
+	
+	public String addorderservice(Order order){
+		String result=null;
+		//Map<String, Object> session = ActionContext.getContext().getSession();
+		// Checking User in database
+	
+		orderdao.addOrder(order);
+		return "success";
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+}

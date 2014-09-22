@@ -1,0 +1,48 @@
+package com.sapient.equitytradingapp.pm.actions;
+
+import java.util.List;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.sapient.equitytradingapp.pm.constant.StringLiterals;
+import com.sapient.equitytradingapp.pm.service.SendForExecutionService;
+
+@Action(value = "SendForExecutionPM", results = {
+		@Result(location = "pm/passToOrderBlotterAction.jsp", name = "success"),
+		@Result(location = "view-order-blotter", type = "chain", name="input") })
+public class SendForExecutionAction extends ActionSupport {
+
+	private static final long serialVersionUID = 1L;
+	List<Long> checkboxes;
+
+	public List<Long> getCheckboxes() {
+		return checkboxes;
+	}
+
+	public void setCheckboxes(List<Long> checkboxes) {
+		this.checkboxes = checkboxes;
+	}
+
+	@Autowired
+	SendForExecutionService sendForExecutionService;
+
+	public String execute() {
+
+		for (long index : checkboxes)
+			sendForExecutionService.sendOrder(index);
+		addActionError("The orders have been successfully sent for execution.");
+		return StringLiterals.SUCCESS;
+
+	}
+
+	public void validate() {
+		for (long index : checkboxes)
+			if (!sendForExecutionService.checkStatus(index).equals(
+					StringLiterals.NEW))
+				addActionError("Only new orders can be sent.");
+	}
+
+}

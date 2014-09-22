@@ -1,0 +1,52 @@
+package com.sapient.equitytradingapp.pm.dao;
+
+import static org.junit.Assert.
+*
+;
+
+import javax.persistence.EntityManager;
+
+import org.junit.Before;
+import org.junit.Test;
+//import org.mockito.Mock;
+//import org.mockito.MockitoAnnotations;
+
+import com.sapient.equitytradingapp.pm.dao.UserDao;
+import com.sapient.equitytradingapp.pm.pojo.User;
+
+public class UserDaoShould {
+private UserDao userDao;
+//@Mock
+private EntityManager mockManager;
+//@Mock
+User user;
+	@Before
+	public void doBeforeEachTestCase()
+	{
+		//MockitoAnnotations.initMocks(this);
+		userDao=new UserDao();
+	}
+	
+	@Test
+	public void testGetManager(){
+		assertNull(userDao.getManager());
+		
+	}
+	@Test
+	public void testSetManager(){
+		userDao.setManager(mockManager);
+		assertEquals(mockManager, userDao.getManager());
+	}
+	
+	@Test
+	public void testRetrieveUser(){
+		assertEquals(user,userDao.retrieve("kapil") );
+	}
+
+	@Test
+	public void testSaveUser(){
+		userDao.save(user);
+		assertTrue("user has been saved to the database" , user.getPassword()==null);
+		
+	}
+}

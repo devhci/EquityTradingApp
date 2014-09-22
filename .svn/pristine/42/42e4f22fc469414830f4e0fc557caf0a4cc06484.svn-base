@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+	<definition name="welcomelayout" template="/WEB-INF/content/baseLayout.jsp">
+		<put-attribute name="title" value="We are boss" />
+		<put-attribute name="header" value="/WEB-INF/content/header.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/content/menu.jsp" />
+		<put-attribute name="body" value="/WEB-INF/content/login.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/content/footer.jsp" />
+	</definition>
+	<!-- <definition name="buy" extends="welcomeLayout">
+		<put-attribute name="body" value="/WEB-INF/content/stock/buy-stock-page.jsp" />
+	</definition>
+	<definition name="buySuccess" extends="welcomeLayout">
+		<put-attribute name="body" value="/WEB-INF/content/stock/buy-success.jsp" />
+	</definition>
+	<definition name="sellStockPage" extends="welcomeLayout">
+		<put-attribute name="body" value="/WEB-INF/content/stock/sell-stock-page.jsp" />
+	</definition>
+	<definition name="sellStockPage2" extends="welcomeLayout">
+		<put-attribute name="body" value="/WEB-INF/content/stock/sell-stock-page2.jsp" />
+	</definition>
+		<definition name="sellSuccess" extends="welcomeLayout">
+		<put-attribute name="body" value="/WEB-INF/content/stock/sell-success.jsp" />
+	</definition>
+	<definition name="showTransactions" extends="welcomeLayout">
+		<put-attribute name="body" value="/WEB-INF/content/stock/show-transactions.jsp" />
+	</definition> -->
+</tiles-definitions>

@@ -1,0 +1,98 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@taglib uri="/struts-tags" prefix="s"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+	"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<%-- <title><tiles:insertAttribute name="title" /></title> --%>
+<link rel="stylesheet" type="text/css" href="css/login-page.css" />
+<link rel="stylesheet" type="text/css" href="css/login-page.css" />
+<link rel="stylesheet" type="text/css" href="css/navigation-bar.css" />
+</head>
+<body>
+
+	<center>
+		<!--  May be redundant when integrated with tiles -->
+		<h1>Edit Order</h1>
+	</center>
+
+	<div style="margin-left: 50px;">
+		<s:form action="edit" theme ="simple">
+
+			<s:textfield name="orderId" label="Order ID" readonly="true"
+				value="12345"></s:textfield>
+			<br>
+			<br>
+			<br>
+			<s:textfield name="symbol" readonly="true"
+				label="Symbol" value="SAPE"></s:textfield>
+			<br>
+			<br>
+			<br>
+			<s:textfield name="status" readonly="true"
+				label="Status" value="New"></s:textfield>
+			<br>
+			<br>
+			<br>
+			<s:textfield name="side" readonly="true"
+				label="Order Side" value="Buy"></s:textfield>
+			<br>
+			<br>
+			<br>
+			<s:select name="orderType" label="Order type"
+				list="#{'type1':'Market', 'type2':'Profitlimit', 'type3':'Stoplimit'}"></s:select>
+			<br>
+			<br>
+			<br>
+			<s:select name="orderQualifier" label="Order Qualifier:"
+				list="#{'qual1':'DayOrder', 'qual2':'GTC'}"></s:select>
+			<br>
+			<br>
+			<br>
+			<s:select name="accountType" label="Account Type:"
+				list="#{'acc1':'Margin', 'acc2':'Cash'}"></s:select>
+			<br>
+			<br>
+			<br>
+			<s:select name="trader" label="Trader:"
+				list="#{'Kotak Security':'Kotak Security', 'HDFC Securities':'HDFC Securities'}"></s:select>
+			<br>
+			<br>
+			<br>
+			<s:select name="portfolioName" label="Portfolio Name:"
+				list="#{'ClientA':'Client A', 'ClientB':'Client B'}"></s:select>
+			<br>
+			<br>
+			<br>
+			<s:textfield name="totalQuantity" class="secondelement"
+				label="Order Quantity"></s:textfield>
+			<br>
+			<br>
+			<br>
+			<s:textfield name="stopPrice" class="secondelement"
+				label="Stop Price"></s:textfield>
+			<br>
+			<br>
+			<br>
+			<s:textfield name="limitPrice" class="secondelement"
+				label="Limit Price"></s:textfield>
+			<br>
+			<br>
+			<br>
+			<s:textarea rows="5" cols="50" id="comments" label="Add your comments here"> 
+				</s:textarea>
+			<br>
+			<br>
+			<br>
+			<s:submit type="submit" value="Save Order"></s:submit>
+
+		</s:form>
+
+	</div>
+
+
+</body>
+</html>

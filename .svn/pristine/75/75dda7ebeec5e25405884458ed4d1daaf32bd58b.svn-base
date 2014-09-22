@@ -1,0 +1,78 @@
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@taglib uri="/struts-tags" prefix="s"%>
+
+	<center>
+		<font size="5" color="white"><b>Edit Block Order</b></font>
+	</center>
+	<form action="editPersist" name="formEdit">
+		<div class="scrollableContainer" style="width: 1152px;">
+			<div class="scrollingArea">
+				<table  class="cruises scrollable, draggable">
+
+		<thead>
+			<tr>
+				<th><div class="block-order-id">BLOCK ORDER ID</div></th>
+				<th><div class="side">SIDE</div></th>
+				<th><div class="symbol">SYMBOL</div></th>
+				<th><div class="symbol">ORDER TYPE</div></th>
+				<th><div class="limit-price">QUALIFIER</div></th>
+				<th><div class="limit-price">LIMIT PRICE</div></th>
+				<th><div class="stop-price">STOP PRICE</div></th>
+				<th><div style="width: 120px;">TOTAL QUANTITY</div></th>
+				<th><div style="width: 130px;">EXECUTED QUANTITY</div></th>
+				<th><div style="width: 130px;">OPEN QUANTITY</div></th>
+				<th><div style="width: 80px;">STATUS</div></th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				
+				<td><div class="block-order-id"><s:property value="editBlock.blockOrderId" /></div></td>
+				<td><div class="side"><s:property  value="editBlock.side" /></div></td>
+				<td><div class="symbol"><s:property  value="editBlock.symbol" /></div></td>
+				<td><div class="symbol">
+										<s:property value="editBlock.blockOrderType" />
+									</div></td>
+									<td><div class="limit-price">
+										<s:property value="editBlock.qualifier" /></div></td>
+										<s:set name="checkStatus" value="editBlock.blockOrderType"/>
+										
+										<s:if test="%{#checkStatus=='Stop Order'}">
+											<td><div class="limit-price"><input class="symbol" type="text" id="limitPrice" name="limitPrice" value='<s:property value="editBlock.limitPrice"  />' onchange="return validatePrice()" disabled="disabled"></input></div></td>
+											<td><div class="stop-price"><input class="symbol" type="text" id="stopPrice" name="stopPrice" value='<s:property value="editBlock.stopPrice" />' onchange="return validatePrice()"></input></div></td>
+										</s:if>
+										<s:elseif test="%{#checkStatus=='Market Order'}">
+										<td><div class="limit-price"><input class="symbol" type="text" id="limitPrice" name="limitPrice" value='<s:property value="editBlock.limitPrice"  />' onchange="return validatePrice()" disabled="disabled"></input></div></td>
+											<td><div class="stop-price"><input class="symbol" type="text" id="stopPrice" name="stopPrice" value='<s:property value="editBlock.stopPrice" />' onchange="return validatePrice()" disabled="disabled"></input></div></td>
+										</s:elseif>
+										<s:elseif test="%{#checkStatus=='Limit Order'}">
+										<td><div class="limit-price"><input class="symbol" type="text" id="limitPrice" name="limitPrice" value='<s:property value="editBlock.limitPrice"  />' onchange="return validatePrice()" ></input></div></td>
+											<td><div class="stop-price"><input class="symbol" type="text" id="stopPrice" name="stopPrice" value='<s:property value="editBlock.stopPrice" />' onchange="return validatePrice()" disabled="disabled"></input></div></td>
+										</s:elseif>
+										<s:else>
+										<td><div class="limit-price"><input class="symbol" type="text" id="limitPrice" name="limitPrice" value='<s:property value="editBlock.limitPrice" />' onchange="return validatePrice()"></input></div></td>
+				<td><div class="stop-price"><input class="symbol" type="text" id="stopPrice" name="stopPrice" value='<s:property value="editBlock.stopPrice" />' onchange="return validatePrice()"></input></div></td>
+										
+											
+										
+										</s:else>
+				
+				<td><div style="width: 120px;"><s:property  value="editBlock.totalQuantity" /></div></td>
+				<td><div style="width: 130px;"><s:property  value="editBlock.executedQuantity" /></div></td>
+				<td><div style="width: 130px;"><s:property  value="editBlock.openQuantity" /></div></td>
+				<td><div style="width: 80px;"><s:property  value="editBlock.status" /></div></td>
+			</tr>
+			</tbody>
+		</table>
+		</div>
+		</div>
+			
+		<input type="hidden" name="blockOrderId" value='<s:property value="editBlock.blockOrderId"/>' >	
+		<input type="hidden" id="side" name="side" value='<s:property value="editBlock.side"/>' >	
+		<input type="hidden" name="stPrice" id="stPrice" value='<s:property value="editBlock.stopPrice"/>' >
+			<input type="hidden" name="ltPrice" id="ltPrice" value='<s:property value="editBlock.limitPrice"/>' >	
+	
+		<center>
+			<input Class="button" id="button" type="submit" value="Save" onclick="return validateEdit()"/>
+		</center>
+	</form>
